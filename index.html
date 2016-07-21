@@ -316,14 +316,14 @@
       
         
           
-          题目：Reverse digits of an integer.Example1: x = 123, return 321Example2: x = -123, return -321
-分析：题目很简单，反转一个整型数，但是需要考虑到多种情况。
+          题目Reverse digits of an integer.Example1: x = 123, return 321Example2: x = -123, return -321
+分析题目很简单，反转一个整型数，但是需要考虑到多种情况。
 
 输入数据为正数，负数的情况。
 反转后数据溢出，整型数据的范围如下:Integer.MAX_VALUE(2147483647)Integer.MIN_VALUE(-2147482648)
 10以及100等数字的反转结果。根据LeetCode的测试用例，如果超出范围则return 0。所以我们可以用long类型的变量存储每次计算的结果，如果数据溢出则return 0.
 
-代码（Java）1234567891011public int reverse(int x) &#123;        long result = 0;        while(
+代码（Java）1234567891011public int reverse(int x) &#123;        long result = 0;        while(x 
           ...
 
           <div class="post-more-link text-center">
@@ -441,9 +441,9 @@
       
         
           
-          题目：计算在一个 32 位的整数的二进制表示中有多少个1样例给定 32 (10 0000)，返回 1给定 5(101)，返回 2给定 1023(11 1111 1111)，返回 10
-分析：这道题需要用到 移位运算符 和 与运算例如5（101） 分别和 0...001,0...010,0...100， 0..1000，1...0进行与运算（&amp;），如果不为0，说明5的二进制在这一位为1。0...001,0...010,0...100，0..1000，1...0可以通过对1移位(&lt;&lt;)来计算。
-代码（Java）12345678910public int countOnes(int num) &#123;         int result = 0;        for(int i = 0; i &lt; 32; i++)&#123;            int t =
+          题目计算在一个 32 位的整数的二进制表示中有多少个1样例给定 32 (10 0000)，返回 1给定 5(101)，返回 2给定 1023(11 1111 1111)，返回 10
+分析这道题需要用到 移位运算符 和 与运算例如5（101） 分别和 0...001,0...010,0...100， 0..1000，1...0进行与运算（&amp;），如果不为0，说明5的二进制在这一位为1。0...001,0...010,0...100，0..1000，1...0可以通过对1移位(&lt;&lt;)来计算。
+代码（Java）12345678910public int countOnes(int num) &#123;         int result = 0;        for(int i = 0; i &lt; 32; i++)&#123;            int t =  
           ...
 
           <div class="post-more-link text-center">
@@ -666,15 +666,15 @@
       
         
           
-          题目：Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。
-分析：题目不难，主要是需要考虑到对各种输入用例的处理。
+          题目Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。
+分析题目不难，主要是需要考虑到对各种输入用例的处理。
 
 字符串中空格的处理
 非法字符的处理
 转换结果溢出的处理
 
 首先，对于字符串格式，空格不计入计算。Java中String类trim()方法可以很好地解决这个问题首字母只能是符号’+’、 ‘-‘、数字的一种。整型数据的范围:Integer.MAX_VALUE(2147483647)Integer.MIN_VALUE(-2147482648)超出范围则返回最大值与最小值。所以我们可以用long类型的变量存储结果.
-代码（Java）12345678910111213141516171819202122232425262728293031public class Solution &#123;   
+代码（Java）12345678910111213141516171819202122232425262728293031public class Solution &#123;    p
           ...
 
           <div class="post-more-link text-center">
@@ -897,9 +897,9 @@
       
         
           
-          题目：根据前序遍历和中序遍历构造二叉树.注意：这里默认二叉树中的值都是唯一的。
+          题目根据前序遍历和中序遍历构造二叉树.注意：这里默认二叉树中的值都是唯一的。
 样例给出前序遍历：int[] preOrder = { 6, 10, 4, 3, 1, 0, 7, 12 };中序遍历：int[] inOrder = { 4, 10, 3, 1, 6, 12, 7, 0 };返回如下的树:1234567        _______6______        /               \     __10__             __0__    /      \           /   4        3        7             \      /              1    12
-分析首先还是对数组进行判断，如果前序遍历数组为null或后续遍历数组为null，则return null;前序遍历的第一个结点就是二叉树的根结点。中序遍
+分析首先还是对数组进行判断，如果前序遍历数组为null或后续遍历数组为null，则return null;前序遍历的第一个结点就是二叉树的根结点。中序遍历
           ...
 
           <div class="post-more-link text-center">
@@ -1120,7 +1120,7 @@ Deploy to remote sites1$ hexo
               </span>
             
               <span class="links-of-author-item">
-                <a href="http://weibo.com/BestCoder_" target="_blank" title="Weibo">
+                <a href="http://weibo.com/FullStackD" target="_blank" title="Weibo">
                   
                     <i class="fa fa-fw fa-weibo"></i>
                   
