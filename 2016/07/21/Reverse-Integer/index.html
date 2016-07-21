@@ -98,7 +98,7 @@
 
 输入数据为正数，负数的情况。
 反转后数据溢出，整型数据的范围如下:Integer.MAX_VALUE(2147483647)Integer.MIN_VALU">
-<meta property="og:updated_time" content="2016-07-21T04:08:48.422Z">
+<meta property="og:updated_time" content="2016-07-21T09:53:36.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Reverse Integer">
 <meta name="twitter:description" content="题目Reverse digits of an integer.Example1: x = 123, return 321Example2: x = -123, return -321
@@ -322,14 +322,14 @@
       
 
       
-        <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><p>Reverse digits of an integer.<br><strong>Example1:</strong> <code>x = 123, return 321</code><br><strong>Example2:</strong> <code>x = -123, return -321</code></p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>题目很简单，反转一个整型数，但是需要考虑到多种情况。</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>Reverse digits of an integer.<br><strong>Example1:</strong> <code>x = 123, return 321</code><br><strong>Example2:</strong> <code>x = -123, return -321</code></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目很简单，反转一个整型数，但是需要考虑到多种情况。</p>
 <ol>
 <li>输入数据为正数，负数的情况。</li>
 <li>反转后数据溢出，整型数据的范围如下:<br><code>Integer.MAX_VALUE</code>(2147483647)<br><code>Integer.MIN_VALUE</code>(-2147482648)</li>
 <li>10以及100等数字的反转结果。<br>根据LeetCode的测试用例，如果超出范围则<code>return 0</code>。<br>所以我们可以用<code>long</code>类型的变量存储每次计算的结果，如果数据溢出则<code>return 0</code>.</li>
 </ol>
-<h3 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> result = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(x != <span class="number">0</span>)&#123;</div><div class="line">        	result = result * <span class="number">10</span> + x%<span class="number">10</span>;</div><div class="line">        	<span class="keyword">if</span>(result &lt; Integer.MIN_VALUE || result &gt; Integer.MAX_VALUE)&#123;</div><div class="line">                <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line">        	x = x / <span class="number">10</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> result = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(x != <span class="number">0</span>)&#123;</div><div class="line">        	result = result * <span class="number">10</span> + x%<span class="number">10</span>;</div><div class="line">        	<span class="keyword">if</span>(result &lt; Integer.MIN_VALUE || result &gt; Integer.MAX_VALUE)&#123;</div><div class="line">                <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line">        	x = x / <span class="number">10</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>在处理这类问题的时候，首先要考虑各种可能的测试用例，并对所有的测试用例进行处理，才能<code>Accept</code>.</p>
 
       
@@ -507,7 +507,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码（Java）"><span class="nav-number">3.</span> <span class="nav-text">代码（Java）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码（Java）"><span class="nav-number">3.</span> <span class="nav-text">代码（Java）</span></a></li></ol></div>
             
           </div>
         </section>
