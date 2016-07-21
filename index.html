@@ -854,23 +854,13 @@
 
       
         
-          
-            <p>一般来说，<strong>能够原子性地获取需要的多个锁</strong>，或者注意 <strong>调整对多个锁的获取顺序</strong> ，就会比较好地避免死锁。</p>
-<p>下面举一个例子：假设有2个锁A和B，两个线程T1和T2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">    B.lock();</div><div class="line">......</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">B.lock();</div><div class="line">    A.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
-<p>可能出现的死锁情况：<br><code>T1获取到A锁，等待B锁。</code><br><code>T2获取到B锁，等待A锁。</code><br>这个时候T1等不到B，而T2 也等不到A。</p>
-<p>下面这种做法可以避免这样的死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
-<p>现在<code>T1</code>和<code>T2</code>都是先获取<code>A</code>，再获取<code>B</code>，这样就可以<strong>避免死锁</strong>。因为两个线程都是先获取<code>A</code>才会接着获取<code>B</code>，就不会出现之前一个线程持有<code>A</code>等待<code>B</code>，另外一个线程持有<code>B</code>等待<code>A</code>的情况了。</p>
-<p>此外，还有另外一种实现方式来避免死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure>
-<p><code>GetLocks</code>函数是一次性的获取两个锁。这样就不会出现死锁的情况了。</p>
-<p>此外，线程之间还会传递数据。因为这些线程公用进程的内存空间，所以线程间的传递数据就相对容易一些了。</p>
-<blockquote>
-<p>本文内容来自<a href="https://book.douban.com/subject/25867042/" target="_blank" rel="external">大型网站系统与Java中间件实践</a></p>
-</blockquote>
-
-          
+          <p>一般来说，<strong>能够原子性地获取需要的多个锁</strong>，或者注意 <strong>调整对多个锁的获取顺序</strong> ，就会比较好地避免死锁。</p>
+<p>下面举一个例子：假设有2个锁A和B，两个线程T1和T2</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/21/浅谈如何避免死锁/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -981,7 +971,6 @@
       
         
           <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>根据前序遍历和中序遍历构造二叉树.<br>注意：这里默认二叉树中的值都是唯一的。</p>
-<p><strong>样例</strong><br>给出前序遍历：<br><code>int[] preOrder = { 6, 10, 4, 3, 1, 0, 7, 12 };</code><br>中序遍历：<br><code>int[] inOrder = { 4, 10, 3, 1, 6, 12, 7, 0 };</code></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/20/前序遍历和中序遍历树构造二叉树/#more" rel="contents">
               阅读全文 &raquo;
@@ -1077,18 +1066,14 @@
 
       
         
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+          <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/20/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
