@@ -85,27 +85,24 @@
 
 
 <meta name="description" content="先来看一下什么是Session。
-用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。
-具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个">
+用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决应用服务器集群的Session问题">
 <meta property="og:url" content="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/index.html">
 <meta property="og:site_name" content="不忘初心">
 <meta property="og:description" content="先来看一下什么是Session。
-用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。
-具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个">
+用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-07-21T04:01:56.210Z">
+<meta property="og:updated_time" content="2016-07-21T10:03:59.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决应用服务器集群的Session问题">
 <meta name="twitter:description" content="先来看一下什么是Session。
-用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。
-具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个">
+用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -306,6 +303,9 @@
       
         <h2 id="先来看一下什么是Session。"><a href="#先来看一下什么是Session。" class="headerlink" title="先来看一下什么是Session。"></a>先来看一下什么是Session。</h2><blockquote>
 <p>用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。<code>HTTP协议</code>本身是<code>无状态的</code>，需要基于HTTP协议支持<code>会话状态（Session State）</code>的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
 <p>具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。</p>
 </blockquote>
 <p><img src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p>
