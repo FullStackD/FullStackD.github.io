@@ -316,16 +316,11 @@
       
         
           
-          题目请实现一个函数，把字符串中的每个空格替换成”%20”。样例给定 “We are happy” 返回 “We%20are%20happy.”
-分析先遍历一次字符串，统计出字符串中空格的总数，由此可以确定替换之后的字符串的总长度。从字符串的最后开始复制和替换。所有的字符都只移动一次，算法的时间效率是O(n)。
-代码（cpp）1234567891011121314151617181920212223242526272829303132333435void ReplaceBlank(char string[], int length)&#123;        if(string == NULL || length &lt;= 0)            return;        int originalLength = 0;        int numberOfBlank = 0;  
-          ...
+            <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>请实现一个函数，把字符串中的每个空格替换成”%20”。<br><strong>样例</strong><br>给定 “We are happy” 返回 “We%20are%20happy.”</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>先遍历一次字符串，统计出字符串中空格的总数，由此可以确定替换之后的字符串的总长度。<br>从字符串的最后开始复制和替换。所有的字符都只移动一次，算法的时间效率是O(n)。</p>
+<h1 id="代码（cpp）"><a href="#代码（cpp）" class="headerlink" title="代码（cpp）"></a>代码（cpp）</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReplaceBlank</span><span class="params">(<span class="keyword">char</span> <span class="built_in">string</span>[], <span class="keyword">int</span> length)</span></span></div><div class="line">&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="built_in">string</span> == <span class="literal">NULL</span> || length &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        <span class="keyword">int</span> originalLength = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> numberOfBlank = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(<span class="built_in">string</span>[i] != <span class="string">'\0'</span>)</div><div class="line">        &#123;</div><div class="line">            ++originalLength;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">string</span>[i] == <span class="string">' '</span>)&#123;</div><div class="line">                ++numberOfBlank;</div><div class="line">            &#125;</div><div class="line">            ++i;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> newLength = originalLength + numberOfBlank * <span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span>(newLength &gt; length)</div><div class="line">            <span class="keyword">return</span> ;</div><div class="line">        <span class="keyword">int</span> indexOfOriginal = originalLength;</div><div class="line">        <span class="keyword">int</span> indexOfNew = newLength;</div><div class="line">        <span class="keyword">while</span>(indexOfOriginal &gt;= <span class="number">0</span> &amp;&amp; indexOfNew &gt; indexOfOriginal)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">string</span>[indexOfOriginal] == <span class="string">' '</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="built_in">string</span>[indexOfNew--] = <span class="string">'0'</span>;</div><div class="line">                <span class="built_in">string</span>[indexOfNew--] = <span class="string">'2'</span>;</div><div class="line">                <span class="built_in">string</span>[indexOfNew--] = <span class="string">'%'</span>;</div><div class="line">            &#125;<span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                <span class="built_in">string</span>[indexOfNew--] = <span class="built_in">string</span>[indexOfOriginal];</div><div class="line">            &#125;</div><div class="line">            --indexOfOriginal;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/21/替换空格/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -436,21 +431,17 @@
       
         
           
-          题目Reverse digits of an integer.Example1: x = 123, return 321Example2: x = -123, return -321
-分析题目很简单，反转一个整型数，但是需要考虑到多种情况。
+            <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>Reverse digits of an integer.<br><strong>Example1:</strong> <code>x = 123, return 321</code><br><strong>Example2:</strong> <code>x = -123, return -321</code></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目很简单，反转一个整型数，但是需要考虑到多种情况。</p>
+<ol>
+<li>输入数据为正数，负数的情况。</li>
+<li>反转后数据溢出，整型数据的范围如下:<br><code>Integer.MAX_VALUE</code>(2147483647)<br><code>Integer.MIN_VALUE</code>(-2147482648)</li>
+<li>10以及100等数字的反转结果。<br>根据LeetCode的测试用例，如果超出范围则<code>return 0</code>。<br>所以我们可以用<code>long</code>类型的变量存储每次计算的结果，如果数据溢出则<code>return 0</code>.</li>
+</ol>
+<h1 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> result = <span class="number">0</span>;</div><div class="line">        <span class="keyword">while</span>(x != <span class="number">0</span>)&#123;</div><div class="line">        	result = result * <span class="number">10</span> + x%<span class="number">10</span>;</div><div class="line">        	<span class="keyword">if</span>(result &lt; Integer.MIN_VALUE || result &gt; Integer.MAX_VALUE)&#123;</div><div class="line">                <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            &#125;</div><div class="line">        	x = x / <span class="number">10</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>) result;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在处理这类问题的时候，首先要考虑各种可能的测试用例，并对所有的测试用例进行处理，才能<code>Accept</code>.</p>
 
-输入数据为正数，负数的情况。
-反转后数据溢出，整型数据的范围如下:Integer.MAX_VALUE(2147483647)Integer.MIN_VALUE(-2147482648)
-10以及100等数字的反转结果。根据LeetCode的测试用例，如果超出范围则return 0。所以我们可以用long类型的变量存储每次计算的结果，如果数据溢出则return 0.
-
-代码（Java）1234567891011public int reverse(int x) &#123;        long result = 0;        while(x 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/21/Reverse-Integer/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -560,12 +551,7 @@
 
       
         
-          
-          题目计算在一个 32 位的整数的二进制表示中有多少个1样例给定 32 (10 0000)，返回 1给定 5(101)，返回 2给定 1023(11 1111 1111)，返回 10
-分析这道题需要用到 移位运算符 和 与运算例如5（101） 分别和 0...001,0...010,0...100， 0..1000，1...0进行与运算（&amp;），如果不为0，说明5的二进制在这一位为1。0...001,0...010,0...100，0..1000，1...0可以通过对1移位(&lt;&lt;)来计算。
-代码（Java）12345678910public int countOnes(int num) &#123;         int result = 0;        for(int i = 0; i &lt; 32; i++)&#123;            int t =  
-          ...
-
+          <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>计算在一个 32 位的整数的二进制表示中有多少个<code>1</code><br><strong>样例</strong><br>给定 <code>32</code> (10 0000)，返回 1<br>给定 <code>5</code>(101)，返回 2<br>给定 <code>1023</code>(11 1111 1111)，返回 10</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/21/二进制中有多少个1/#more" rel="contents">
               阅读全文 &raquo;
@@ -662,20 +648,62 @@
       
         
           
-          先来看一下什么是Session。
-用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。
-具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。
+            <h2 id="先来看一下什么是Session。"><a href="#先来看一下什么是Session。" class="headerlink" title="先来看一下什么是Session。"></a>先来看一下什么是Session。</h2><blockquote>
+<p>用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。<code>HTTP协议</code>本身是<code>无状态的</code>，需要基于HTTP协议支持<code>会话状态（Session State）</code>的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。</p>
+<p>具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p>
+<blockquote>
+<p>当一个带有会话标识的HTTP请求到了Web服务器后，需要在HTTP请求的处理过程中找到对应的会话数据（Session）。而问题在于<code>会话数据是需要保存在单机上的</code>。</p>
+<p>在面对应用服务器集群时，如果我第一次访问网站时请求通过负载均衡设备落到了服务器A，那么我的Session就创建在服务器A上了，如果我们不做处理，就不能保证接下来的请求每次都落在服务器A上了。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="应用服务器集群"></p>
+<hr>
+<h2 id="1-Session-Sticky"><a href="#1-Session-Sticky" class="headerlink" title="1. Session Sticky"></a>1. Session Sticky</h2><blockquote>
+<p>使负载均衡器能够根据每次请求的会话标识来进行请求转发。<br>需要在负载均衡服务器上保存会话到具体Web服务器的映射。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Sticky"></p>
+<p>这种方法非常简单，但是有以下几个问题：</p>
+<blockquote>
+<p>1.如果有一台Web服务器宕机或者重启，那么这台机器上的会话数据会丢失。如果会话中有登陆状态信息，那么用户就要重新登录了。</p>
+<p>2.会话标识是应用程序的信息，负载均衡服务器要将同一个会话的请求都保存到一个Web服务器上的话需要进行应用层（<a href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B" target="_blank" rel="external">OSI模型</a>第7层）的解析，这个开销比第4层（传输层）的交换大。</p>
+<p>3.负载均衡器变成了有状态的节点，要保存会话到Web服务器的映射，比无状态节点内存消耗更大，容灾会更麻烦。</p>
+</blockquote>
+<hr>
+<h2 id="2-Session-Replication"><a href="#2-Session-Replication" class="headerlink" title="2.Session Replication"></a>2.Session Replication</h2><blockquote>
+<p>Web服务器之间增加了会话数据的同步，应用服务器集群中的每一台服务器上都有一份会话数据。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Replication"></p>
+<p>但是也带来了一些问题:</p>
+<blockquote>
+<p>1.同步Session数据造成了网络带宽的开销。只要Session数据有变化就需要同步，机器数越多，同步带来的网络带宽开销越大。</p>
+<p>2.每台Web服务器都保存所有额Session数据，在很多人同时访问网站的时候，每台机器用于保存Session数据的内容占用会很严重。</p>
+</blockquote>
+<hr>
+<h2 id="3-Session数据集中存储"><a href="#3-Session数据集中存储" class="headerlink" title="3.Session数据集中存储"></a>3.Session数据集中存储</h2><blockquote>
+<p>不同的服务器从同样的地方来获取Session。会话请求经过负载均衡服务器后，不会被固定在同样的Web服务器上，而是放在了一个集中存储的地方。Web服务器使用Session数据时，也是从这个集中存储Session数据的地方来读取。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session数据集中存储"></p>
+<p>这个方案解决了第一种方案的<code>内存</code>问题，也第二种方案占用<code>网络带宽</code>的情况要好。但是依然存在一些问题：</p>
+<blockquote>
+<p>1.读写Session数据引入了网络操作，相对于本机的数据读取来说，问题在于存在时延和不稳定性。<br>2.如果集中存储Session的机器或者集群有问题，就会影响我们的应用。</p>
+</blockquote>
+<hr>
+<h2 id="4-Cookie-Based"><a href="#4-Cookie-Based" class="headerlink" title="4.Cookie Based"></a>4.Cookie Based</h2><blockquote>
+<p>把Session数据放在Cookie中，在Web服务器上从Cookie中生成对应的Session数据。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cookie Based"><br>这个方案不会依赖外部存储系统，也就不存在从外部系统获取、写入数据的网络时延和不稳定性了。<br>不过依然存在不足：</p>
+<blockquote>
+<p>1.<strong>Cookie长度的限制。</strong>Cookie长度会限制Session数据的长度。<br>2.<strong>安全性。</strong>Session数据是服务端数据， 这个方案让服务端数据到了外部网络和服务端。<br>3.<strong>带宽消耗。</strong>数据中心整体外部带宽的消耗。<br>4.<strong>性能影响。</strong>每次HTTP请求和响应都带有Session数据。</p>
+</blockquote>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这4种方案都是可用的方案，不过对于大型网站来说，Session Sticky和Session数据集中存储是比较好的方案，而这两个方案又各有优势，需要在具体的场景中做出选择和权衡。</p>
+<blockquote>
+<p>以上内容来自《大型网站系统与Java中间件实践》</p>
+</blockquote>
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><p>也可以通过数据库中存储token的方法，来判断用户的有效性。</p>
 
-
-
-当一个带有会话标识的HTTP请求到了Web服务器后，需要在HTTP请求的处理过程中找到对应的会话数据（Session）。而问题在于会话数据是需要保存在
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/21/解决应用服务器集群的Session问题/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -786,22 +814,17 @@
       
         
           
-          题目Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。
-分析题目不难，主要是需要考虑到对各种输入用例的处理。
+            <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>Implement atoi to convert a string to an integer.<br>相当于实现一个C++的atoi()函数。</p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目不难，主要是需要考虑到对各种输入用例的处理。</p>
+<ol>
+<li>字符串中空格的处理</li>
+<li>非法字符的处理</li>
+<li>转换结果溢出的处理</li>
+</ol>
+<p>首先，对于字符串格式，空格不计入计算。<br>Java中String类<code>trim()</code>方法可以很好地解决这个问题<br>首字母只能是符号’+’、 ‘-‘、数字的一种。<br>整型数据的范围:<br><code>Integer.MAX_VALUE</code>(2147483647)<br><code>Integer.MIN_VALUE</code>(-2147482648)<br>超出范围则返回最大值与最小值。<br>所以我们可以用<code>long</code>类型的变量存储结果.</p>
+<h1 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> num = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span>(str == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		str = str.trim();</div><div class="line">		<span class="keyword">if</span>(str.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">boolean</span> isNeg = <span class="keyword">false</span>;</div><div class="line">		<span class="keyword">int</span> i  = <span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span>(str.charAt(<span class="number">0</span>) == <span class="string">'+'</span>) i++;</div><div class="line">		<span class="keyword">if</span>(str.charAt(<span class="number">0</span>) == <span class="string">'-'</span>) &#123;</div><div class="line">			i++;</div><div class="line">			isNeg = <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(; i &lt; str.length(); i++)&#123;</div><div class="line">			<span class="keyword">int</span> tmp = (<span class="keyword">int</span>)(str.charAt(i) - <span class="string">'0'</span>);</div><div class="line">			<span class="keyword">if</span>(tmp &gt;= <span class="number">0</span> &amp;&amp; tmp &lt;= <span class="number">9</span>)&#123;</div><div class="line">				num = num * <span class="number">10</span> + tmp;</div><div class="line">				System.out.println(num);</div><div class="line">				<span class="keyword">if</span>(num &gt; Integer.MAX_VALUE)&#123;</div><div class="line">					<span class="keyword">if</span>(isNeg)&#123;</div><div class="line">						<span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">					&#125;</div><div class="line">					<span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">				&#125;</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>) (isNeg?-num:num);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
-字符串中空格的处理
-非法字符的处理
-转换结果溢出的处理
-
-首先，对于字符串格式，空格不计入计算。Java中String类trim()方法可以很好地解决这个问题首字母只能是符号’+’、 ‘-‘、数字的一种。整型数据的范围:Integer.MAX_VALUE(2147483647)Integer.MIN_VALUE(-2147482648)超出范围则返回最大值与最小值。所以我们可以用long类型的变量存储结果.
-代码（Java）12345678910111213141516171819202122232425262728293031public class Solution &#123;    p
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/21/字符串转换为整型数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -893,20 +916,22 @@
       
         
           
-          一般来说，能够原子性地获取需要的多个锁，或者注意 调整对多个锁的获取顺序 ，就会比较好地避免死锁。
-下面举一个例子：假设有2个锁A和B，两个线程T1和T212345T1代码......A.lock();    B.lock();......
-12345T2代码......B.lock();    A.lock();......
-可能出现的死锁情况：T1获取到A锁，等待B锁。T2获取到B锁，等待A锁。这个时候T1等不到B，而T2 也等不到A。
-下面这种做法可以避免这样的死锁：12345T1代码......A.lock();B.lock();......
-12345T2代码......A.lock();B.lock();......
-现在T1和T2都是先获取A，再获取B，这样就可以避免死锁。因为两个线程都是先获取A才会接着获取B，就不会出现之前一个线程持有A等待B，另外一个线程持有B等待A的情
-          ...
+            <p>一般来说，<strong>能够原子性地获取需要的多个锁</strong>，或者注意 <strong>调整对多个锁的获取顺序</strong> ，就会比较好地避免死锁。</p>
+<p>下面举一个例子：假设有2个锁A和B，两个线程T1和T2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">    B.lock();</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">B.lock();</div><div class="line">    A.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>可能出现的死锁情况：<br><code>T1获取到A锁，等待B锁。</code><br><code>T2获取到B锁，等待A锁。</code><br>这个时候T1等不到B，而T2 也等不到A。</p>
+<p>下面这种做法可以避免这样的死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
+<p>现在<code>T1</code>和<code>T2</code>都是先获取<code>A</code>，再获取<code>B</code>，这样就可以<strong>避免死锁</strong>。因为两个线程都是先获取<code>A</code>才会接着获取<code>B</code>，就不会出现之前一个线程持有<code>A</code>等待<code>B</code>，另外一个线程持有<code>B</code>等待<code>A</code>的情况了。</p>
+<p>此外，还有另外一种实现方式来避免死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure>
+<p><code>GetLocks</code>函数是一次性的获取两个锁。这样就不会出现死锁的情况了。</p>
+<p>此外，线程之间还会传递数据。因为这些线程公用进程的内存空间，所以线程间的传递数据就相对容易一些了。</p>
+<blockquote>
+<p>本文内容来自<a href="https://book.douban.com/subject/25867042/" target="_blank" rel="external">大型网站系统与Java中间件实践</a></p>
+</blockquote>
 
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/21/浅谈如何避免死锁/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -1017,16 +1042,13 @@
       
         
           
-          题目根据前序遍历和中序遍历构造二叉树.注意：这里默认二叉树中的值都是唯一的。
-样例给出前序遍历：int[] preOrder = { 6, 10, 4, 3, 1, 0, 7, 12 };中序遍历：int[] inOrder = { 4, 10, 3, 1, 6, 12, 7, 0 };返回如下的树:1234567        _______6______        /               \     __10__             __0__    /      \           /   4        3        7             \      /              1    12
-分析首先还是对数组进行判断，如果前序遍历数组为null或后续遍历数组为null，则return null;前序遍历的第一个结点就是二叉树的根结点。中序遍历
-          ...
+            <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>根据前序遍历和中序遍历构造二叉树.<br>注意：这里默认二叉树中的值都是唯一的。</p>
+<p><strong>样例</strong><br>给出前序遍历：<br><code>int[] preOrder = { 6, 10, 4, 3, 1, 0, 7, 12 };</code><br>中序遍历：<br><code>int[] inOrder = { 4, 10, 3, 1, 6, 12, 7, 0 };</code><br>返回如下的树:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">        _______6______ </div><div class="line">       /               \ </div><div class="line">    __10__             __0__ </div><div class="line">   /      \           / </div><div class="line">  4        3        7 </div><div class="line">            \      / </div><div class="line">             1    12</div></pre></td></tr></table></figure></p>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>首先还是对数组进行判断，如果前序遍历数组为<code>null</code>或后续遍历数组为<code>null</code>，则<code>return null</code>;<br><code>前序遍历</code>的第一个结点就是二叉树的<code>根结点</code>。<br><code>中序遍历</code>从第一个到<code>根结点</code>之前的结点序列为<code>左子树</code>，<code>中序遍历</code>中<code>根结点</code>之后的结点序列为<code>右子树</code>。<br>然后使用递归来处理<code>根结点</code>的<code>左子树</code>和<code>右子树</code>。</p>
+<h1 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">   <span class="function"><span class="keyword">public</span> TreeNode <span class="title">buildTree</span><span class="params">(<span class="keyword">int</span>[] preorder, <span class="keyword">int</span>[] inorder)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (preorder == <span class="keyword">null</span> || inorder == <span class="keyword">null</span>) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ConstructCore(preorder, inorder, <span class="number">0</span>, preorder.length - <span class="number">1</span>, <span class="number">0</span>, inorder.length - <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> TreeNode <span class="title">ConstructCore</span><span class="params">(<span class="keyword">int</span>[] preOrder, <span class="keyword">int</span>[] inOrder, <span class="keyword">int</span> startPreorder, <span class="keyword">int</span> endPreorder,</span></span></div><div class="line">		<span class="keyword">int</span> startInorder, <span class="keyword">int</span> endInorder) &#123;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (startPreorder &gt; endPreorder || startInorder &gt; endInorder) &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	TreeNode root = <span class="keyword">new</span> TreeNode(preOrder[startPreorder]);</div><div class="line"></div><div class="line">	<span class="keyword">int</span> divider = <span class="number">0</span>;</div><div class="line">	<span class="keyword">while</span> (divider &lt;= endInorder &amp;&amp; inOrder[divider] != root.val) &#123;</div><div class="line">		divider++;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> offSet = divider - startInorder - <span class="number">1</span>;</div><div class="line">	root.left = ConstructCore(preOrder, inOrder, startPreorder + <span class="number">1</span>, startPreorder + <span class="number">1</span> + offSet, startInorder,</div><div class="line">			startInorder + offSet);</div><div class="line">	root.right = ConstructCore(preOrder, inOrder, startPreorder + offSet + <span class="number">2</span>, endPreorder, divider + <span class="number">1</span>, endInorder);</div><div class="line"></div><div class="line">	<span class="keyword">return</span> root;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>补充：中序遍历二叉树和前序遍历二叉树<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">// 中序遍历二叉树</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">inorder</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</div><div class="line">		preorder(root.left);</div><div class="line">		System.out.print(root.val + <span class="string">" "</span>);</div><div class="line">		preorder(root.right);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 先序遍历二叉树</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">preorder</span><span class="params">(TreeNode root)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</div><div class="line">		System.out.print(root.val + <span class="string">" "</span>);</div><div class="line">		preorder(root.left);</div><div class="line">		preorder(root.right);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/20/前序遍历和中序遍历树构造二叉树/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
@@ -1118,21 +1140,17 @@
       
         
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post1$ hexo new "My New Post"
-More info: Writing
-Run server1$ hexo server
-More info: Server
-Generate static files1$ hexo generate
-More info: Generating
-Deploy to remote sites1$ hexo
-          ...
+            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/20/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
+          
         
       
     </div>
