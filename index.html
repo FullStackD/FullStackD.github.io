@@ -315,65 +315,14 @@
 
       
         
-          
-            <p>转载声明：本博客文章来源：<a href="http://rapheal.sinaapp.com/" target="_blank" rel="external">拉风的博客</a>！</p>
+          <p>转载声明：本博客文章来源：<a href="http://rapheal.sinaapp.com/">拉风的博客</a>！</p>
 <p>公众号文章一直被运营商各种挟持插广告，今年逐步都切换成HTTPS，前两周再重新梳理了一些HTTPS细节，趁有空整理成文章做个分享。</p>
 <h1 id="Alice与Bob的通信"><a href="#Alice与Bob的通信" class="headerlink" title="Alice与Bob的通信"></a>Alice与Bob的通信</h1><p>我们以Alice与Bob一次通信来贯穿全文，一开始他们都是用明文的形式在网络传输通信内容。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/Alice%E4%B8%8EBob%E9%80%9A%E4%BF%A1.png" alt="Alice与Bob通信"></p>
-<h1 id="嗅探以及篡改"><a href="#嗅探以及篡改" class="headerlink" title="嗅探以及篡改"></a>嗅探以及篡改</h1><p>如果在他们的通信链路出现了一个Hacker，由于通信内容都是明文可见，所以Hacker可以嗅探看到这些内容，也可以篡改这些内容。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/Hacker%E5%97%85%E6%8E%A2%E4%B8%8E%E7%AF%A1%E6%94%B9.png" alt="嗅探与篡改"></p>
-<p>公众号的文章之前就遇到很多被挟持篡改了内容，插入广告。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%9B%BE%E6%96%87%E6%8C%9F%E6%8C%81%E6%A0%B7%E4%BE%8B.png" alt="公众号文章挟持案例"></p>
-<h1 id="加密解密"><a href="#加密解密" class="headerlink" title="加密解密"></a>加密解密</h1><p>既然明文有问题，那就需要对明文进行加密处理，让中间人看不懂内容，于是乎要对原来的内容变成一段看不懂的内容，称为加密，反之则是解密。而本质其实就是一种数学运算的逆运算，类似加法减法，例如发送方可以将 abcd…xyz 每个字母+1映射成 bcd…yza，使得原文的字母变成看不懂的序列，而接收方只需要将每个字母-1就可以恢复成原来的序列，当然这种做法规律太容易被破解了，后边会有个案例示意图。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86%E6%9C%AC%E8%B4%A8.png" alt="加密解密的本质"></p>
-<h1 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h1><p>如果对2个二进制数A和B进行异或运算得到结果C, 那C和B再异或一次就会回到A，所以异或也可以作为加密解密的运算。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E9%80%86%E8%BF%90%E7%AE%97XOR.png" alt="XOR运算"></p>
-<p>把操作数A作为明文，操作数B作为密钥，结果C作为密文。可以看到加密解密运用同一个密钥B，把这种加解密都用同一个密钥的方式叫做对称加密。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.png" alt="对称加密"></p>
-<p>可以看到简单的异或加密/解密操作，需要密钥跟明文位数相同。为了克服这个缺点，需要改进一下，把明文进行分组，每组长度跟密钥一致，分别做异或操作就可以得到密文分片，再合并到一起就得到密文了。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E2%80%94%E2%80%94%E5%88%86%E7%BB%84.png" alt="对称加密-分组"></p>
-<p>但是这种简单分组的模式也是很容易发现规律，可以从下图看到，中间采用对原图进行DES的ECB模式加密（就是上边提到简单分组的模式）</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E4%B8%8D%E5%90%8C%E6%A8%A1%E5%BC%8F%E5%AF%B9%E6%AF%94.png" alt="容易破解VS不容易破解的模式"></p>
-<p>很明显，原图一些特征在加密后还是暴露无遗，因此需要再改进一把。一般的思路就是将上次分组运算的结果/中间结果参与到下次分组的运算中去，使得更随机混乱，更难破解。以下图片来自维基百科：</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E2%80%94%E2%80%94%E6%A8%A1%E5%BC%8F.png" alt="对称加密-模式"></p>
-<p>经过改良后，Alice与Bob如果能提前拿到一个对称加密的密钥，他们就可以通过加密明文来保证他们说话内容不会被Hacker看到了。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/Alice%E4%B8%8EBob%E9%87%87%E7%94%A8%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F%E9%80%9A%E4%BF%A1.png" alt="Alice与Bob采用对称加密方式通信"></p>
-<h1 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h1><p>刚刚还引发另一个问题，这个对称加密用到的密钥怎么互相告知呢？如果在传输真正的数据之前，先把密钥传过去，那Hacker还是能嗅探到，那之后就了无秘密了。于是乎出现另外一种手段：</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E4%BC%A0%E9%80%92%E5%AF%86%E9%92%A5.png" alt="危险的环境下传递密钥"></p>
-<p>这就是非对称加密，任何人都可以通过拿到Bob公开的公钥对内容进行加密，然后只有Bob自己私有的钥匙才能解密还原出原来内容。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86.png" alt="非对称加密"></p>
-<p>RSA就是这样一个算法，具体数学证明利用了大质数乘法难以分解、费马小定理等数学理论支撑它难以破解。相对于前边的对称加密来说，其需要做乘法模除等操作，性能效率比对称加密差很多。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/RSA.png" alt="RSA"></p>
-<p>由于非对称加密的性能低，因此我们用它来先协商对称加密的密钥即可，后续真正通信的内容还是用对称加密的手段，提高整体的性能。</p>
-<p>如果机器上安装了OpenSSL，可以通过以下两个命令对比RAS和AES的速度比较： openssl speed rsa; openssl speed aes;</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E4%BC%98%E5%8C%96Alice%E4%B8%8EBob%E7%9A%84%E9%80%9A%E4%BF%A1.png" alt="优化Alice与Bob的通信"></p>
-<h1 id="认证"><a href="#认证" class="headerlink" title="认证"></a>认证</h1><p>上边虽然解决了密钥配送的问题，但是中间人还是可以欺骗双方，只要在Alice像Bob要公钥的时候，Hacker把自己公钥给了Alice，而Alice是不知道这个事情的，以为一直都是Bob跟她在通信。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%AC%BA%E9%AA%97.png" alt="中间人欺骗"></p>
-<p>要怎么证明现在传过来的公钥就是Bob给的呢？在危险的网络环境下，还是没有解决这个问题。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E6%80%8E%E4%B9%88%E8%AF%81%E6%98%8E%E5%85%AC%E9%92%A5%E5%B0%B1%E6%98%AFBob%E7%9A%84.png" alt="怎么证明公钥就是Bob的"></p>
-<p>一般我们现实生活是怎么证明Bob就是Bob呢？一般都是政府给我们每个人发一个身份证（假设身份证没法伪造），我只要看到Bob身份证，就证明Bob就是Bob。</p>
-<p>一般我们现实生活是怎么证明Bob就是Bob呢？一般都是政府给我们每个人发一个身份证（假设身份证没法伪造），我只要看到Bob身份证，就证明Bob就是Bob。<br>网络也可以这么做，如果有个大家都信任的组织CA给每个人出证明，那Alice只要拿到这个证明，检查一下是不是CA制作的Bob证书就可以证明Bob是Bob。所以这个证书里边需要有两个重要的东西：Bob的公钥+CA做的数字签名。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%8F%AF%E4%BF%A1%E7%BB%84%E7%BB%87%E6%9D%A5%E8%AF%81%E6%98%8E%E5%A4%A7%E5%AE%B6.png" alt="可信组织"></p>
-<p>前边说到用公钥进行加密，只有拥有私钥的人才能解密。数字证书有点反过来：用私钥进行加密，用公钥进行解密。CA用自己的私钥对Bob的信息（包含Bob公钥）进行加密，由于Alice无条件信任CA，所以已经提前知道CA的公钥，当她收到Bob证书的时候，只要用CA的公钥对Bob证书内容进行解密，发现能否成功解开（还需要校验完整性），此时说明Bob就是Bob，那之后用证书里边的Bob公钥来走之前的流程，就解决了中间人欺骗这个问题了。</p>
-<p>前边说到用公钥进行加密，只有拥有私钥的人才能解密。数字证书有点反过来：用私钥进行加密，用公钥进行解密。CA用自己的私钥对Bob的信息（包含Bob公钥）进行加密，由于Alice无条件信任CA，所以已经提前知道CA的公钥，当她收到Bob证书的时候，只要用CA的公钥对Bob证书内容进行解密，发现能否成功解开（还需要校验完整性），此时说明Bob就是Bob，那之后用证书里边的Bob公钥来走之前的流程，就解决了中间人欺骗这个问题了。<br>这种方式也是一种防抵赖的方式，让对方把消息做一个数字签名，只要我收到消息，用对方的公钥成功解开校验这个签名，说明这个消息必然是对方发给我的，对方不可以抵赖这个行为，因为只有他才拥有做数字签名的私钥。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E5%8F%AA%E9%9C%80%E8%A6%81%E5%86%85%E7%BD%AECA%E7%9A%84%E6%95%B0%E5%AD%97%E5%85%AC%E9%92%A5%E5%8D%B3%E5%8F%AF.png" alt="内置根CA签名公钥"></p>
-<p>CA其实是有多级关系，顶层有个根CA，只要他信任B，B信任C，C信任D，那我们基本就可以认为D是可信的。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E8%AF%81%E4%B9%A6%E4%BF%A1%E4%BB%BB%E9%93%BE.png" alt="证书信任链"></p>
-<h1 id="完整性"><a href="#完整性" class="headerlink" title="完整性"></a>完整性</h1><p>上边基本上已经解决了保密性和认证，还有一个完整性没有保障。虽然Hacker还是看不懂内容，但是Hacker可以随便篡改通信内容的几个bit位，此时Bob解密看到的可能是很乱的内容，但是他也不知道这个究竟是Alice真实发的内容，还是被别人偷偷改了的内容。</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/Alice%E4%BD%A0%E5%9C%A8%E8%AF%B4%E4%BB%80%E4%B9%88.png" alt="Alice你在说什么？"></p>
-<p>单向Hash函数可以把输入变成一个定长的输出串，其特点就是无法从这个输出还原回输入内容，并且不同的输入几乎不可能产生相同的输出，即便你要特意去找也非常难找到这样的输入（抗碰撞性），因此Alice只要将明文内容做一个Hash运算得到一个Hash值，并一起加密传递过去给Bob。Hacker即便篡改了内容，Bob解密之后发现拿到的内容以及对应计算出来的Hash值与传递过来的不一致，说明这个包的完整性被破坏了。</p>
-<p>单向Hash函数可以把输入变成一个定长的输出串，其特点就是无法从这个输出还原回输入内容，并且不同的输入几乎不可能产生相同的输出，即便你要特意去找也非常难找到这样的输入（抗碰撞性），因此Alice只要将明文内容做一个Hash运算得到一个Hash值，并一起加密传递过去给Bob。Hacker即便篡改了内容，Bob解密之后发现拿到的内容以及对应计算出来的Hash值与传递过来的不一致，说明这个包的完整性被破坏了。<br><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7.png" alt="数据完整性"></p>
-<h1 id="一次安全可靠的通信"><a href="#一次安全可靠的通信" class="headerlink" title="一次安全可靠的通信"></a>一次安全可靠的通信</h1><p>总结一下，安全可靠的保障：</p>
-<p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性</p>
-<p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性<br>\2. 数字签名：认证、不可抵赖</p>
-<p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性<br>\2. 数字签名：认证、不可抵赖<br>\3. 单向Hash算法：完整性</p>
-<p>HTTPS原理就是这样，真正交换应用数据之前，所协商的信息的过程称为ssl握手，可以用此命令：curl -w “TCP connect time: %{time_connect}, SSL connect time: %{time_appconnect}\n” -so /dev/null <a href="https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。" target="_blank" rel="external">https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。</a></p>
-<p>来一张完整的图：</p>
-<p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E4%B8%80%E6%AC%A1%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%80%9A%E4%BF%A1.png" alt="一次可靠的通信"></p>
-<p>本文链接：<a href="http://rapheal.sinaapp.com/2015/09/16/https/" target="_blank" rel="external">一次安全可靠的通信</a></p>
-<p>Posted in: <a href="http://rapheal.sinaapp.com/category/%e5%ae%89%e5%85%a8/web%e5%ae%89%e5%85%a8/" target="_blank" rel="external">Web安全</a>, <a href="http://rapheal.sinaapp.com/category/%e5%ae%89%e5%85%a8/" target="_blank" rel="external">安全</a>    | Tagged: <a href="http://rapheal.sinaapp.com/tag/ca/" target="_blank" rel="external">CA</a>, <a href="http://rapheal.sinaapp.com/tag/https/" target="_blank" rel="external">HTTPS</a>, <a href="http://rapheal.sinaapp.com/tag/ssl/" target="_blank" rel="external">ssl</a>, <a href="http://rapheal.sinaapp.com/tag/%e5%8a%a0%e5%af%86/" target="_blank" rel="external">加密</a>, <a href="http://rapheal.sinaapp.com/tag/%e6%95%b0%e5%ad%97%e7%ad%be%e5%90%8d/" target="_blank" rel="external">数字签名</a>, <a href="http://rapheal.sinaapp.com/tag/%e8%ae%a4%e8%af%81/" target="_blank" rel="external">认证</a></p>
-
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/07/21/一次安全可靠的通信/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
