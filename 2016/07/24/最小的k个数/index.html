@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。
-镜像问题：找出最大的k个数问题，解法相同。
-最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
+<meta name="description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。镜像问题：找出最大的k个数问题，思路相同。最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="最小的k个数">
 <meta property="og:url" content="http://yoursite.com/2016/07/24/最小的k个数/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。
-镜像问题：找出最大的k个数问题，解法相同。
-最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
-<meta property="og:updated_time" content="2016-07-24T09:28:19.475Z">
+<meta property="og:description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。镜像问题：找出最大的k个数问题，思路相同。最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
+<meta property="og:updated_time" content="2016-07-24T09:31:16.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="最小的k个数">
-<meta name="twitter:description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。
-镜像问题：找出最大的k个数问题，解法相同。
-最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
+<meta name="twitter:description" content="题目输入n个数，找出其中最小的k个数。例如输入 4、5、1、6、2、7、3、8 这8个数字，则最小的4个数字是 1、2、3、4 。镜像问题：找出最大的k个数问题，思路相同。最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。">
 
 
 
@@ -316,9 +310,7 @@
       
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>输入n个数，找出其中最小的k个数。例如输入 <code>4、5、1、6、2、7、3、8</code> 这8个数字，则最小的4个数字是 <code>1、2、3、4</code> 。</p>
-<p>镜像问题：找出最大的k个数问题，解法相同。</p>
-<p>最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>输入n个数，找出其中最小的k个数。例如输入 <code>4、5、1、6、2、7、3、8</code> 这8个数字，则最小的4个数字是 <code>1、2、3、4</code> 。<br>镜像问题：找出最大的k个数问题，思路相同。<br>最简单的思路是把输入的n个整数从小到大排序，排序之后位于最前面的k个数就是最小的k个数。这种思路的时间复杂度是O(nlogn)。</p>
 <a id="more"></a>
 <h1 id="解法一"><a href="#解法一" class="headerlink" title="解法一"></a>解法一</h1><p>O(n)的算法，只有可以修改输入的数组时可用。</p>
 <p>可以利用Partition函数来解决这个问题，如果基于数组的第k个数来调整，使得比第k个数字小的所有数字都位于数组的左边，比第k个数字大的所有数字都位于数组的右边。这样调整之后，位于数组中左边的k个数字就是最小的k个数字（无序）。</p>
