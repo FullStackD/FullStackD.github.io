@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="LeetCode,面试算法," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,16 +84,13 @@
 
 
 
-<meta name="description" content="题目Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="字符串转换为整型数">
-<meta property="og:url" content="http://yoursite.com/2016/07/21/字符串转换为整型数/index.html">
+<meta property="og:title" content="一只仓鼠">
+<meta property="og:url" content="http://yoursite.com/2016/07/26/Demo/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="题目Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。">
-<meta property="og:updated_time" content="2016-07-21T10:03:23.048Z">
+<meta property="og:updated_time" content="2016-07-26T11:44:57.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="字符串转换为整型数">
-<meta name="twitter:description" content="题目Implement atoi to convert a string to an integer.相当于实现一个C++的atoi()函数。">
+<meta name="twitter:title" content="一只仓鼠">
 
 
 
@@ -111,7 +108,7 @@
   };
 </script>
 
-  <title> 字符串转换为整型数 | 不忘初心 </title>
+  <title> 一只仓鼠 | 不忘初心 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +258,7 @@
             
             
               
-                字符串转换为整型数
+                一只仓鼠
               
             
           </h1>
@@ -273,38 +270,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T11:58:09+08:00" content="2016-07-21">
-              2016-07-21
+            <time itemprop="dateCreated" datetime="2016-07-26T19:39:29+08:00" content="2016-07-26">
+              2016-07-26
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/算法/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/21/字符串转换为整型数/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/21/字符串转换为整型数/" itemprop="commentsCount"></span>
+                <a href="/2016/07/26/Demo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/26/Demo/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -327,16 +305,10 @@
       
 
       
-        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>Implement atoi to convert a string to an integer.<br>相当于实现一个C++的atoi()函数。</p>
-<a id="more"></a>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>题目不难，主要是需要考虑到对各种输入用例的处理。</p>
-<ol>
-<li>字符串中空格的处理</li>
-<li>非法字符的处理</li>
-<li>转换结果溢出的处理</li>
-</ol>
-<p>首先，对于字符串格式，空格不计入计算。<br>Java中String类<code>trim()</code>方法可以很好地解决这个问题<br>首字母只能是符号’+’、 ‘-‘、数字的一种。<br>整型数据的范围:<br><code>Integer.MAX_VALUE</code>(2147483647)<br><code>Integer.MIN_VALUE</code>(-2147482648)<br>超出范围则返回最大值与最小值。<br>所以我们可以用<code>long</code>类型的变量存储结果.</p>
-<h1 id="代码（Java）"><a href="#代码（Java）" class="headerlink" title="代码（Java）"></a>代码（Java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">myAtoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">        <span class="keyword">long</span> num = <span class="number">0</span>;</div><div class="line">        <span class="keyword">if</span>(str == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		str = str.trim();</div><div class="line">		<span class="keyword">if</span>(str.length() == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		<span class="keyword">boolean</span> isNeg = <span class="keyword">false</span>;</div><div class="line">		<span class="keyword">int</span> i  = <span class="number">0</span>;</div><div class="line">		<span class="keyword">if</span>(str.charAt(<span class="number">0</span>) == <span class="string">'+'</span>) i++;</div><div class="line">		<span class="keyword">if</span>(str.charAt(<span class="number">0</span>) == <span class="string">'-'</span>) &#123;</div><div class="line">			i++;</div><div class="line">			isNeg = <span class="keyword">true</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(; i &lt; str.length(); i++)&#123;</div><div class="line">			<span class="keyword">int</span> tmp = (<span class="keyword">int</span>)(str.charAt(i) - <span class="string">'0'</span>);</div><div class="line">			<span class="keyword">if</span>(tmp &gt;= <span class="number">0</span> &amp;&amp; tmp &lt;= <span class="number">9</span>)&#123;</div><div class="line">				num = num * <span class="number">10</span> + tmp;</div><div class="line">				System.out.println(num);</div><div class="line">				<span class="keyword">if</span>(num &gt; Integer.MAX_VALUE)&#123;</div><div class="line">					<span class="keyword">if</span>(isNeg)&#123;</div><div class="line">						<span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">					&#125;</div><div class="line">					<span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">				&#125;</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>) (isNeg?-num:num);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <embed type="application/x-shockwave-flash" src="http://cdn.abowman.com/widgets/hamster/hamster.swf" width="740" height="549" id="flashID" name="flashID" bgcolor="#FFFFFF" quality="high" flashvars="up_backgroundColor=FFFFFF" wmode="opaque" allowscriptaccess="always" autostart="true">
+
+
+
 
       
     </div>
@@ -356,30 +328,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/LeetCode/" rel="tag">#LeetCode</a>
-          
-            <a href="/tags/面试算法/" rel="tag">#面试算法</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/21/浅谈如何避免死锁/" rel="next" title="浅谈如何避免死锁">
-                <i class="fa fa-chevron-left"></i> 浅谈如何避免死锁
+              <a href="/2016/07/24/数组中出现次数超过一半的数字/" rel="next" title="数组中出现次数超过一半的数字">
+                <i class="fa fa-chevron-left"></i> 数组中出现次数超过一半的数字
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/07/21/解决应用服务器集群的Session问题/" rel="prev" title="解决应用服务器集群的Session问题">
-                解决应用服务器集群的Session问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -405,8 +365,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/21/字符串转换为整型数/"
-           data-title="字符串转换为整型数" data-url="http://yoursite.com/2016/07/21/字符串转换为整型数/">
+      <div class="ds-thread" data-thread-key="2016/07/26/Demo/"
+           data-title="一只仓鼠" data-url="http://yoursite.com/2016/07/26/Demo/">
       </div>
     
   </div>
@@ -517,7 +477,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码（Java）"><span class="nav-number">3.</span> <span class="nav-text">代码（Java）</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
