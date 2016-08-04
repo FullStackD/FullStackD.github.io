@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="原型模式在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
-原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模">
+<meta name="description" content="在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
+原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建">
 <meta property="og:type" content="article">
 <meta property="og:title" content="原型模式">
 <meta property="og:url" content="http://yoursite.com/2016/08/04/原型模式/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="原型模式在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
-原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模">
+<meta property="og:description" content="在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
+原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建">
 <meta property="og:image" content="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif">
-<meta property="og:updated_time" content="2016-08-04T08:32:49.499Z">
+<meta property="og:updated_time" content="2016-08-04T08:45:44.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="原型模式">
-<meta name="twitter:description" content="原型模式在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
-原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模">
+<meta name="twitter:description" content="在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：
+原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建">
 <meta name="twitter:image" content="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif">
 
 
@@ -332,14 +332,12 @@
       
 
       
-        <h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：</p>
+        <p>在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下：</p>
 <pre><code>原型模式的`工作原理`很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建克隆对象的工厂就是原型类自身，工厂方法由克隆方法来实现。
 
 需要注意的是通过克隆方法所创建的对象是全新的对象，它们在内存中拥有新的地址，通常对克隆所产生的对象进行修改对原型对象不会造成任何影响，每一个克隆对象都是相互独立的。通过不同的方式修改可以得到一系列相似但不完全相同的对象。
-
- 原型模式的结构如图7-2所示：
-</code></pre><p><img src="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif" alt=""></p>
-<p><strong>图7-2 原型模式结构图</strong></p>
+</code></pre><a id="more"></a>
+<p><img src="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif" alt=""></p>
 <pre><code>在原型模式结构图中包含如下几个角色：
 
 ●Prototype（抽象原型类）：它是声明克隆方法的接口，是所有具体原型类的公共父类，可以是抽象类也可以是接口，甚至还可以是具体实现类。
@@ -357,7 +355,7 @@
 <li><code>深拷贝与浅拷贝</code>。Object类的clone方法只会拷贝对象中的基本的数据类型，对于数组、容器对象、引用对象等都不会拷贝，这就是浅拷贝。如果要实现深拷贝，必须将原型模式中的数组、容器对象、引用对象等另行拷贝。</li>
 </ul>
 <blockquote>
-<p>关于深拷贝和浅拷贝可以看<a href="http://" target="_blank" rel="external">深复制和浅复制</a></p>
+<p>关于深拷贝和浅拷贝可以看<a href="http://blog.fullstackd.cn/2016/08/04/%E6%B7%B1%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%A4%8D%E5%88%B6/" target="_blank" rel="external">深复制和浅复制</a></p>
 <p>参考文章：<a href="http://blog.csdn.net/zhengzhb/article/details/7393528" target="_blank" rel="external">23种设计模式（5）：原型模式</a></p>
 </blockquote>
 
@@ -536,7 +534,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式"><span class="nav-number">1.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式的优点及适用场景"><span class="nav-number">2.</span> <span class="nav-text">原型模式的优点及适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式的注意事项"><span class="nav-number">3.</span> <span class="nav-text">原型模式的注意事项</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式的优点及适用场景"><span class="nav-number">1.</span> <span class="nav-text">原型模式的优点及适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式的注意事项"><span class="nav-number">2.</span> <span class="nav-text">原型模式的注意事项</span></a></li></ol></div>
             
           </div>
         </section>
