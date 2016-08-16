@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="操作系统," />
+  <meta name="keywords" content="面试算法,剑指Offer,BFS," />
 
 
 
@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="一般来说，能够原子性地获取需要的多个锁，或者注意 调整对多个锁的获取顺序 ，就会比较好地避免死锁。
-下面举一个例子：假设有2个锁A和B，两个线程T1和T2">
+<meta name="description" content="题目地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 
+例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈如何避免死锁">
-<meta property="og:url" content="http://yoursite.com/2016/07/21/浅谈如何避免死锁/index.html">
+<meta property="og:title" content="机器人的运动范围">
+<meta property="og:url" content="http://yoursite.com/2016/08/16/机器人的运动范围/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="一般来说，能够原子性地获取需要的多个锁，或者注意 调整对多个锁的获取顺序 ，就会比较好地避免死锁。
-下面举一个例子：假设有2个锁A和B，两个线程T1和T2">
-<meta property="og:updated_time" content="2016-07-21T10:05:42.208Z">
+<meta property="og:description" content="题目地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 
+例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？">
+<meta property="og:updated_time" content="2016-08-16T03:05:56.131Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈如何避免死锁">
-<meta name="twitter:description" content="一般来说，能够原子性地获取需要的多个锁，或者注意 调整对多个锁的获取顺序 ，就会比较好地避免死锁。
-下面举一个例子：假设有2个锁A和B，两个线程T1和T2">
+<meta name="twitter:title" content="机器人的运动范围">
+<meta name="twitter:description" content="题目地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 
+例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？">
 
 
 
@@ -114,7 +114,7 @@
   };
 </script>
 
-  <title> 浅谈如何避免死锁 | 不忘初心 </title>
+  <title> 机器人的运动范围 | 不忘初心 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -264,7 +264,7 @@
             
             
               
-                浅谈如何避免死锁
+                机器人的运动范围
               
             
           </h1>
@@ -276,19 +276,50 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T11:56:59+08:00" content="2016-07-21">
-              2016-07-21
+            <time itemprop="dateCreated" datetime="2016-08-16T10:56:53+08:00" content="2016-08-16">
+              2016-08-16
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/剑指Offer/" itemprop="url" rel="index">
+                    <span itemprop="name">剑指Offer</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/剑指Offer/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/21/浅谈如何避免死锁/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/21/浅谈如何避免死锁/" itemprop="commentsCount"></span>
+                <a href="/2016/08/16/机器人的运动范围/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/16/机器人的运动范围/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -311,22 +342,12 @@
       
 
       
-        <p>一般来说，<strong>能够原子性地获取需要的多个锁</strong>，或者注意 <strong>调整对多个锁的获取顺序</strong> ，就会比较好地避免死锁。</p>
-<p>下面举一个例子：假设有2个锁A和B，两个线程T1和T2</p>
+        <h1 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h1><p>地上有一个<code>m行</code>和<code>n列</code>的方格。一个机器人从坐标<code>0,0</code>的格子开始移动，每一次只能向<code>左，右，上，下</code>四个方向移动一格，但是不能进入<code>行坐标</code>和<code>列坐标</code>的<code>数位之和大于k</code>的格子。 </p>
+<p>例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？</p>
 <a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">    B.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">B.lock();</div><div class="line">    A.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
-<p>可能出现的死锁情况：<br><code>T1获取到A锁，等待B锁。</code><br><code>T2获取到B锁，等待A锁。</code><br>这个时候T1等不到B，而T2 也等不到A。</p>
-<p>下面这种做法可以避免这样的死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">A.lock();</div><div class="line">B.lock();</div><div class="line">......</div></pre></td></tr></table></figure>
-<p>现在<code>T1</code>和<code>T2</code>都是先获取<code>A</code>，再获取<code>B</code>，这样就可以<strong>避免死锁</strong>。因为两个线程都是先获取<code>A</code>才会接着获取<code>B</code>，就不会出现之前一个线程持有<code>A</code>等待<code>B</code>，另外一个线程持有<code>B</code>等待<code>A</code>的情况了。</p>
-<p>此外，还有另外一种实现方式来避免死锁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T1代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">T2代码</div><div class="line">......</div><div class="line">GetLocks(A, B);</div><div class="line">......</div></pre></td></tr></table></figure>
-<p><code>GetLocks</code>函数是一次性的获取两个锁。这样就不会出现死锁的情况了。</p>
-<p>此外，线程之间还会传递数据。因为这些线程公用进程的内存空间，所以线程间的传递数据就相对容易一些了。</p>
-<blockquote>
-<p>本文内容来自<a href="https://book.douban.com/subject/25867042/" target="_blank" rel="external">大型网站系统与Java中间件实践</a></p>
-</blockquote>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>这道题使用BFS来解决。使用一个递归函数+辅助数组+求数位之和的函数。</p>
+<p>辅助数组记录是否走过这个格子，走过的话就在这个方向停止(return 0)，不继续往下走(递归)。</p>
+<h1 id="代码（java）"><a href="#代码（java）" class="headerlink" title="代码（java）"></a>代码（java）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MovingCount</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> threshold, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span>[][] flag = <span class="keyword">new</span> <span class="keyword">int</span>[rows][cols];<span class="comment">// 记录是否走过</span></div><div class="line">		<span class="keyword">return</span> movingCount(<span class="number">0</span>, <span class="number">0</span>, rows, cols, flag, threshold);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">movingCount</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> rows, <span class="keyword">int</span> cols, <span class="keyword">int</span>[][] flag, <span class="keyword">int</span> threshold)</span> </span>&#123;</div><div class="line">      <span class="comment">//如果数组下标越界，或者数位之和大于K，或者已访问，都停止继续走(递归)</span></div><div class="line">		<span class="keyword">if</span> (i &lt; <span class="number">0</span> || j &lt; <span class="number">0</span> || i &gt;= rows || j &gt;= cols || numSum(i) + numSum(j) &gt; threshold || flag[i][j] == <span class="number">1</span>) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">		&#125;</div><div class="line">		flag[i][j] = <span class="number">1</span>;<span class="comment">//标记当前格子被走过</span></div><div class="line">      	<span class="comment">//向四个方向继续递归走</span></div><div class="line">		<span class="keyword">return</span> movingCount(i - <span class="number">1</span>, j, rows, cols, flag, threshold) + movingCount(i, j - <span class="number">1</span>, rows, cols, flag, threshold)</div><div class="line">				+ movingCount(i, j + <span class="number">1</span>, rows, cols, flag, threshold)</div><div class="line">				+ movingCount(i + <span class="number">1</span>, j, rows, cols, flag, threshold) + <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">//求一个数的数位之和  </span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">numSum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</div><div class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span> (num != <span class="number">0</span>) &#123;</div><div class="line">			sum += num % <span class="number">10</span>;</div><div class="line">			num = num / <span class="number">10</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> sum;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -348,7 +369,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/操作系统/" rel="tag">#操作系统</a>
+            <a href="/tags/面试算法/" rel="tag">#面试算法</a>
+          
+            <a href="/tags/剑指Offer/" rel="tag">#剑指Offer</a>
+          
+            <a href="/tags/BFS/" rel="tag">#BFS</a>
           
         </div>
       
@@ -357,17 +382,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/20/前序遍历和中序遍历树构造二叉树/" rel="next" title="前序遍历和中序遍历树构造二叉树">
-                <i class="fa fa-chevron-left"></i> 前序遍历和中序遍历树构造二叉树
+              <a href="/2016/08/11/HashMap源码分析/" rel="next" title="HashMap源码分析(1.7 + 1.8)">
+                <i class="fa fa-chevron-left"></i> HashMap源码分析(1.7 + 1.8)
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/07/21/字符串转换为整型数/" rel="prev" title="字符串转换为整型数">
-                字符串转换为整型数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -393,8 +414,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/21/浅谈如何避免死锁/"
-           data-title="浅谈如何避免死锁" data-url="http://yoursite.com/2016/07/21/浅谈如何避免死锁/">
+      <div class="ds-thread" data-thread-key="2016/08/16/机器人的运动范围/"
+           data-title="机器人的运动范围" data-url="http://yoursite.com/2016/08/16/机器人的运动范围/">
       </div>
     
   </div>
@@ -505,7 +526,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分析"><span class="nav-number">2.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码（java）"><span class="nav-number">3.</span> <span class="nav-text">代码（java）</span></a></li></ol></div>
             
           </div>
         </section>
