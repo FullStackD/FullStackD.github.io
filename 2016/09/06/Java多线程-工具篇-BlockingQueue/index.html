@@ -84,32 +84,29 @@
 
 
 
-<meta name="description" content="Java多线程-工具篇-BlockingQueue来自：jack.yujun - 博客园
-链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
+<meta name="description" content="来自：jack.yujun - 博客园链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
 
 前言：
-   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建">
+   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了Bl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java多线程-工具篇-BlockingQueue">
 <meta property="og:url" content="http://yoursite.com/2016/09/06/Java多线程-工具篇-BlockingQueue/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="Java多线程-工具篇-BlockingQueue来自：jack.yujun - 博客园
-链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
+<meta property="og:description" content="来自：jack.yujun - 博客园链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
 
 前言：
-   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建">
+   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了Bl">
 <meta property="og:image" content="http://pic002.cnblogs.com/images/2010/161940/2010112414472791.jpg">
 <meta property="og:image" content="http://pic002.cnblogs.com/images/2010/161940/2010112414442194.jpg">
 <meta property="og:image" content="http://pic002.cnblogs.com/images/2010/161940/2010112414451925.jpg">
 <meta property="og:image" content="http://pic002.cnblogs.com/images/2010/161940/2010112416335973.jpg">
-<meta property="og:updated_time" content="2016-09-06T07:49:21.748Z">
+<meta property="og:updated_time" content="2016-09-06T07:52:40.456Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java多线程-工具篇-BlockingQueue">
-<meta name="twitter:description" content="Java多线程-工具篇-BlockingQueue来自：jack.yujun - 博客园
-链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
+<meta name="twitter:description" content="来自：jack.yujun - 博客园链接：http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html
 
 前言：
-   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建">
+   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了Bl">
 <meta name="twitter:image" content="http://pic002.cnblogs.com/images/2010/161940/2010112414472791.jpg">
 
 
@@ -344,8 +341,7 @@
       
 
       
-        <h1 id="Java多线程-工具篇-BlockingQueue"><a href="#Java多线程-工具篇-BlockingQueue" class="headerlink" title="Java多线程-工具篇-BlockingQueue"></a>Java多线程-工具篇-BlockingQueue</h1><p><strong>来自：jack.yujun - 博客园</strong></p>
-<p><strong>链接：<a href="http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html" target="_blank" rel="external">http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html</a></strong></p>
+        <p><strong>来自：jack.yujun - 博客园</strong><br><strong>链接：<a href="http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html" target="_blank" rel="external">http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html</a></strong></p>
 <ul>
 <li><p><strong>前言：</strong></p>
 <p>   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了BlockingQueue家庭中的所有成员，包括他们各自的功能以及常见使用场景。</p>
@@ -373,19 +369,46 @@
 <p>Consumer </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.wwb.concurrent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> BlockingQueue&lt;String&gt; queue;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_RANGE_FOR_SLEEP = <span class="number">1000</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Consumer</span><span class="params">(BlockingQueue&lt;String&gt; queue)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.queue = queue;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"启动消费者线程！"</span>);</div><div class="line">		Random r = <span class="keyword">new</span> Random();</div><div class="line">		<span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="keyword">while</span> (isRunning) &#123;</div><div class="line">				System.out.println(<span class="string">"正从队列获取数据..."</span>);</div><div class="line">				String data = queue.poll(<span class="number">2</span>, TimeUnit.SECONDS);</div><div class="line">				<span class="keyword">if</span> (<span class="keyword">null</span> != data) &#123;</div><div class="line">					System.out.println(<span class="string">"拿到数据："</span> + data);</div><div class="line">					System.out.println(<span class="string">"正在消费数据："</span> + data);</div><div class="line">					Thread.sleep(r.nextInt(DEFAULT_RANGE_FOR_SLEEP));</div><div class="line">				&#125; <span class="keyword">else</span> &#123;</div><div class="line">					<span class="comment">// 超过2s还没数据，认为所有生产线程都已经退出，自动退出消费线程。</span></div><div class="line">					isRunning = <span class="keyword">false</span>;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			Thread.currentThread().interrupt();</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			System.out.println(<span class="string">"退出消费者线程！"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Producer </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.wwb.concurrent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">true</span>;</div><div class="line">	<span class="keyword">private</span> BlockingQueue&lt;String&gt; queue;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger count = <span class="keyword">new</span> AtomicInteger();</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_RANGE_FOR_SLEEP = <span class="number">1000</span>;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(BlockingQueue&lt;String&gt; queue)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.queue = queue;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		String data = <span class="keyword">null</span>;</div><div class="line">		Random r = <span class="keyword">new</span> Random();</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"启动生产者线程！"</span>);</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="keyword">while</span> (isRunning) &#123;</div><div class="line">				System.out.println(<span class="string">"正在生产数据..."</span>);</div><div class="line">				Thread.sleep(r.nextInt(DEFAULT_RANGE_FOR_SLEEP));</div><div class="line"></div><div class="line">				data = <span class="string">"data:"</span> + count.incrementAndGet();</div><div class="line">				System.out.println(<span class="string">"将数据："</span> + data + <span class="string">"放入队列..."</span>);</div><div class="line">				<span class="keyword">if</span> (!queue.offer(data, <span class="number">2</span>, TimeUnit.SECONDS)) &#123;</div><div class="line">					System.out.println(<span class="string">"放入数据失败："</span> + data);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">			Thread.currentThread().interrupt();</div><div class="line">		&#125; <span class="keyword">finally</span> &#123;</div><div class="line">			System.out.println(<span class="string">"退出生产者线程！"</span>);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</div><div class="line">		isRunning = <span class="keyword">false</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-<p><strong>3. DelayQueue</strong></p>
-<pre><code>DelayQueue中的元素只有当其指定的延迟时间到了，才能够从队列中获取到该元素。DelayQueue是一个没有大小限制的队列，因此往队列中插入数据的操作（生产者）永远不会被阻塞，而只有获取数据的操作（消费者）才会被阻塞。
-</code></pre><p>使用场景：<br>　　DelayQueue使用场景较少，但都相当巧妙，常见的例子比如使用一个DelayQueue来管理一个超时未响应的连接队列。<br><strong>4. PriorityBlockingQueue</strong></p>
-<pre><code>基于优先级的阻塞队列（优先级的判断通过构造函数传入的Compator对象来决定），但需要注意的是PriorityBlockingQueue并不会阻塞数据生产者，而只会在没有可消费的数据时，阻塞数据的消费者。因此使用的时候要特别注意，生产者生产数据的速度绝对不能快于消费者消费数据的速度，否则时间一长，会最终耗尽所有的可用堆内存空间。在实现PriorityBlockingQueue时，内部控制线程同步的锁采用的是公平锁。
-</code></pre><p><strong>5. SynchronousQueue</strong></p>
-<pre><code>一种无缓冲的等待队列，类似于无中介的直接交易，有点像原始社会中的生产者和消费者，生产者拿着产品去集市销售给产品的最终消费者，而消费者必须亲自去集市找到所要商品的直接生产者，如果一方没有找到合适的目标，那么对不起，大家都在集市等待。相对于有缓冲的BlockingQueue来说，少了一个中间经销商的环节（缓冲区），如果有经销商，生产者直接把产品批发给经销商，而无需在意经销商最终会将这些产品卖给那些消费者，由于经销商可以库存一部分商品，因此相对于直接交易模式，总体来说采用中间经销商的模式会吞吐量高一些（可以批量买卖）；但另一方面，又因为经销商的引入，使得产品从生产者到消费者中间增加了额外的交易环节，单个产品的及时响应性能可能会降低。
-</code></pre><p>　　声明一个SynchronousQueue有两种不同的方式，它们之间有着不太一样的行为。公平模式和非公平模式的区别:<br>　　如果采用公平模式：SynchronousQueue会采用公平锁，并配合一个FIFO队列来阻塞多余的生产者和消费者，从而体系整体的公平策略；<br>　　但如果是非公平模式（SynchronousQueue默认）：SynchronousQueue采用非公平锁，同时配合一个LIFO队列来管理多余的生产者和消费者，而后一种模式，如果生产者和消费者的处理速度有差距，则很容易出现饥渴的情况，即可能有某些生产者或者是消费者的数据永远都得不到处理。</p>
-</li>
-</ul>
-<ul>
-<li>小结<br>　　BlockingQueue不光实现了一个完整队列所具有的基本功能，同时在多线程环境下，他还自动管理了多线间的自动等待于唤醒功能，从而使得程序员可以忽略这些细节，关注更高级的功能。 </li>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> cn.wwb.concurrent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</div></pre></td></tr></table></figure>
+<p>public class Producer implements Runnable {</p>
+<pre><code>private volatile boolean isRunning = true;
+private BlockingQueue&lt;String&gt; queue;
+private static AtomicInteger count = new AtomicInteger();
+private static final int DEFAULT_RANGE_FOR_SLEEP = 1000;
+
+public Producer(BlockingQueue&lt;String&gt; queue) {
+    this.queue = queue;
+}
+
+public void run() {
+    String data = null;
+    Random r = new Random();
+
+    System.out.println(&quot;启动生产者线程！&quot;);
+    try {
+        while (isRunning) {
+            System.out.println(&quot;正在生产数据...&quot;);
+            Thread.sleep(r.nextInt(DEFAULT_RANGE_FOR_SLEEP));
+
+            data = &quot;data:&quot; + count.incrementAndGet();
+            System.out.println(&quot;将数据：&quot; + data + &quot;放入队列...&quot;);
+            if (!queue.offer(data, 2, TimeUnit.SECONDS)) {
+                System.out.println(&quot;放入数据失败：&quot; + data);
+            }
+        }
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+        Thread.currentThread().interrupt();
+    } finally {
+        System.out.println(&quot;退出生产者线程！&quot;);
+    }
+}
+
+public void stop() {
+    isRunning = false;
+}
+</code></pre><p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">  ​</div><div class="line"></div><div class="line">  **3. DelayQueue**</div><div class="line">        DelayQueue中的元素只有当其指定的延迟时间到了，才能够从队列中获取到该元素。DelayQueue是一个没有大小限制的队列，因此往队列中插入数据的操作（生产者）永远不会被阻塞，而只有获取数据的操作（消费者）才会被阻塞。</div><div class="line">  使用场景：</div><div class="line">  　　DelayQueue使用场景较少，但都相当巧妙，常见的例子比如使用一个DelayQueue来管理一个超时未响应的连接队列。</div><div class="line">  **4. PriorityBlockingQueue**</div><div class="line">        基于优先级的阻塞队列（优先级的判断通过构造函数传入的Compator对象来决定），但需要注意的是PriorityBlockingQueue并不会阻塞数据生产者，而只会在没有可消费的数据时，阻塞数据的消费者。因此使用的时候要特别注意，生产者生产数据的速度绝对不能快于消费者消费数据的速度，否则时间一长，会最终耗尽所有的可用堆内存空间。在实现PriorityBlockingQueue时，内部控制线程同步的锁采用的是公平锁。</div><div class="line">  **5. SynchronousQueue**</div><div class="line">        一种无缓冲的等待队列，类似于无中介的直接交易，有点像原始社会中的生产者和消费者，生产者拿着产品去集市销售给产品的最终消费者，而消费者必须亲自去集市找到所要商品的直接生产者，如果一方没有找到合适的目标，那么对不起，大家都在集市等待。相对于有缓冲的BlockingQueue来说，少了一个中间经销商的环节（缓冲区），如果有经销商，生产者直接把产品批发给经销商，而无需在意经销商最终会将这些产品卖给那些消费者，由于经销商可以库存一部分商品，因此相对于直接交易模式，总体来说采用中间经销商的模式会吞吐量高一些（可以批量买卖）；但另一方面，又因为经销商的引入，使得产品从生产者到消费者中间增加了额外的交易环节，单个产品的及时响应性能可能会降低。</div><div class="line">  　　声明一个SynchronousQueue有两种不同的方式，它们之间有着不太一样的行为。公平模式和非公平模式的区别:</div><div class="line">  　　如果采用公平模式：SynchronousQueue会采用公平锁，并配合一个FIFO队列来阻塞多余的生产者和消费者，从而体系整体的公平策略；</div><div class="line">  　　但如果是非公平模式（SynchronousQueue默认）：SynchronousQueue采用非公平锁，同时配合一个LIFO队列来管理多余的生产者和消费者，而后一种模式，如果生产者和消费者的处理速度有差距，则很容易出现饥渴的情况，即可能有某些生产者或者是消费者的数据永远都得不到处理。</div><div class="line"></div><div class="line"></div><div class="line">- 小结</div><div class="line">  　　BlockingQueue不光实现了一个完整队列所具有的基本功能，同时在多线程环境下，他还自动管理了多线间的自动等待于唤醒功能，从而使得程序员可以忽略这些细节，关注更高级的功能。</div></pre></td></tr></table></figure></li>
 </ul>
 
       
@@ -565,7 +588,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java多线程-工具篇-BlockingQueue"><span class="nav-number">1.</span> <span class="nav-text">Java多线程-工具篇-BlockingQueue</span></a></li></ol></div>
+              <p class="post-toc-empty">此文章未包含目录</p>
             
           </div>
         </section>
