@@ -6,15 +6,15 @@
 
 
 <html class="theme-next pisces use-motion">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -29,7 +29,7 @@
 
   
   
-  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -63,39 +63,35 @@
 
 
 
-<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="Java,HashMap,源码分析,哈希表,非线程安全,红黑树," />
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
+  <meta name="keywords" content="Java,HashMap,源码分析,哈希表,非线程安全,红黑树,">
 
 
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
 
 
 
 
 
 
-<meta name="description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable
-可以看到HashMap继承了
-
-标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
+<meta name="description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable 可以看到HashMap继承了  标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
+<meta name="keywords" content="Java,HashMap,源码分析,哈希表,非线程安全,红黑树">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HashMap源码分析(1.7 + 1.8)">
 <meta property="og:url" content="http://yoursite.com/2016/08/11/HashMap源码分析/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable
-可以看到HashMap继承了
-
-标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
+<meta property="og:description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable 可以看到HashMap继承了  标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://oamdcrulf.bkt.clouddn.com/1.7Map%E6%8E%A5%E5%8F%A3.jpg">
 <meta property="og:image" content="http://oamdcrulf.bkt.clouddn.com/1.8Map%E6%8E%A5%E5%8F%A3.jpg">
 <meta property="og:image" content="https://img.alicdn.com/imgextra/i2/581166664/TB2ZGZbeVXXXXXtXXXXXXXXXXXX_!!581166664.png">
@@ -105,10 +101,7 @@
 <meta property="og:updated_time" content="2016-08-11T10:52:34.807Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap源码分析(1.7 + 1.8)">
-<meta name="twitter:description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable
-可以看到HashMap继承了
-
-标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
+<meta name="twitter:description" content="签名（signature）12public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt;       implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable 可以看到HashMap继承了  标记接口Cloneable，用于表明HashMap对象会重写java.lang.Object#cl">
 <meta name="twitter:image" content="http://oamdcrulf.bkt.clouddn.com/1.7Map%E6%8E%A5%E5%8F%A3.jpg">
 
 
@@ -127,10 +120,10 @@
   };
 </script>
 
-  <title> HashMap源码分析(1.7 + 1.8) | 不忘初心 </title>
+  <title> HashMap源码分析(1.7 + 1.8) | 不忘初心 </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -148,15 +141,15 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-meta ">
   
 
   <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <span class="site-title">不忘初心</span>
       <span class="logo-line-after"><i></i></span>
@@ -183,7 +176,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -193,7 +186,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
           </a>
@@ -203,7 +196,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             时间轴
           </a>
@@ -213,7 +206,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -223,7 +216,7 @@
         <li class="menu-item menu-item-about">
           <a href="/about" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
             
             关于
           </a>
@@ -256,7 +249,7 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
 
     
       <header class="post-header">
@@ -285,14 +278,14 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
               &nbsp; | &nbsp;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
                   <a href="/categories/源码分析/" itemprop="url" rel="index">
                     <span itemprop="name">源码分析</span>
                   </a>
@@ -561,7 +554,7 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -571,17 +564,15 @@
       
 
       <section class="site-overview sidebar-panel ">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.png"
-               alt="Monster" />
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Monster">
           <p class="site-author-name" itemprop="name">Monster</p>
           <p class="site-description motion-element" itemprop="description">Stay young, Stay hungry, Stay foolish.</p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-count">23</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -589,7 +580,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -598,7 +589,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -663,7 +654,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2019</span>
@@ -768,6 +759,26 @@
   
   
   
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
 
   
 
