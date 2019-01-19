@@ -320,7 +320,7 @@
 <p>这种方法非常简单，但是有以下几个问题：</p>
 <blockquote>
 <p>1.如果有一台Web服务器宕机或者重启，那么这台机器上的会话数据会丢失。如果会话中有登陆状态信息，那么用户就要重新登录了。</p>
-<p>2.会话标识是应用程序的信息，负载均衡服务器要将同一个会话的请求都保存到一个Web服务器上的话需要进行应用层（<a href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B" target="_blank" rel="external">OSI模型</a>第7层）的解析，这个开销比第4层（传输层）的交换大。</p>
+<p>2.会话标识是应用程序的信息，负载均衡服务器要将同一个会话的请求都保存到一个Web服务器上的话需要进行应用层（<a href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">OSI模型</a>第7层）的解析，这个开销比第4层（传输层）的交换大。</p>
 <p>3.负载均衡器变成了有状态的节点，要保存会话到Web服务器的映射，比无状态节点内存消耗更大，容灾会更麻烦。</p>
 </blockquote>
 <hr>
@@ -661,7 +661,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

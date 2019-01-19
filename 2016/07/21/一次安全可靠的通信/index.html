@@ -386,11 +386,11 @@
 <p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性</p>
 <p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性<br>\2. 数字签名：认证、不可抵赖</p>
 <p>总结一下，安全可靠的保障：<br>\1. 对称加密以及非对称加密来解决：保密性<br>\2. 数字签名：认证、不可抵赖<br>\3. 单向Hash算法：完整性</p>
-<p>HTTPS原理就是这样，真正交换应用数据之前，所协商的信息的过程称为ssl握手，可以用此命令：curl -w “TCP connect time: %{time_connect}, SSL connect time: %{time_appconnect}\n” -so /dev/null <a href="https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。" target="_blank" rel="external">https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。</a></p>
+<p>HTTPS原理就是这样，真正交换应用数据之前，所协商的信息的过程称为ssl握手，可以用此命令：curl -w “TCP connect time: %{time_connect}, SSL connect time: %{time_appconnect}\n” -so /dev/null <a href="https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。" target="_blank" rel="noopener">https://mp.weixin.qq.com;来对比tcp连接时间跟ssl连接时间，可以看出为了安全会带来额外的性能消耗。</a></p>
 <p>来一张完整的图：</p>
 <p><img src="http://rapheal-wordpress.stor.sinaapp.com/uploads/2015/09/%E4%B8%80%E6%AC%A1%E5%8F%AF%E9%9D%A0%E7%9A%84%E9%80%9A%E4%BF%A1.png" alt="一次可靠的通信"></p>
 <blockquote>
-<p>转载自：<a href="http://rapheal.sinaapp.com/" target="_blank" rel="external">拉风的博客</a>！</p>
+<p>转载自：<a href="http://rapheal.sinaapp.com/" target="_blank" rel="noopener">拉风的博客</a>！</p>
 </blockquote>
 
       
@@ -713,7 +713,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

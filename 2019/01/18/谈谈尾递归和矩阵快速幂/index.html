@@ -84,18 +84,18 @@
 
 
 
-<meta name="description" content="1. 尾递归2. 矩阵快速幂">
+<meta name="description" content="1. 尾递归如果一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。当递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分时，这个递归调用就是尾递归。例如：return f(n-1);而 return n + f(n-1) ;则不是。 以求阶乘为例，一般写法如下,如果这个函数调用的深度太深，很容易会有爆栈的危险。">
 <meta name="keywords" content="尾递归,矩阵快速幂,算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="谈谈尾递归和矩阵快速幂">
 <meta property="og:url" content="http://yoursite.com/2019/01/18/谈谈尾递归和矩阵快速幂/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="1. 尾递归2. 矩阵快速幂">
+<meta property="og:description" content="1. 尾递归如果一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。当递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分时，这个递归调用就是尾递归。例如：return f(n-1);而 return n + f(n-1) ;则不是。 以求阶乘为例，一般写法如下,如果这个函数调用的深度太深，很容易会有爆栈的危险。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-18T04:58:26.685Z">
+<meta property="og:updated_time" content="2019-01-19T07:07:57.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="谈谈尾递归和矩阵快速幂">
-<meta name="twitter:description" content="1. 尾递归2. 矩阵快速幂">
+<meta name="twitter:description" content="1. 尾递归如果一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。当递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分时，这个递归调用就是尾递归。例如：return f(n-1);而 return n + f(n-1) ;则不是。 以求阶乘为例，一般写法如下,如果这个函数调用的深度太深，很容易会有爆栈的危险。">
 
 
 
@@ -312,7 +312,91 @@
       
 
       
-        <h1 id="1-尾递归"><a href="#1-尾递归" class="headerlink" title="1. 尾递归"></a>1. 尾递归</h1><h1 id="2-矩阵快速幂"><a href="#2-矩阵快速幂" class="headerlink" title="2. 矩阵快速幂"></a>2. 矩阵快速幂</h1>
+        <h1 id="1-尾递归"><a href="#1-尾递归" class="headerlink" title="1. 尾递归"></a>1. 尾递归</h1><p>如果一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。当递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分时，这个递归调用就是尾递归。例如：<code>return f(n-1);</code>而 <code>return n + f(n-1) ;</code>则不是。</p>
+<p>以求阶乘为例，一般写法如下,如果这个函数调用的深度太深，很容易会有爆栈的危险。</p>
+<a id="more"></a>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n * factorial(n<span class="number">-1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>尾递归写法如下，求10的阶乘为<code>factorial(10, 1)</code>，尾递归把返回结果放到了调用的参数里，因此理论上可以先把之前的栈释放掉。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> m)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> * m;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> factorial2(n<span class="number">-1</span>, m*n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>参考文章：<br> <a href="https://www.cnblogs.com/catch/p/3495450.html" title="标题" target="_blank" rel="noopener">说说尾递归 - twoon</a></p>
+<h1 id="2-矩阵快速幂"><a href="#2-矩阵快速幂" class="headerlink" title="2. 矩阵快速幂"></a>2. 矩阵快速幂</h1><p><strong>快速幂</strong>：假设有一个整数 x， 如果我们要求出 x^n （即为 x 的 n 次方）的值，最容易想到的办法就是循环相乘（这里不考虑整数溢出的情况下），于是我们很容易就可以写出下面的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    res *= x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们计算2^9时，可分解为：</p>
+<script type="math/tex; mode=display">
+2^9=2*(4^4)=2*(16^2)=2*(256)=512</script><p>原先需要计算8次，现在只需要计算4次（2*2, 4*4, 16*16, 2*256)</p>
+<p>当我们计算2^10时，可分解为：</p>
+<script type="math/tex; mode=display">
+2^{10}=4^5=4*16^2=4*256=1024</script><p>以下为快速幂算法，其时间复杂度为 O(logn)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">QuickPow</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> N)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> res = x;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(N)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(N&amp;<span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ans = ans * res;</span><br><span class="line">        &#125;</span><br><span class="line">        res = res*res;</span><br><span class="line">        N = N&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>矩阵快速幂是用于快速求出一个矩阵的 n 次方的方法。常规运算只要把快速幂中的底数换成矩阵即可。<br>具体应用以斐波那契数列为例：</p>
+<p>f(1) = 1 f(2) = 1    f(n) = f(n-1)+f(n-2)</p>
+<p>用矩阵表示为：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{f(n)}\\
+{f(n-1)}\\
+\end{bmatrix}
+=\begin{bmatrix}
+{1}&{1}\\
+{1}&{0}\\
+\end{bmatrix}
+\begin{bmatrix}
+{f(n-1)}\\
+{f(n-2)}\\
+\end{bmatrix}</script><p>易得：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{f(n-1)}\\
+{f(n-2)}\\
+\end{bmatrix}
+=\begin{bmatrix}
+{1}&{1}\\
+{1}&{0}\\
+\end{bmatrix}
+\begin{bmatrix}
+{f(n-2)}\\
+{f(n-3)}\\
+\end{bmatrix}</script><p>根据矩阵乘法：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{f(n)}\\
+{f(n-1)}\\
+\end{bmatrix}
+=\begin{bmatrix}
+{1}&{1}\\
+{1}&{0}\\
+\end{bmatrix}^2
+\begin{bmatrix}
+{f(n-2)}\\
+{f(n-3)}\\
+\end{bmatrix}</script><p>所以求斐波那契数列的第n项(n&gt;=3)：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{f(n)}\\
+{f(n-1)}\\
+\end{bmatrix}
+=\begin{bmatrix}
+{1}&{1}\\
+{1}&{0}\\
+\end{bmatrix}^{n-2}
+\begin{bmatrix}
+{f(2)}\\
+{f(1)}\\
+\end{bmatrix}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+{f(n)}\\
+{f(n-1)}\\
+\end{bmatrix}
+=\begin{bmatrix}
+{1}&{1}\\
+{1}&{0}\\
+\end{bmatrix}^{n-2}
+\begin{bmatrix}
+1\\
+1\\
+\end{bmatrix}</script><p>然后就可以使用矩阵快速幂来计算了。</p>
+
       
     </div>
 
@@ -623,7 +707,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

@@ -338,16 +338,16 @@
 </blockquote>
 </li>
 <li><p>深复制</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span></div><div class="line">&#123; </div><div class="line">  String name; </div><div class="line">  <span class="keyword">int</span> age; </div><div class="line">  Professor p; </div><div class="line">  </div><div class="line">  ......</div><div class="line">    </div><div class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123; </div><div class="line">      Student o=<span class="keyword">null</span>; </div><div class="line">      <span class="keyword">try</span>&#123; </div><div class="line">        o = (Student)<span class="keyword">super</span>.clone(); </div><div class="line">      &#125; <span class="keyword">catch</span>(CloneNotSupportedException e) &#123; </div><div class="line">        System.out.println(e.toString()); </div><div class="line">      &#125; </div><div class="line">      <span class="comment">//对引用的对象也进行复制</span></div><div class="line">      o.p = (Professor)p.clone(); </div><div class="line">      <span class="keyword">return</span> o; </div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span></span><br><span class="line"><span class="class"></span>&#123; </span><br><span class="line">  String name; </span><br><span class="line">  <span class="keyword">int</span> age; </span><br><span class="line">  Professor p; </span><br><span class="line">  </span><br><span class="line">  ......</span><br><span class="line">    </span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">clone</span><span class="params">()</span> </span>&#123; </span><br><span class="line">      Student o=<span class="keyword">null</span>; </span><br><span class="line">      <span class="keyword">try</span>&#123; </span><br><span class="line">        o = (Student)<span class="keyword">super</span>.clone(); </span><br><span class="line">      &#125; <span class="keyword">catch</span>(CloneNotSupportedException e) &#123; </span><br><span class="line">        System.out.println(e.toString()); </span><br><span class="line">      &#125; </span><br><span class="line">      <span class="comment">//对引用的对象也进行复制</span></span><br><span class="line">      o.p = (Professor)p.clone(); </span><br><span class="line">      <span class="keyword">return</span> o; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>利用<code>序列化</code>来做深复制(主要为了避免重写比较复杂对象的深复制clone()方法)<br>把对象写入到流的过程是序列化，把对象从流中读出来是反序列化。<br>在Java语言里深复制一个对象，常常可以先使对象实现Serializable接口，然后把对象（实际上只是对象的一个拷贝）写到一个流里，再从流里读出来，便可以重建对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">deepClone</span><span class="params">()</span> </span>&#123; </div><div class="line">    <span class="comment">//将对象写到流里 </span></div><div class="line">    ByteArrayOutoutStream bo = <span class="keyword">new</span> ByteArrayOutputStream(); </div><div class="line">    ObjectOutputStream oo = <span class="keyword">new</span> ObjectOutputStream(bo); </div><div class="line">    oo.writeObject(<span class="keyword">this</span>); </div><div class="line">    <span class="comment">//从流里读出来 </span></div><div class="line">    ByteArrayInputStream bi = <span class="keyword">new</span> ByteArrayInputStream(bo.toByteArray()); </div><div class="line">    ObjectInputStream oi = <span class="keyword">new</span> ObjectInputStream(bi); </div><div class="line">    <span class="keyword">return</span>(oi.readObject()); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">deepClone</span><span class="params">()</span> </span>&#123; </span><br><span class="line">    <span class="comment">//将对象写到流里 </span></span><br><span class="line">    ByteArrayOutoutStream bo = <span class="keyword">new</span> ByteArrayOutputStream(); </span><br><span class="line">    ObjectOutputStream oo = <span class="keyword">new</span> ObjectOutputStream(bo); </span><br><span class="line">    oo.writeObject(<span class="keyword">this</span>); </span><br><span class="line">    <span class="comment">//从流里读出来 </span></span><br><span class="line">    ByteArrayInputStream bi = <span class="keyword">new</span> ByteArrayInputStream(bo.toByteArray()); </span><br><span class="line">    ObjectInputStream oi = <span class="keyword">new</span> ObjectInputStream(bi); </span><br><span class="line">    <span class="keyword">return</span>(oi.readObject()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这样做的前提是对象以及对象内部所有引用到的对象都是可序列化的，否则，就需要仔细考察那些不可序列化的对象或属性可否设成<code>transient</code>，从而将之排除在复制过程之外。 </p>
 </li>
 </ol>
 <p><strong>PS：深拷贝与浅拷贝问题中，会发生深拷贝的有java中的8中基本类型以及他们的封装类型，另外还有String类型。其余的都是浅拷贝。</strong></p>
 <blockquote>
-<p>参考：<a href="http://www.jb51.net/article/62909.htm" target="_blank" rel="external">Java中对象的深复制（深克隆）和浅复制（浅克隆）介绍</a></p>
+<p>参考：<a href="http://www.jb51.net/article/62909.htm" target="_blank" rel="noopener">Java中对象的深复制（深克隆）和浅复制（浅克隆）介绍</a></p>
 </blockquote>
 
       
@@ -664,7 +664,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

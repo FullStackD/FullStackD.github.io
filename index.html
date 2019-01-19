@@ -316,9 +316,13 @@
 
       
         
-          
-            <h1 id="1-尾递归"><a href="#1-尾递归" class="headerlink" title="1. 尾递归"></a>1. 尾递归</h1><h1 id="2-矩阵快速幂"><a href="#2-矩阵快速幂" class="headerlink" title="2. 矩阵快速幂"></a>2. 矩阵快速幂</h1>
-          
+          <h1 id="1-尾递归"><a href="#1-尾递归" class="headerlink" title="1. 尾递归"></a>1. 尾递归</h1><p>如果一个函数中所有递归形式的调用都出现在函数的末尾，我们称这个递归函数是尾递归的。当递归调用是整个函数体中最后执行的语句且它的返回值不属于表达式的一部分时，这个递归调用就是尾递归。例如：<code>return f(n-1);</code>而 <code>return n + f(n-1) ;</code>则不是。</p>
+<p>以求阶乘为例，一般写法如下,如果这个函数调用的深度太深，很容易会有爆栈的危险。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2019/01/18/谈谈尾递归和矩阵快速幂/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -673,7 +677,7 @@
 
       
         
-          <p><strong>来自：jack.yujun - 博客园</strong><br><strong>链接：<a href="http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html">http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html</a></strong></p>
+          <p><strong>来自：jack.yujun - 博客园</strong><br><strong>链接：<a href="http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html" target="_blank" rel="noopener">http://www.cnblogs.com/jackyuj/archive/2010/11/24/1886553.html</a></strong></p>
 <ul>
 <li><p><strong>前言：</strong></p>
 <p>   在新增的Concurrent包中，BlockingQueue很好的解决了多线程中，如何高效安全“传输”数据的问题。通过这些高效并且线程安全的队列类，为我们快速搭建高质量的多线程程序带来极大的便利。本文详细介绍了BlockingQueue家庭中的所有成员，包括他们各自的功能以及常见使用场景。</p>
@@ -1024,11 +1028,11 @@
 
       
         
-          <h1 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></div><div class="line">       <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></div></pre></td></tr></table></figure>
+          <h1 id="签名（signature）"><a href="#签名（signature）" class="headerlink" title="签名（signature）"></a>签名（signature）</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractMap</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;</span></span><br><span class="line"><span class="class">       <span class="keyword">implements</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt;, <span class="title">Cloneable</span>, <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
 <p>可以看到<code>HashMap</code>继承了</p>
 <ul>
-<li>标记接口<a href="http://docs.oracle.com/javase/7/docs/api/index.html?java/lang/Cloneable.html">Cloneable</a>，用于表明<code>HashMap</code>对象会重写<code>java.lang.Object#clone()</code>方法，HashMap实现的是浅拷贝（shallow copy）。</li>
-<li>标记接口<a href="http://docs.oracle.com/javase/7/docs/api/index.html?java/io/Serializable.html">Serializable</a>，用于表明<code>HashMap</code>对象可以被序列化</li>
+<li>标记接口<a href="http://docs.oracle.com/javase/7/docs/api/index.html?java/lang/Cloneable.html" target="_blank" rel="noopener">Cloneable</a>，用于表明<code>HashMap</code>对象会重写<code>java.lang.Object#clone()</code>方法，HashMap实现的是浅拷贝（shallow copy）。</li>
+<li>标记接口<a href="http://docs.oracle.com/javase/7/docs/api/index.html?java/io/Serializable.html" target="_blank" rel="noopener">Serializable</a>，用于表明<code>HashMap</code>对象可以被序列化</li>
 </ul>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/08/11/HashMap源码分析/#more" rel="contents">
@@ -1642,7 +1646,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   

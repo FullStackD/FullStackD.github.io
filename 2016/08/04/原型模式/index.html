@@ -333,8 +333,8 @@
 <li><code>深拷贝与浅拷贝</code>。Object类的clone方法只会拷贝对象中的基本的数据类型，对于数组、容器对象、引用对象等都不会拷贝，这就是浅拷贝。如果要实现深拷贝，必须将原型模式中的数组、容器对象、引用对象等另行拷贝。</li>
 </ul>
 <blockquote>
-<p>关于深拷贝和浅拷贝可以看<a href="http://blog.fullstackd.cn/2016/08/04/%E6%B7%B1%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%A4%8D%E5%88%B6/" target="_blank" rel="external">深复制和浅复制</a></p>
-<p>转载自：<a href="http://blog.csdn.net/zhengzhb/article/details/7393528" target="_blank" rel="external">23种设计模式（5）：原型模式</a></p>
+<p>关于深拷贝和浅拷贝可以看<a href="http://blog.fullstackd.cn/2016/08/04/%E6%B7%B1%E5%A4%8D%E5%88%B6%E5%92%8C%E6%B5%85%E5%A4%8D%E5%88%B6/" target="_blank" rel="noopener">深复制和浅复制</a></p>
+<p>转载自：<a href="http://blog.csdn.net/zhengzhb/article/details/7393528" target="_blank" rel="noopener">23种设计模式（5）：原型模式</a></p>
 </blockquote>
 
       
@@ -649,7 +649,24 @@
       }
     });
   </script>
-  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 
   
