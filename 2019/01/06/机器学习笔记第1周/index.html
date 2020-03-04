@@ -1,25 +1,503 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet" type="text/css"><link href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4"><link rel="mask-icon" href="/favicon.ico?v=5.1.4" color="#222"><meta name="keywords" content="机器学习,"><meta name="description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时"><meta name="keywords" content="机器学习"><meta property="og:type" content="article"><meta property="og:title" content="机器学习笔记第1周"><meta property="og:url" content="http://yoursite.com/2019/01/06/机器学习笔记第1周/index.html"><meta property="og:site_name" content="不忘初心"><meta property="og:description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时"><meta property="og:locale" content="zh-Hans"><meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UGng.png"><meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UY7j.png"><meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9U03V.png"><meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UBcT.png"><meta property="og:updated_time" content="2019-01-18T11:38:51.738Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="机器学习笔记第1周"><meta name="twitter:description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时"><meta name="twitter:image" content="https://s2.ax1x.com/2019/01/18/k9UGng.png"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"5.1.4",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!1,onmobile:!1},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="http://yoursite.com/2019/01/06/机器学习笔记第1周/"><title>机器学习笔记第1周 | 不忘初心</title></head><body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">不忘初心</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">少年,专心练剑吧</p></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br> 关于</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/机器学习笔记第1周/"><span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person"><meta itemprop="name" content="Monster"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.png"></span><span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization"><meta itemprop="name" content="不忘初心"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">机器学习笔记第1周</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-06T11:32:43+08:00">2019-01-06</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span></span></div></header><div class="post-body" itemprop="articleBody"><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><ul><li><p><strong>机器学习</strong>是什么？</p><p>Tom Mitchell对于机器学习的<strong>定义</strong>：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。</p></li></ul><ul><li><p><strong>监督学习</strong></p><p>监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时包含有特征和标签信息的。监督学习中，比较典型的问题就是<code>分类问题(Classfication)</code>和<code>回归问题(Regression)</code>。它们两者最主要的特点就是分类算法中的标签是离散的值，就像上面说的邮件分类问题中的标签为{1, -1},分别表示了垃圾邮件和非垃圾邮件，而回归算法中的标签值一般是连续的值，如预测一个人的年龄，一般要根据身高、性别、体重等标签，这是因为年龄是连续的正整数。</p><a id="more"></a></li><li><p><strong>无监督学习</strong></p><p>无监督学习的样本是不包含标签信息的，只有一定的特征，所以由于没有标签信息，学习过程中并不知道分类结果是否正确。典型的问题就是<code>聚类问题</code>，比较有代表性的算法有K-Means算法(K均值算法)等。</p></li></ul><h3 id="单变量线性回归"><a href="#单变量线性回归" class="headerlink" title="单变量线性回归"></a>单变量线性回归</h3><p>一种可能的表达方式为：<img src="https://s2.ax1x.com/2019/01/18/k9UGng.png" alt=""><br>因为只含有一个特征/输入变量，因此这样的问题叫作单变量线性回归问题。我们的目标便是选择出可以使得建模误差的平方和能够最小的模型参数。 即使得代价函数<img src="https://s2.ax1x.com/2019/01/18/k9UY7j.png" alt=""> 最小。</p><ul><li><p><strong>代价函数</strong></p><p>代价函数也被称作平方误差函数，有时也被称为平方误差代价函数。我们之所以要求出误差的平方和，是因为误差平方代价函数，对于大多数问题，特别是回归问题，都是一个合理的选择。还有其他的代价函数也能很好地发挥作用，但是平方误差代价函数可能是解决回归问题最常用的手段了。</p></li><li><p><strong>梯度下降</strong></p><ul><li><p>梯度下降是一个用来求函数最小值的算法，我们将使用梯度下降算法来求出代价函数的最小值。</p></li><li><p>梯度下降背后的思想是：开始时我们随机选择一个参数的组合<img src="https://s2.ax1x.com/2019/01/18/k9U03V.png" alt=""></p><p>计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到到到一个局部最小值（<strong>local minimum</strong>），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（<strong>global minimum</strong>），选择不同的初始参数组合，可能会找到不同的局部最小值。</p></li><li><p>批量梯度下降（<strong>batch gradient descent</strong>）算法的公式为：</p><p> <img src="https://s2.ax1x.com/2019/01/18/k9UBcT.png" alt=""></p><p> 其中α是学习率（<strong>learning rate</strong>），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大，在批量梯度下降中，我们每一次都同时让所有的参数减去学习速率乘以代价函数的导数。</p></li></ul></li></ul><h3 id="线性代数回顾"><a href="#线性代数回顾" class="headerlink" title="线性代数回顾"></a>线性代数回顾</h3><ul><li>矩阵和向量</li><li>矩阵加法和乘法</li><li>矩阵乘法的性质</li><li>矩阵的逆矩阵和转置</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/机器学习/" rel="tag"># 机器学习</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2016/09/06/Java多线程-工具篇-BlockingQueue/" rel="next" title="Java多线程-工具篇-BlockingQueue"><i class="fa fa-chevron-left"></i> Java多线程-工具篇-BlockingQueue</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/2019/01/07/《从0到1，全面学透区块链》笔记/" rel="prev" title="《从0到1，全面学透区块链》笔记">《从0到1，全面学透区块链》笔记<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Monster"><p class="site-author-name" itemprop="name">Monster</p><p class="site-description motion-element" itemprop="description">Stay young, Stay hungry, Stay foolish.</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">27</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">11</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">41</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/fullstackd" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:a516094242@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i> E-Mail</a></span><span class="links-of-author-item"><a href="http://weibo.com/FullStackD" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i> Weibo</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-link"></i> Links</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链1" target="_blank">友链1</a></li><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链2" target="_blank">友链2</a></li><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链3" target="_blank">友链3</a></li></ul></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单变量线性回归"><span class="nav-number">2.</span> <span class="nav-text">单变量线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性代数回顾"><span class="nav-number">3.</span> <span class="nav-text">线性代数回顾</span></a></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Monster</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script><script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script><script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习笔记第1周">
+<meta property="og:url" content="http://yoursite.com/2019/01/06/机器学习笔记第1周/index.html">
+<meta property="og:site_name" content="不忘初心">
+<meta property="og:description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UGng.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UY7j.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9U03V.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/18/k9UBcT.png">
+<meta property="og:updated_time" content="2019-01-18T11:38:51.738Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习笔记第1周">
+<meta name="twitter:description" content="引言 机器学习是什么？ Tom Mitchell对于机器学习的定义：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。    监督学习 监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/18/k9UGng.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/01/06/机器学习笔记第1周/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>机器学习笔记第1周 | 不忘初心</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不忘初心</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">少年,专心练剑吧</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Startseite</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archiv</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/06/机器学习笔记第1周/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Monster">
+      <meta itemprop="description" content="Stay young, Stay hungry, Stay foolish.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不忘初心">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习笔记第1周
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+
+              <time title="Erstellt: 2019-01-06 11:32:43" itemprop="dateCreated datePublished" datetime="2019-01-06T11:32:43+08:00">2019-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2019-01-18 19:38:51" itemprop="dateModified" datetime="2019-01-18T19:38:51+08:00">2019-01-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><ul>
+<li><p><strong>机器学习</strong>是什么？</p>
+<p>Tom Mitchell对于机器学习的<strong>定义</strong>：一个程序被认为能从经验 E 中学习，解决任务 T，达到性能度量值P，当且仅当，有了经验 E 后，经过 P 评判，程序在处理 T 时的性能有所提升。</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>监督学习</strong></p>
+<p>监督学习中的数据中是提前做好了分类的信息的，如垃圾邮件检测中，他的训练样本是提前存在分类的信息，也就是对垃圾邮件和非垃圾邮件的标记信息。监督学习中，他的训练样本中是同时包含有特征和标签信息的。监督学习中，比较典型的问题就是<code>分类问题(Classfication)</code>和<code>回归问题(Regression)</code>。它们两者最主要的特点就是分类算法中的标签是离散的值，就像上面说的邮件分类问题中的标签为{1, -1},分别表示了垃圾邮件和非垃圾邮件，而回归算法中的标签值一般是连续的值，如预测一个人的年龄，一般要根据身高、性别、体重等标签，这是因为年龄是连续的正整数。</p>
+<a id="more"></a>
+</li>
+<li><p><strong>无监督学习</strong></p>
+<p>无监督学习的样本是不包含标签信息的，只有一定的特征，所以由于没有标签信息，学习过程中并不知道分类结果是否正确。典型的问题就是<code>聚类问题</code>，比较有代表性的算法有K-Means算法(K均值算法)等。</p>
+</li>
+</ul>
+<h3 id="单变量线性回归"><a href="#单变量线性回归" class="headerlink" title="单变量线性回归"></a>单变量线性回归</h3><p>一种可能的表达方式为：<img src="https://s2.ax1x.com/2019/01/18/k9UGng.png" alt=""><br>因为只含有一个特征/输入变量，因此这样的问题叫作单变量线性回归问题。我们的目标便是选择出可以使得建模误差的平方和能够最小的模型参数。 即使得代价函数<img src="https://s2.ax1x.com/2019/01/18/k9UY7j.png" alt=""> 最小。</p>
+<ul>
+<li><p><strong>代价函数</strong></p>
+<p>代价函数也被称作平方误差函数，有时也被称为平方误差代价函数。我们之所以要求出误差的平方和，是因为误差平方代价函数，对于大多数问题，特别是回归问题，都是一个合理的选择。还有其他的代价函数也能很好地发挥作用，但是平方误差代价函数可能是解决回归问题最常用的手段了。</p>
+</li>
+<li><p><strong>梯度下降</strong></p>
+<ul>
+<li><p>梯度下降是一个用来求函数最小值的算法，我们将使用梯度下降算法来求出代价函数的最小值。</p>
+</li>
+<li><p>梯度下降背后的思想是：开始时我们随机选择一个参数的组合<img src="https://s2.ax1x.com/2019/01/18/k9U03V.png" alt=""></p>
+<p>计算代价函数，然后我们寻找下一个能让代价函数值下降最多的参数组合。我们持续这么做直到到到一个局部最小值（<strong>local minimum</strong>），因为我们并没有尝试完所有的参数组合，所以不能确定我们得到的局部最小值是否便是全局最小值（<strong>global minimum</strong>），选择不同的初始参数组合，可能会找到不同的局部最小值。</p>
+</li>
+<li><p>批量梯度下降（<strong>batch gradient descent</strong>）算法的公式为：</p>
+<p>  <img src="https://s2.ax1x.com/2019/01/18/k9UBcT.png" alt=""></p>
+<p>  其中α是学习率（<strong>learning rate</strong>），它决定了我们沿着能让代价函数下降程度最大的方向向下迈出的步子有多大，在批量梯度下降中，我们每一次都同时让所有的参数减去学习速率乘以代价函数的导数。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="线性代数回顾"><a href="#线性代数回顾" class="headerlink" title="线性代数回顾"></a>线性代数回顾</h3><ul>
+<li>矩阵和向量</li>
+<li>矩阵加法和乘法</li>
+<li>矩阵乘法的性质</li>
+<li>矩阵的逆矩阵和转置</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/09/06/Java多线程-工具篇-BlockingQueue/" rel="prev" title="Java多线程-工具篇-BlockingQueue">
+      <i class="fa fa-chevron-left"></i> Java多线程-工具篇-BlockingQueue
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/07/《从0到1，全面学透区块链》笔记/" rel="next" title="《从0到1，全面学透区块链》笔记">
+      《从0到1，全面学透区块链》笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
     }
   });
-</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script></body></html>
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单变量线性回归"><span class="nav-number">2.</span> <span class="nav-text">单变量线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性代数回顾"><span class="nav-number">3.</span> <span class="nav-text">线性代数回顾</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Monster</p>
+  <div class="site-description" itemprop="description">Stay young, Stay hungry, Stay foolish.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Monster</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Design – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>

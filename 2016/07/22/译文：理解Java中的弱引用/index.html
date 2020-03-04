@@ -1,25 +1,502 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><meta name="theme-color" content="#222"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css" rel="stylesheet" type="text/css"><link href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css" rel="stylesheet" type="text/css"><link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css"><link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=5.1.4"><link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=5.1.4"><link rel="mask-icon" href="/favicon.ico?v=5.1.4" color="#222"><meta name="keywords" content="Java,引用,"><meta name="description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。"><meta name="keywords" content="Java,引用"><meta property="og:type" content="article"><meta property="og:title" content="译文：理解Java中的弱引用"><meta property="og:url" content="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/index.html"><meta property="og:site_name" content="不忘初心"><meta property="og:description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。"><meta property="og:locale" content="zh-Hans"><meta property="og:updated_time" content="2016-08-23T12:59:07.836Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="译文：理解Java中的弱引用"><meta name="twitter:description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。"><script type="text/javascript" id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"5.1.4",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!1,onmobile:!1},fancybox:!0,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},duoshuo:{userId:"0",author:"博主"},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><link rel="canonical" href="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/"><title>译文：理解Java中的弱引用 | 不忘初心</title></head><body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">不忘初心</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">少年,专心练剑吧</p></div><div class="site-nav-toggle"> <button><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br> 归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br> 关于</a></li></ul></nav></div></header><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/"><span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person"><meta itemprop="name" content="Monster"><meta itemprop="description" content=""><meta itemprop="image" content="/images/avatar.png"></span><span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization"><meta itemprop="name" content="不忘初心"></span><header class="post-header"><h1 class="post-title" itemprop="name headline">译文：理解Java中的弱引用</h1><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-22T00:03:30+08:00">2016-07-22</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span></span></div></header><div class="post-body" itemprop="articleBody"><p>不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。</p><a id="more"></a><p>然而事与愿违，我很吃惊的发现，在将近20多个有着平均5年开发经验和高学历背景的应聘者中，居然只有两个人知道弱引用的存在，但是在这两个人之中只有一个人真正了解这方面的知识。在面试过程中，我还尝试提示一些东西，来看看有没有人突然说一声“原来是这个啊”，结果很是让我失望。我开始困惑，为什么这块的知识如此不被重视，毕竟弱引用是一个很有用途的特性，况且这个特性已经在7年前 Java 1.2发布时便引入了。</p><p>好吧，这里我不期待你看完本文之后成为一个弱引用方面的专家，但是我认为至少你应该了解什么是弱引用，如何使用它们，并且什么场景使用。既然它们是一些不知名的概念，我简单就着前面的三个问题来说明一下。</p><h1 id="强引用-Strong-Reference"><a href="#强引用-Strong-Reference" class="headerlink" title="强引用(Strong Reference)"></a>强引用(Strong Reference)</h1><p>强引用就是我们经常使用的引用，其写法如下</p><p><code>StringBuffer buffer = new StringBuffer();</code></p><p>上面创建了一个StringBuffer对象，并将这个对象的（强）引用存到变量buffer中。是的，就是这个小儿科的操作（请原谅我这样的说法）。强引用最重要的就是它能够让引用变得强（Strong），这就决定了它和垃圾回收器的交互。具体来说，如果一个对象通过一串强引用链接可到达(Strongly reachable)，它是不会被回收的。如果你不想让你正在使用的对象被回收，这就正是你所需要的。</p><h2 id="但是强引用如此之强"><a href="#但是强引用如此之强" class="headerlink" title="但是强引用如此之强"></a>但是强引用如此之强</h2><p>在一个程序里，将一个类设置成不可被扩展是有点不太常见的，当然这个完全可以通过类标记成final实现。或者也可以更加复杂一些，就是通过内部包含了未知数量具体实现的工厂方法返回一个接口(Interface)。举个例子，我们想要使用一个叫做Widget的类，但是这个类不能被继承，所以无法增加新的功能。</p><p>但是我们如果想追踪Widget对象的额外信息，我们该怎么办？ 假设我们需要记录每个对象的序列号，但是由于Widget类并不包含这个属性，而且也不能扩展导致我们也不能增加这个属性。其实一点问题也没有，HashMap完全可以解决上述的问题。</p><p><code>serialNumberMap.put(widget, widgetSerialNumber);</code></p><p>这表面看上去没有问题，但是widget对象的强引用很有可能会引发问题。我们可以确信当一个widget序列号不需要时，我们应该将这个条目从map中移除。如果我们没有移除的话，可能会导致内存泄露，亦或者我们手动移除时删除了我们正在使用的widgets，会导致有效数据的丢失。其实这些问题很类似，这就是没有垃圾回收机制的语言管理内存时常遇到的问题。但是我们不用去担心这个问题，因为我们使用的时具有垃圾回收机制的Java语言。</p><p>另一个强引用可能带来的问题就是缓存,尤其是像图片这样的大文件的缓存。假设你有一个程序需要处理用户提供的图片，通常的做法就是做图片数据缓存，因为从磁盘加载图片代价很大，并且同时我们也想避免在内存中同时存在两份一样的图片数据。</p><p>缓存被设计的目的就是避免我们去再次加载哪些不需要的文件。你会很快发现在缓存中会一直包含一个到已经指向内存中图片数据的引用。使用强引用会强制图片数据留在内存，这就需要你来决定什么时候图片数据不需要并且手动从缓存中移除，进而可以让垃圾回收器回收。因此你再一次被强制做垃圾回收器该做的工作，并且人为决定是该清理到哪一个对象。</p><h1 id="弱引用-Weak-Reference"><a href="#弱引用-Weak-Reference" class="headerlink" title="弱引用(Weak Reference)"></a>弱引用(Weak Reference)</h1><p>弱引用简单来说就是将对象留在内存的能力不是那么强的引用。使用WeakReference，垃圾回收器会帮你来决定引用的对象何时回收并且将对象从内存移除。创建弱引用如下</p><p><code>WeakReference weakWidget = new WeakReference(widget);</code></p><p>使用weakWidget.get()就可以得到真实的Widget对象，因为弱引用不能阻挡垃圾回收器对其回收，你会发现（当没有任何强引用到widget对象时）使用get时突然返回null。</p><p>解决上述的widget序列数记录的问题，最简单的办法就是使用Java内置的WeakHashMap类。WeakHashMap和HashMap几乎一样，唯一的区别就是它的键（不是值!!!）使用WeakReference引用。当WeakHashMap的键标记为垃圾的时候，这个键对应的条目就会自动被移除。这就避免了上面不需要的Widget对象手动删除的问题。使用WeakHashMap可以很便捷地转为HashMap或者Map。</p><h2 id="引用队列-Reference-Queue"><a href="#引用队列-Reference-Queue" class="headerlink" title="引用队列(Reference Queue)"></a>引用队列(Reference Queue)</h2><p>一旦弱引用对象开始返回null，该弱引用指向的对象就被标记成了垃圾。而这个弱引用对象（非其指向的对象）就没有什么用了。通常这时候需要进行一些清理工作。比如WeakHashMap会在这时候移除没用的条目来避免保存无限制增长的没有意义的弱引用。</p><p>引用队列可以很容易地实现跟踪不需要的引用。当你在构造WeakReference时传入一个ReferenceQueue对象，当该引用指向的对象被标记为垃圾的时候，这个引用对象会自动地加入到引用队列里面。接下来，你就可以在固定的周期，处理传入的引用队列，比如做一些清理工作来处理这些没有用的引用对象。</p><h1 id="四种引用"><a href="#四种引用" class="headerlink" title="四种引用"></a>四种引用</h1><p>Java中实际上有四种强度不同的引用，从强到弱它们分别是，强引用，软引用，弱引用和虚引用。上面部分介绍了强引用和弱引用，下面介绍剩下的两个，软引用和虚引用。</p><h1 id="软引用（Soft-Reference）"><a href="#软引用（Soft-Reference）" class="headerlink" title="软引用（Soft Reference）"></a>软引用（Soft Reference）</h1><p>软引用基本上和弱引用差不多，只是相比弱引用，它阻止垃圾回收期回收其指向的对象的能力强一些。如果一个对象是弱引用可到达，那么这个对象会被垃圾回收器接下来的回收周期销毁。但是如果是软引用可以到达，那么这个对象会停留在内存更时间上长一些。当内存不足时垃圾回收器才会回收这些软引用可到达的对象。</p><p>由于软引用可到达的对象比弱引用可达到的对象滞留内存时间会长一些，我们可以利用这个特性来做缓存。这样的话，你就可以节省了很多事情，垃圾回收器会关心当前哪种可到达类型以及内存的消耗程度来进行处理。</p><h1 id="虚引用-（Phantom-Reference）"><a href="#虚引用-（Phantom-Reference）" class="headerlink" title="虚引用 （Phantom Reference）"></a>虚引用 （Phantom Reference）</h1><p>与软引用，弱引用不同，虚引用指向的对象十分脆弱，我们不可以通过get方法来得到其指向的对象。它的唯一作用就是当其指向的对象被回收之后，自己被加入到引用队列，用作记录该引用指向的对象已被销毁。</p><p>当弱引用的指向对象变得弱引用可到达，该弱引用就会加入到引用队列。这一操作发生在对象析构或者垃圾回收真正发生之前。理论上，这个即将被回收的对象是可以在一个不符合规范的析构方法里面重新复活。但是这个弱引用会销毁。虚引用只有在其指向的对象从内存中移除掉之后才会加入到引用队列中。其get方法一直返回null就是为了阻止其指向的几乎被销毁的对象重新复活。</p><p>虚引用使用场景主要由两个。它允许你知道具体何时其引用的对象从内存中移除。而实际上这是Java中唯一的方式。这一点尤其表现在处理类似图片的大文件的情况。当你确定一个图片数据对象应该被回收，你可以利用虚引用来判断这个对象回收之后在继续加载下一张图片。这样可以尽可能地避免可怕的内存溢出错误。</p><p>第二点，虚引用可以避免很多析构时的问题。finalize方法可以通过创建强引用指向快被销毁的对象来让这些对象重新复活。然而，一个重写了finalize方法的对象如果想要被回收掉，需要经历两个单独的垃圾收集周期。在第一个周期中，某个对象被标记为可回收，进而才能进行析构。但是因为在析构过程中仍有微弱的可能这个对象会重新复活。这种情况下，在这个对象真实销毁之前，垃圾回收器需要再次运行。因为析构可能并不是很及时，所以在调用对象的析构之前，需要经历数量不确定的垃圾收集周期。这就意味着在真正清理掉这个对象的时候可能发生很大的延迟。这就是为什么当大部分堆被标记成垃圾时还是会出现烦人的内存溢出错误。</p><p>使用虚引用，上述情况将引刃而解，当一个虚引用加入到引用队列时，你绝对没有办法得到一个销毁了的对象。因为这时候，对象已经从内存中销毁了。因为虚引用不能被用作让其指向的对象重生，所以其对象会在垃圾回收的第一个周期就将被清理掉。</p><p>显而易见，finalize方法不建议被重写。因为虚引用明显地安全高效，去掉finalize方法可以虚拟机变得明显简单。当然你也可以去重写这个方法来实现更多。这完全看个人选择。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我想看到这里，很多人开始发牢骚了，为什么你要讲一个过去十年的老古董API呢，好吧，以我的经验看，很多的Java程序员并不是很了解这个知识，我认为有一些深入的理解是很必要的，同时我希望大家能从本文中收获一些东西。</p><h1 id="原文信息"><a href="#原文信息" class="headerlink" title="原文信息"></a>原文信息</h1><ul><li>文章出自 <a href="https://weblogs.java.net/blog/enicholas/archive/2006/05/understanding_w.html" target="_blank" rel="noopener">Understanding Weak References</a></li><li>作者为<a href="https://www.java.net/blogs/enicholas" target="_blank" rel="noopener">Ethan Nicholas</a>，Yahoo! Publishing Tools team Leader，Yahoo! SiteBuilder Web程序的早期作者。</li></ul><h1 id="附注信息"><a href="#附注信息" class="headerlink" title="附注信息"></a>附注信息</h1><p>本文涉及到很多概念对于初次接触的人相对比较难以理解，建议结合英文原文进行研究。</p><h2 id="Java高阶推荐"><a href="#Java高阶推荐" class="headerlink" title="Java高阶推荐"></a>Java高阶推荐</h2><ul><li><a href="http://www.amazon.cn/gp/product/B00H1FXTNM/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00H1FXTNM&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">Java虚拟机规范(Java SE 7版)</a></li><li><a href="http://www.amazon.cn/gp/product/B00IOB0K1Q/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00IOB0K1Q&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">图灵程序设计丛书:Java性能优化权威指南</a></li><li><a href="http://www.amazon.cn/gp/product/B00D2ID4PK/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00D2ID4PK&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">深入理解Java虚拟机:JVM高级特性与最佳实践(第2版)</a></li></ul><blockquote><p>转载自：<a href="http://droidyue.com/blog/2014/10/12/understanding-weakreference-in-java/" target="_blank" rel="noopener">译文:理解Java中的弱引用</a>！</p></blockquote></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/Java/" rel="tag"># Java</a> <a href="/tags/引用/" rel="tag"># 引用</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/2016/07/21/一次安全可靠的通信/" rel="next" title="一次安全可靠的通信"><i class="fa fa-chevron-left"></i> 一次安全可靠的通信</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/2016/07/22/如何正确地写出单例模式/" rel="prev" title="如何正确地写出单例模式">如何正确地写出单例模式<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article><div class="post-spread"></div></div></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><section class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="Monster"><p class="site-author-name" itemprop="name">Monster</p><p class="site-description motion-element" itemprop="description">Stay young, Stay hungry, Stay foolish.</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">27</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">11</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">41</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/fullstackd" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:a516094242@gmail.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i> E-Mail</a></span><span class="links-of-author-item"><a href="http://weibo.com/FullStackD" target="_blank" title="Weibo"><i class="fa fa-fw fa-weibo"></i> Weibo</a></span></div><div class="links-of-blogroll motion-element links-of-blogroll-inline"><div class="links-of-blogroll-title"><i class="fa fa-fw fa-link"></i> Links</div><ul class="links-of-blogroll-list"><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链1" target="_blank">友链1</a></li><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链2" target="_blank">友链2</a></li><li class="links-of-blogroll-item"> <a href="http://example.com/" title="友链3" target="_blank">友链3</a></li></ul></div></div></section><section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强引用-Strong-Reference"><span class="nav-number">1.</span> <span class="nav-text">强引用(Strong Reference)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#但是强引用如此之强"><span class="nav-number">1.1.</span> <span class="nav-text">但是强引用如此之强</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#弱引用-Weak-Reference"><span class="nav-number">2.</span> <span class="nav-text">弱引用(Weak Reference)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用队列-Reference-Queue"><span class="nav-number">2.1.</span> <span class="nav-text">引用队列(Reference Queue)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四种引用"><span class="nav-number">3.</span> <span class="nav-text">四种引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软引用（Soft-Reference）"><span class="nav-number">4.</span> <span class="nav-text">软引用（Soft Reference）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚引用-（Phantom-Reference）"><span class="nav-number">5.</span> <span class="nav-text">虚引用 （Phantom Reference）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原文信息"><span class="nav-number">7.</span> <span class="nav-text">原文信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附注信息"><span class="nav-number">8.</span> <span class="nav-text">附注信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java高阶推荐"><span class="nav-number">8.1.</span> <span class="nav-text">Java高阶推荐</span></a></li></ol></li></ol></div></div></section></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">&copy; 2016 &mdash; <span itemprop="copyrightYear">2020</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Monster</span></div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script type="text/javascript">"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null)</script><script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script><script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script><script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script><script type="text/javascript" src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js"></script><script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script><script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script><script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script><script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script><script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script><script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script><script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script><script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。">
+<meta name="keywords" content="Java,引用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="译文：理解Java中的弱引用">
+<meta property="og:url" content="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/index.html">
+<meta property="og:site_name" content="不忘初心">
+<meta property="og:description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2016-08-23T12:59:07.836Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="译文：理解Java中的弱引用">
+<meta name="twitter:description" content="不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。">
+
+<link rel="canonical" href="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>译文：理解Java中的弱引用 | 不忘初心</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Navigationsleiste an/ausschalten">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不忘初心</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">少年,专心练剑吧</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Startseite</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archiv</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/22/译文：理解Java中的弱引用/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Monster">
+      <meta itemprop="description" content="Stay young, Stay hungry, Stay foolish.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不忘初心">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          译文：理解Java中的弱引用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Veröffentlicht am</span>
+
+              <time title="Erstellt: 2016-07-22 00:03:30" itemprop="dateCreated datePublished" datetime="2016-07-22T00:03:30+08:00">2016-07-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Bearbeitet am</span>
+                <time title="Geändert am: 2016-08-23 20:59:07" itemprop="dateModified" datetime="2016-08-23T20:59:07+08:00">2016-08-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>不久之前，我面试了一些求职Java高级开发工程师的应聘者。我常常会面试他们说，“你能给我介绍一些Java中得弱引用吗？”，如果面试者这样说，“嗯，是不是垃圾回收有关的？”，我就会基本满意了，我并不期待回答是一篇诘究本末的论文描述。</p>
+<a id="more"></a>
+<p>然而事与愿违，我很吃惊的发现，在将近20多个有着平均5年开发经验和高学历背景的应聘者中，居然只有两个人知道弱引用的存在，但是在这两个人之中只有一个人真正了解这方面的知识。在面试过程中，我还尝试提示一些东西，来看看有没有人突然说一声“原来是这个啊”，结果很是让我失望。我开始困惑，为什么这块的知识如此不被重视，毕竟弱引用是一个很有用途的特性，况且这个特性已经在7年前 Java 1.2发布时便引入了。</p>
+<p>好吧，这里我不期待你看完本文之后成为一个弱引用方面的专家，但是我认为至少你应该了解什么是弱引用，如何使用它们，并且什么场景使用。既然它们是一些不知名的概念，我简单就着前面的三个问题来说明一下。</p>
+<h1 id="强引用-Strong-Reference"><a href="#强引用-Strong-Reference" class="headerlink" title="强引用(Strong Reference)"></a>强引用(Strong Reference)</h1><p>强引用就是我们经常使用的引用，其写法如下</p>
+<p><code>StringBuffer buffer = new StringBuffer();</code></p>
+<p>上面创建了一个StringBuffer对象，并将这个对象的（强）引用存到变量buffer中。是的，就是这个小儿科的操作（请原谅我这样的说法）。强引用最重要的就是它能够让引用变得强（Strong），这就决定了它和垃圾回收器的交互。具体来说，如果一个对象通过一串强引用链接可到达(Strongly reachable)，它是不会被回收的。如果你不想让你正在使用的对象被回收，这就正是你所需要的。</p>
+<h2 id="但是强引用如此之强"><a href="#但是强引用如此之强" class="headerlink" title="但是强引用如此之强"></a>但是强引用如此之强</h2><p>在一个程序里，将一个类设置成不可被扩展是有点不太常见的，当然这个完全可以通过类标记成final实现。或者也可以更加复杂一些，就是通过内部包含了未知数量具体实现的工厂方法返回一个接口(Interface)。举个例子，我们想要使用一个叫做Widget的类，但是这个类不能被继承，所以无法增加新的功能。</p>
+<p>但是我们如果想追踪Widget对象的额外信息，我们该怎么办？ 假设我们需要记录每个对象的序列号，但是由于Widget类并不包含这个属性，而且也不能扩展导致我们也不能增加这个属性。其实一点问题也没有，HashMap完全可以解决上述的问题。</p>
+<p><code>serialNumberMap.put(widget, widgetSerialNumber);</code></p>
+<p>这表面看上去没有问题，但是widget对象的强引用很有可能会引发问题。我们可以确信当一个widget序列号不需要时，我们应该将这个条目从map中移除。如果我们没有移除的话，可能会导致内存泄露，亦或者我们手动移除时删除了我们正在使用的widgets，会导致有效数据的丢失。其实这些问题很类似，这就是没有垃圾回收机制的语言管理内存时常遇到的问题。但是我们不用去担心这个问题，因为我们使用的时具有垃圾回收机制的Java语言。</p>
+<p>另一个强引用可能带来的问题就是缓存,尤其是像图片这样的大文件的缓存。假设你有一个程序需要处理用户提供的图片，通常的做法就是做图片数据缓存，因为从磁盘加载图片代价很大，并且同时我们也想避免在内存中同时存在两份一样的图片数据。</p>
+<p>缓存被设计的目的就是避免我们去再次加载哪些不需要的文件。你会很快发现在缓存中会一直包含一个到已经指向内存中图片数据的引用。使用强引用会强制图片数据留在内存，这就需要你来决定什么时候图片数据不需要并且手动从缓存中移除，进而可以让垃圾回收器回收。因此你再一次被强制做垃圾回收器该做的工作，并且人为决定是该清理到哪一个对象。</p>
+<h1 id="弱引用-Weak-Reference"><a href="#弱引用-Weak-Reference" class="headerlink" title="弱引用(Weak Reference)"></a>弱引用(Weak Reference)</h1><p>弱引用简单来说就是将对象留在内存的能力不是那么强的引用。使用WeakReference，垃圾回收器会帮你来决定引用的对象何时回收并且将对象从内存移除。创建弱引用如下</p>
+<p><code>WeakReference weakWidget = new WeakReference(widget);</code></p>
+<p>使用weakWidget.get()就可以得到真实的Widget对象，因为弱引用不能阻挡垃圾回收器对其回收，你会发现（当没有任何强引用到widget对象时）使用get时突然返回null。</p>
+<p>解决上述的widget序列数记录的问题，最简单的办法就是使用Java内置的WeakHashMap类。WeakHashMap和HashMap几乎一样，唯一的区别就是它的键（不是值!!!）使用WeakReference引用。当WeakHashMap的键标记为垃圾的时候，这个键对应的条目就会自动被移除。这就避免了上面不需要的Widget对象手动删除的问题。使用WeakHashMap可以很便捷地转为HashMap或者Map。</p>
+<h2 id="引用队列-Reference-Queue"><a href="#引用队列-Reference-Queue" class="headerlink" title="引用队列(Reference Queue)"></a>引用队列(Reference Queue)</h2><p>一旦弱引用对象开始返回null，该弱引用指向的对象就被标记成了垃圾。而这个弱引用对象（非其指向的对象）就没有什么用了。通常这时候需要进行一些清理工作。比如WeakHashMap会在这时候移除没用的条目来避免保存无限制增长的没有意义的弱引用。</p>
+<p>引用队列可以很容易地实现跟踪不需要的引用。当你在构造WeakReference时传入一个ReferenceQueue对象，当该引用指向的对象被标记为垃圾的时候，这个引用对象会自动地加入到引用队列里面。接下来，你就可以在固定的周期，处理传入的引用队列，比如做一些清理工作来处理这些没有用的引用对象。</p>
+<h1 id="四种引用"><a href="#四种引用" class="headerlink" title="四种引用"></a>四种引用</h1><p>Java中实际上有四种强度不同的引用，从强到弱它们分别是，强引用，软引用，弱引用和虚引用。上面部分介绍了强引用和弱引用，下面介绍剩下的两个，软引用和虚引用。</p>
+<h1 id="软引用（Soft-Reference）"><a href="#软引用（Soft-Reference）" class="headerlink" title="软引用（Soft Reference）"></a>软引用（Soft Reference）</h1><p>软引用基本上和弱引用差不多，只是相比弱引用，它阻止垃圾回收期回收其指向的对象的能力强一些。如果一个对象是弱引用可到达，那么这个对象会被垃圾回收器接下来的回收周期销毁。但是如果是软引用可以到达，那么这个对象会停留在内存更时间上长一些。当内存不足时垃圾回收器才会回收这些软引用可到达的对象。</p>
+<p>由于软引用可到达的对象比弱引用可达到的对象滞留内存时间会长一些，我们可以利用这个特性来做缓存。这样的话，你就可以节省了很多事情，垃圾回收器会关心当前哪种可到达类型以及内存的消耗程度来进行处理。</p>
+<h1 id="虚引用-（Phantom-Reference）"><a href="#虚引用-（Phantom-Reference）" class="headerlink" title="虚引用 （Phantom Reference）"></a>虚引用 （Phantom Reference）</h1><p>与软引用，弱引用不同，虚引用指向的对象十分脆弱，我们不可以通过get方法来得到其指向的对象。它的唯一作用就是当其指向的对象被回收之后，自己被加入到引用队列，用作记录该引用指向的对象已被销毁。</p>
+<p>当弱引用的指向对象变得弱引用可到达，该弱引用就会加入到引用队列。这一操作发生在对象析构或者垃圾回收真正发生之前。理论上，这个即将被回收的对象是可以在一个不符合规范的析构方法里面重新复活。但是这个弱引用会销毁。虚引用只有在其指向的对象从内存中移除掉之后才会加入到引用队列中。其get方法一直返回null就是为了阻止其指向的几乎被销毁的对象重新复活。</p>
+<p>虚引用使用场景主要由两个。它允许你知道具体何时其引用的对象从内存中移除。而实际上这是Java中唯一的方式。这一点尤其表现在处理类似图片的大文件的情况。当你确定一个图片数据对象应该被回收，你可以利用虚引用来判断这个对象回收之后在继续加载下一张图片。这样可以尽可能地避免可怕的内存溢出错误。</p>
+<p>第二点，虚引用可以避免很多析构时的问题。finalize方法可以通过创建强引用指向快被销毁的对象来让这些对象重新复活。然而，一个重写了finalize方法的对象如果想要被回收掉，需要经历两个单独的垃圾收集周期。在第一个周期中，某个对象被标记为可回收，进而才能进行析构。但是因为在析构过程中仍有微弱的可能这个对象会重新复活。这种情况下，在这个对象真实销毁之前，垃圾回收器需要再次运行。因为析构可能并不是很及时，所以在调用对象的析构之前，需要经历数量不确定的垃圾收集周期。这就意味着在真正清理掉这个对象的时候可能发生很大的延迟。这就是为什么当大部分堆被标记成垃圾时还是会出现烦人的内存溢出错误。</p>
+<p>使用虚引用，上述情况将引刃而解，当一个虚引用加入到引用队列时，你绝对没有办法得到一个销毁了的对象。因为这时候，对象已经从内存中销毁了。因为虚引用不能被用作让其指向的对象重生，所以其对象会在垃圾回收的第一个周期就将被清理掉。</p>
+<p>显而易见，finalize方法不建议被重写。因为虚引用明显地安全高效，去掉finalize方法可以虚拟机变得明显简单。当然你也可以去重写这个方法来实现更多。这完全看个人选择。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>我想看到这里，很多人开始发牢骚了，为什么你要讲一个过去十年的老古董API呢，好吧，以我的经验看，很多的Java程序员并不是很了解这个知识，我认为有一些深入的理解是很必要的，同时我希望大家能从本文中收获一些东西。</p>
+<h1 id="原文信息"><a href="#原文信息" class="headerlink" title="原文信息"></a>原文信息</h1><ul>
+<li>文章出自 <a href="https://weblogs.java.net/blog/enicholas/archive/2006/05/understanding_w.html" target="_blank" rel="noopener">Understanding Weak References</a></li>
+<li>作者为<a href="https://www.java.net/blogs/enicholas" target="_blank" rel="noopener">Ethan Nicholas</a>，Yahoo! Publishing Tools team Leader，Yahoo! SiteBuilder Web程序的早期作者。</li>
+</ul>
+<h1 id="附注信息"><a href="#附注信息" class="headerlink" title="附注信息"></a>附注信息</h1><p>本文涉及到很多概念对于初次接触的人相对比较难以理解，建议结合英文原文进行研究。</p>
+<h2 id="Java高阶推荐"><a href="#Java高阶推荐" class="headerlink" title="Java高阶推荐"></a>Java高阶推荐</h2><ul>
+<li><a href="http://www.amazon.cn/gp/product/B00H1FXTNM/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00H1FXTNM&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">Java虚拟机规范(Java SE 7版)</a></li>
+<li><a href="http://www.amazon.cn/gp/product/B00IOB0K1Q/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00IOB0K1Q&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">图灵程序设计丛书:Java性能优化权威指南</a></li>
+<li><a href="http://www.amazon.cn/gp/product/B00D2ID4PK/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00D2ID4PK&amp;linkCode=as2&amp;tag=droidyue-23" target="_blank" rel="noopener">深入理解Java虚拟机:JVM高级特性与最佳实践(第2版)</a></li>
+</ul>
+<blockquote>
+<p>转载自：<a href="http://droidyue.com/blog/2014/10/12/understanding-weakreference-in-java/" target="_blank" rel="noopener">译文:理解Java中的弱引用</a>！</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/引用/" rel="tag"># 引用</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/21/一次安全可靠的通信/" rel="prev" title="一次安全可靠的通信">
+      <i class="fa fa-chevron-left"></i> 一次安全可靠的通信
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/22/如何正确地写出单例模式/" rel="next" title="如何正确地写出单例模式">
+      如何正确地写出单例模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
     }
   });
-</script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script></body></html>
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Inhaltsverzeichnis
+        </li>
+        <li class="sidebar-nav-overview">
+          Übersicht
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#强引用-Strong-Reference"><span class="nav-number">1.</span> <span class="nav-text">强引用(Strong Reference)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#但是强引用如此之强"><span class="nav-number">1.1.</span> <span class="nav-text">但是强引用如此之强</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#弱引用-Weak-Reference"><span class="nav-number">2.</span> <span class="nav-text">弱引用(Weak Reference)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用队列-Reference-Queue"><span class="nav-number">2.1.</span> <span class="nav-text">引用队列(Reference Queue)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四种引用"><span class="nav-number">3.</span> <span class="nav-text">四种引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软引用（Soft-Reference）"><span class="nav-number">4.</span> <span class="nav-text">软引用（Soft Reference）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#虚引用-（Phantom-Reference）"><span class="nav-number">5.</span> <span class="nav-text">虚引用 （Phantom Reference）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原文信息"><span class="nav-number">7.</span> <span class="nav-text">原文信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#附注信息"><span class="nav-number">8.</span> <span class="nav-text">附注信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java高阶推荐"><span class="nav-number">8.1.</span> <span class="nav-text">Java高阶推荐</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Monster</p>
+  <div class="site-description" itemprop="description">Stay young, Stay hungry, Stay foolish.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">Artikel</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">Kategorien</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">schlagwörter</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Monster</span>
+</div>
+  <div class="powered-by">Erstellt mit  <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Design – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.getAttribute('pjax') !== null) {
+      script.setAttribute('pjax', '');
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+  
+
+    </div>
+</body>
+</html>
