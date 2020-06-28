@@ -27,13 +27,10 @@
 <meta property="og:site_name" content="不忘初心">
 <meta property="og:description" content="关于Jedis的坑今天分享一个白衣大大在微博中说明的关于Jedis的坑  “基础架构部之jedis中坑人的maxIdle参数”，jedis用的是apache commons pools做连接池。 连接池大小由minIdle，maxIdle，maxTotal三个参数控制。头一个和末一个好理解，就是连接池的最小和最大值，而maxIdle就比较坑人了，连接用完后，如果连接池小于maxIdle，就放回连接">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2020/06/27/dPoVp75l61FWDrz.png">
-<meta property="og:image" content="https://i.loli.net/2020/06/27/134htJwXAypduBm.png">
 <meta property="og:updated_time" content="2020-06-28T14:39:56.743Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开发小记（二）">
 <meta name="twitter:description" content="关于Jedis的坑今天分享一个白衣大大在微博中说明的关于Jedis的坑  “基础架构部之jedis中坑人的maxIdle参数”，jedis用的是apache commons pools做连接池。 连接池大小由minIdle，maxIdle，maxTotal三个参数控制。头一个和末一个好理解，就是连接池的最小和最大值，而maxIdle就比较坑人了，连接用完后，如果连接池小于maxIdle，就放回连接">
-<meta name="twitter:image" content="https://i.loli.net/2020/06/27/dPoVp75l61FWDrz.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/27/开发小记-2/">
 
@@ -352,7 +349,7 @@
 <p>io-threads-do-reads yes</p>
 <p>io-threads 线程数</p>
 </blockquote>
-<h3 id="Redis-6-0-多线程的实现机制？"><a href="#Redis-6-0-多线程的实现机制？" class="headerlink" title="Redis 6.0 多线程的实现机制？"></a>Redis 6.0 多线程的实现机制？</h3><p><img src="https://i.loli.net/2020/06/27/dPoVp75l61FWDrz.png" alt="1712130-20200516174816219-1469215261.png"></p>
+<h3 id="Redis-6-0-多线程的实现机制？"><a href="#Redis-6-0-多线程的实现机制？" class="headerlink" title="Redis 6.0 多线程的实现机制？"></a>Redis 6.0 多线程的实现机制？</h3><p><img data-src="https://i.loli.net/2020/06/27/dPoVp75l61FWDrz.png" alt="1712130-20200516174816219-1469215261.png"></p>
 <p><strong>流程简述如下</strong>：</p>
 <ul>
 <li>主线程负责接收建立连接请求，获取 Socket 放入全局等待读处理队列。</li>
@@ -362,7 +359,7 @@
 <li>主线程阻塞等待 IO 线程将数据回写 Socket 完毕。</li>
 <li>解除绑定，清空等待队列。</li>
 </ul>
-<p><img src="https://i.loli.net/2020/06/27/134htJwXAypduBm.png" alt="1712130-20200516174905348-1186276910.png"></p>
+<p><img data-src="https://i.loli.net/2020/06/27/134htJwXAypduBm.png" alt="1712130-20200516174905348-1186276910.png"></p>
 <p>该设计有如下特点：</p>
 <ul>
 <li>IO 线程要么同时在读 Socket，要么同时在写，不会同时读或写。</li>

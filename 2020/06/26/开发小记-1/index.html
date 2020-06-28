@@ -27,12 +27,10 @@
 <meta property="og:site_name" content="不忘初心">
 <meta property="og:description" content="从”零”开始已经一个月了，总结一下自己在这段时间学到的东西吧。 虽然很基础，但是总要有一个慢慢积累的过程。 Java8流处理语法这里简单介绍几个我用过的语法。12345678910// 取出entity中的某个属性List&amp;lt;String&amp;gt; studentNames = list.stream().map(student -&amp;gt; student.getName()).collect(">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2020/06/27/zaicv1JhXnDT5gx.png">
 <meta property="og:updated_time" content="2020-06-28T14:40:51.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="开发小记（一）">
 <meta name="twitter:description" content="从”零”开始已经一个月了，总结一下自己在这段时间学到的东西吧。 虽然很基础，但是总要有一个慢慢积累的过程。 Java8流处理语法这里简单介绍几个我用过的语法。12345678910// 取出entity中的某个属性List&amp;lt;String&amp;gt; studentNames = list.stream().map(student -&amp;gt; student.getName()).collect(">
-<meta name="twitter:image" content="https://i.loli.net/2020/06/27/zaicv1JhXnDT5gx.png">
 
 <link rel="canonical" href="http://yoursite.com/2020/06/26/开发小记-1/">
 
@@ -336,7 +334,7 @@
 <p>这里可以使用IDEA的【ByteCode Viewer】插件来查看类的字节码。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源代码如下</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test2</span> </span>&#123;</span><br><span class="line">    <span class="comment">//此处为不加final的版本</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">6</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里是加final和不加final关键字的两个类的字节码的区别。</p>
-<p><img src="https://i.loli.net/2020/06/27/zaicv1JhXnDT5gx.png" alt="微信截图_20200627010744.png"></p>
+<p><img data-src="https://i.loli.net/2020/06/27/zaicv1JhXnDT5gx.png" alt="微信截图_20200627010744.png"></p>
 <p>这里看到有一段<code>static &lt;clinit&gt;</code>的指令，即类加载初始化过程中的 <code>(clinit)</code> 方法，也就是静态变量赋值以及静态代码块中的代码。</p>
 <p>这里就需要提一下<strong>类加载过程</strong>了。众所周知，类加载过程分为<strong>加载、验证、准备、解析、初始化</strong>这五步。</p>
 <ol>

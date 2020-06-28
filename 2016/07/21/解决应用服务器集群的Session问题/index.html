@@ -27,17 +27,10 @@
 <meta property="og:site_name" content="不忘初心">
 <meta property="og:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:updated_time" content="2016-07-21T10:03:59.552Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决应用服务器集群的Session问题">
 <meta name="twitter:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 <link rel="canonical" href="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/">
 
@@ -311,17 +304,17 @@
 <blockquote>
 <p>具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p>
 <blockquote>
 <p>当一个带有会话标识的HTTP请求到了Web服务器后，需要在HTTP请求的处理过程中找到对应的会话数据（Session）。而问题在于<code>会话数据是需要保存在单机上的</code>。</p>
 <p>在面对应用服务器集群时，如果我第一次访问网站时请求通过负载均衡设备落到了服务器A，那么我的Session就创建在服务器A上了，如果我们不做处理，就不能保证接下来的请求每次都落在服务器A上了。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="应用服务器集群"></p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="应用服务器集群"></p>
 <hr>
 <h2 id="1-Session-Sticky"><a href="#1-Session-Sticky" class="headerlink" title="1. Session Sticky"></a>1. Session Sticky</h2><blockquote>
 <p>使负载均衡器能够根据每次请求的会话标识来进行请求转发。<br>需要在负载均衡服务器上保存会话到具体Web服务器的映射。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Sticky"></p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Sticky"></p>
 <p>这种方法非常简单，但是有以下几个问题：</p>
 <blockquote>
 <p>1.如果有一台Web服务器宕机或者重启，那么这台机器上的会话数据会丢失。如果会话中有登陆状态信息，那么用户就要重新登录了。</p>
@@ -332,7 +325,7 @@
 <h2 id="2-Session-Replication"><a href="#2-Session-Replication" class="headerlink" title="2.Session Replication"></a>2.Session Replication</h2><blockquote>
 <p>Web服务器之间增加了会话数据的同步，应用服务器集群中的每一台服务器上都有一份会话数据。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Replication"></p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Replication"></p>
 <p>但是也带来了一些问题:</p>
 <blockquote>
 <p>1.同步Session数据造成了网络带宽的开销。只要Session数据有变化就需要同步，机器数越多，同步带来的网络带宽开销越大。</p>
@@ -342,7 +335,7 @@
 <h2 id="3-Session数据集中存储"><a href="#3-Session数据集中存储" class="headerlink" title="3.Session数据集中存储"></a>3.Session数据集中存储</h2><blockquote>
 <p>不同的服务器从同样的地方来获取Session。会话请求经过负载均衡服务器后，不会被固定在同样的Web服务器上，而是放在了一个集中存储的地方。Web服务器使用Session数据时，也是从这个集中存储Session数据的地方来读取。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session数据集中存储"></p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session数据集中存储"></p>
 <p>这个方案解决了第一种方案的<code>内存</code>问题，也第二种方案占用<code>网络带宽</code>的情况要好。但是依然存在一些问题：</p>
 <blockquote>
 <p>1.读写Session数据引入了网络操作，相对于本机的数据读取来说，问题在于存在时延和不稳定性。<br>2.如果集中存储Session的机器或者集群有问题，就会影响我们的应用。</p>
@@ -351,7 +344,7 @@
 <h2 id="4-Cookie-Based"><a href="#4-Cookie-Based" class="headerlink" title="4.Cookie Based"></a>4.Cookie Based</h2><blockquote>
 <p>把Session数据放在Cookie中，在Web服务器上从Cookie中生成对应的Session数据。</p>
 </blockquote>
-<p><img src="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cookie Based"><br>这个方案不会依赖外部存储系统，也就不存在从外部系统获取、写入数据的网络时延和不稳定性了。<br>不过依然存在不足：</p>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cookie Based"><br>这个方案不会依赖外部存储系统，也就不存在从外部系统获取、写入数据的网络时延和不稳定性了。<br>不过依然存在不足：</p>
 <blockquote>
 <p>1.<strong>Cookie长度的限制。</strong>Cookie长度会限制Session数据的长度。<br>2.<strong>安全性。</strong>Session数据是服务端数据， 这个方案让服务端数据到了外部网络和服务端。<br>3.<strong>带宽消耗。</strong>数据中心整体外部带宽的消耗。<br>4.<strong>性能影响。</strong>每次HTTP请求和响应都带有Session数据。</p>
 </blockquote>

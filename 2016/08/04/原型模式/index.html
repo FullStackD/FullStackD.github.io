@@ -28,12 +28,10 @@
 <meta property="og:site_name" content="不忘初心">
 <meta property="og:description" content="在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下： 原型模式的工作原理很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建克隆">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif">
 <meta property="og:updated_time" content="2016-08-23T12:59:18.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="原型模式">
 <meta name="twitter:description" content="在使用原型模式时，我们需要首先创建一个原型对象，再通过复制这个原型对象来创建更多同类型的对象。原型模式的定义如下： 原型模式的工作原理很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建克隆">
-<meta name="twitter:image" content="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif">
 
 <link rel="canonical" href="http://yoursite.com/2016/08/04/原型模式/">
 
@@ -319,7 +317,7 @@
 <p>原型模式的<code>工作原理</code>很简单：将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝自己来实现创建过程。由于在软件系统中我们经常会遇到需要创建多个相同或者相似对象的情况，因此原型模式在真实开发中的使用频率还是非常高的。原型模式是一种“另类”的创建型模式，创建克隆对象的工厂就是原型类自身，工厂方法由克隆方法来实现。</p>
 <p>需要注意的是通过克隆方法所创建的对象是全新的对象，它们在内存中拥有新的地址，通常对克隆所产生的对象进行修改对原型对象不会造成任何影响，每一个克隆对象都是相互独立的。通过不同的方式修改可以得到一系列相似但不完全相同的对象。</p>
 <a id="more"></a>
-<p><img src="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif" alt=""></p>
+<p><img data-src="http://oamdcrulf.bkt.clouddn.com/1333464346_2107.gif" alt=""></p>
 <p>在原型模式结构图中包含如下几个角色：</p>
 <p>● Prototype（抽象原型类）：它是声明克隆方法的接口，是所有具体原型类的公共父类，可以是抽象类也可以是接口，甚至还可以是具体实现类。</p>
 <p>●  ConcretePrototype（具体原型类）：它实现在抽象原型类中声明的克隆方法，在克隆方法中返回自己的一个克隆对象。</p>
