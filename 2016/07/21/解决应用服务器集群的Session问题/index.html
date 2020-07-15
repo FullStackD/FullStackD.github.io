@@ -1,4 +1,395 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 3.9.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:"yoursite.com",root:"/",scheme:"Pisces",version:"8.0.0-rc.3",exturl:!1,sidebar:{position:"left",display:"post",padding:18,offset:12},copycode:!1,bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!0,pangu:!1,comments:{style:"tabs",active:null,storage:!0,lazyload:!1,nav:null},algolia:{hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!1,trigger:"auto",top_n_per_article:1,unescape:!1,preload:!1},motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}}}</script><meta name="description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。"><meta property="og:type" content="article"><meta property="og:title" content="解决应用服务器集群的Session问题"><meta property="og:url" content="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/index.html"><meta property="og:site_name" content="不忘初心"><meta property="og:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2016-07-21T10:03:59.552Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="解决应用服务器集群的Session问题"><meta name="twitter:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。"><link rel="canonical" href="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0,lang:"zh-CN"}</script><title>解决应用服务器集群的Session问题 | 不忘初心</title><noscript><style>body{margin-top:2rem}.sidebar-inner,.use-motion .collection-header,.use-motion .comments,.use-motion .header-inner,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header,.use-motion .site-brand-container .toggle{opacity:initial}.use-motion .custom-logo-image,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line{transform:scaleX(1)}.search-pop-overlay,.sidebar-nav{display:none}.sidebar-panel{display:block}</style></noscript></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><main class="main"><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div><div class="site-meta"><a href="/" class="brand" rel="start"><i class="logo-line"></i><h1 class="site-title">不忘初心</h1><i class="logo-line"></i></a><p class="site-subtitle" itemprop="description">少年,专心练剑吧</p></div><div class="site-nav-right"><div class="toggle popup-trigger"></div></div></div><nav class="site-nav"><ul id="menu" class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i> 首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i> 归档</a></li><li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i> 书单</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i> 关于</a></li></ul></nav></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class="sidebar-nav"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><section class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先来看一下什么是Session。"><span class="nav-number">1.</span> <span class="nav-text">先来看一下什么是Session。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Session-Sticky"><span class="nav-number">2.</span> <span class="nav-text">1. Session Sticky</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Session-Replication"><span class="nav-number">3.</span> <span class="nav-text">2.Session Replication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Session数据集中存储"><span class="nav-number">4.</span> <span class="nav-text">3.Session数据集中存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Cookie-Based"><span class="nav-number">5.</span> <span class="nav-text">4.Cookie Based</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Update"><span class="nav-number">7.</span> <span class="nav-text">Update</span></a></li></ol></div></section><section class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="Monster" src="/images/avatar.png"><p class="site-author-name" itemprop="name">Monster</p><div class="site-description" itemprop="description">Stay young, Stay hungry, Stay foolish.</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">34</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">13</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/"><span class="site-state-item-count">44</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/yourname" title="GitHub → https://github.com/yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i> E-Mail</a></span><span class="links-of-author-item"><a href="https://plus.google.com/yourname" title="Google → https://plus.google.com/yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i> Google</a></span></div></section><div class="back-to-top motion-element"><i class="fa fa-arrow-up"></i> <span>0%</span></div></div></aside><div id="sidebar-dimmer"></div></header> <a href="https://github.com/fullstackd" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path><path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path></svg></a><noscript><div id="noscript-warning">Theme NexT works best with JavaScript enabled</div></noscript><div class="main-inner"><div class="content post posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/"><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.png"><meta itemprop="name" content="Monster"><meta itemprop="description" content="Stay young, Stay hungry, Stay foolish."></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="不忘初心"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> 解决应用服务器集群的Session问题</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="far fa-calendar"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2016-07-21 11:59:45 / 修改时间：18:03:59" itemprop="dateCreated datePublished" datetime="2016-07-21T11:59:45+08:00">2016-07-21</time></span></div></header><div class="post-body" itemprop="articleBody"><h2 id="先来看一下什么是Session。"><a href="#先来看一下什么是Session。" class="headerlink" title="先来看一下什么是Session。"></a>先来看一下什么是Session。</h2><blockquote><p>用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。<code>HTTP协议</code>本身是<code>无状态的</code>，需要基于HTTP协议支持<code>会话状态（Session State）</code>的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。</p></blockquote><a id="more"></a><blockquote><p>具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p><blockquote><p>当一个带有会话标识的HTTP请求到了Web服务器后，需要在HTTP请求的处理过程中找到对应的会话数据（Session）。而问题在于<code>会话数据是需要保存在单机上的</code>。</p><p>在面对应用服务器集群时，如果我第一次访问网站时请求通过负载均衡设备落到了服务器A，那么我的Session就创建在服务器A上了，如果我们不做处理，就不能保证接下来的请求每次都落在服务器A上了。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="应用服务器集群"></p><hr><h2 id="1-Session-Sticky"><a href="#1-Session-Sticky" class="headerlink" title="1. Session Sticky"></a>1. Session Sticky</h2><blockquote><p>使负载均衡器能够根据每次请求的会话标识来进行请求转发。<br>需要在负载均衡服务器上保存会话到具体Web服务器的映射。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Sticky"></p><p>这种方法非常简单，但是有以下几个问题：</p><blockquote><p>1.如果有一台Web服务器宕机或者重启，那么这台机器上的会话数据会丢失。如果会话中有登陆状态信息，那么用户就要重新登录了。</p><p>2.会话标识是应用程序的信息，负载均衡服务器要将同一个会话的请求都保存到一个Web服务器上的话需要进行应用层（<a href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">OSI模型</a>第7层）的解析，这个开销比第4层（传输层）的交换大。</p><p>3.负载均衡器变成了有状态的节点，要保存会话到Web服务器的映射，比无状态节点内存消耗更大，容灾会更麻烦。</p></blockquote><hr><h2 id="2-Session-Replication"><a href="#2-Session-Replication" class="headerlink" title="2.Session Replication"></a>2.Session Replication</h2><blockquote><p>Web服务器之间增加了会话数据的同步，应用服务器集群中的每一台服务器上都有一份会话数据。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Replication"></p><p>但是也带来了一些问题:</p><blockquote><p>1.同步Session数据造成了网络带宽的开销。只要Session数据有变化就需要同步，机器数越多，同步带来的网络带宽开销越大。</p><p>2.每台Web服务器都保存所有额Session数据，在很多人同时访问网站的时候，每台机器用于保存Session数据的内容占用会很严重。</p></blockquote><hr><h2 id="3-Session数据集中存储"><a href="#3-Session数据集中存储" class="headerlink" title="3.Session数据集中存储"></a>3.Session数据集中存储</h2><blockquote><p>不同的服务器从同样的地方来获取Session。会话请求经过负载均衡服务器后，不会被固定在同样的Web服务器上，而是放在了一个集中存储的地方。Web服务器使用Session数据时，也是从这个集中存储Session数据的地方来读取。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session数据集中存储"></p><p>这个方案解决了第一种方案的<code>内存</code>问题，也第二种方案占用<code>网络带宽</code>的情况要好。但是依然存在一些问题：</p><blockquote><p>1.读写Session数据引入了网络操作，相对于本机的数据读取来说，问题在于存在时延和不稳定性。<br>2.如果集中存储Session的机器或者集群有问题，就会影响我们的应用。</p></blockquote><hr><h2 id="4-Cookie-Based"><a href="#4-Cookie-Based" class="headerlink" title="4.Cookie Based"></a>4.Cookie Based</h2><blockquote><p>把Session数据放在Cookie中，在Web服务器上从Cookie中生成对应的Session数据。</p></blockquote><p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cookie Based"><br>这个方案不会依赖外部存储系统，也就不存在从外部系统获取、写入数据的网络时延和不稳定性了。<br>不过依然存在不足：</p><blockquote><p>1.<strong>Cookie长度的限制。</strong>Cookie长度会限制Session数据的长度。<br>2.<strong>安全性。</strong>Session数据是服务端数据， 这个方案让服务端数据到了外部网络和服务端。<br>3.<strong>带宽消耗。</strong>数据中心整体外部带宽的消耗。<br>4.<strong>性能影响。</strong>每次HTTP请求和响应都带有Session数据。</p></blockquote><hr><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这4种方案都是可用的方案，不过对于大型网站来说，Session Sticky和Session数据集中存储是比较好的方案，而这两个方案又各有优势，需要在具体的场景中做出选择和权衡。</p><blockquote><p>以上内容来自《大型网站系统与Java中间件实践》</p></blockquote><h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><p>也可以通过数据库中存储token的方法，来判断用户的有效性。</p></div><footer class="post-footer"><div class="post-nav"><div class="post-nav-item"><a href="/2016/07/21/字符串转换为整型数/" rel="prev" title="字符串转换为整型数"><i class="fa fa-chevron-left"></i> 字符串转换为整型数</a></div><div class="post-nav-item"> <a href="/2016/07/21/二进制中有多少个1/" rel="next" title="二进制中有多少个1">二进制中有多少个1<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div><script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决应用服务器集群的Session问题">
+<meta property="og:url" content="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/index.html">
+<meta property="og:site_name" content="不忘初心">
+<meta property="og:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-07-21T10:03:59.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决应用服务器集群的Session问题">
+<meta name="twitter:description" content="先来看一下什么是Session。 用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。HTTP协议本身是无状态的，需要基于HTTP协议支持会话状态（Session State）的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。">
+
+<link rel="canonical" href="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>解决应用服务器集群的Session问题 | 不忘初心</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .header-inner,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">不忘初心</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">少年,专心练剑吧</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-books">
+
+    <a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书单</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先来看一下什么是Session。"><span class="nav-number">1.</span> <span class="nav-text">先来看一下什么是Session。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Session-Sticky"><span class="nav-number">2.</span> <span class="nav-text">1. Session Sticky</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Session-Replication"><span class="nav-number">3.</span> <span class="nav-text">2.Session Replication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Session数据集中存储"><span class="nav-number">4.</span> <span class="nav-text">3.Session数据集中存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Cookie-Based"><span class="nav-number">5.</span> <span class="nav-text">4.Cookie Based</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Update"><span class="nav-number">7.</span> <span class="nav-text">Update</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Monster"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Monster</p>
+  <div class="site-description" itemprop="description">Stay young, Stay hungry, Stay foolish.</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https://github.com/yourname" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:yourname@gmail.com" title="E-Mail → mailto:yourname@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://plus.google.com/yourname" title="Google → https://plus.google.com/yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i>Google</a>
+      </span>
+  </div>
+
+
+
+      </section>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+
+  <a href="https://github.com/fullstackd" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/21/解决应用服务器集群的Session问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Monster">
+      <meta itemprop="description" content="Stay young, Stay hungry, Stay foolish.">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不忘初心">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          解决应用服务器集群的Session问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2016-07-21 11:59:45 / 修改时间：18:03:59" itemprop="dateCreated datePublished" datetime="2016-07-21T11:59:45+08:00">2016-07-21</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="先来看一下什么是Session。"><a href="#先来看一下什么是Session。" class="headerlink" title="先来看一下什么是Session。"></a>先来看一下什么是Session。</h2><blockquote>
+<p>用户使用网站的服务，基本上需要浏览器与Web服务器的多次交互。<code>HTTP协议</code>本身是<code>无状态的</code>，需要基于HTTP协议支持<code>会话状态（Session State）</code>的机制。而这样的机制应该可以使Web服务器从多次单独的HTTP请求中看到“会话”，也就是知道请求是来自哪个会话的。</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p>具体实现方式为：在会话开始时，分配一个唯一的会话标识（SessionId），通过Cookie把这个标识告诉服务器，以后每次请求的时候，浏览器都会带上这个会话标识来告诉Web服务器请求是属于哪个会话的。在Web服务器上，各个会话有独立的存储，保存不同会话的信息。如果遇到禁用Cookie的情况，一般的做法就是把这个会话标识放到URL的参数中。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-5a88f5bf4b8d78fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="单台应用服务器"></p>
+<blockquote>
+<p>当一个带有会话标识的HTTP请求到了Web服务器后，需要在HTTP请求的处理过程中找到对应的会话数据（Session）。而问题在于<code>会话数据是需要保存在单机上的</code>。</p>
+<p>在面对应用服务器集群时，如果我第一次访问网站时请求通过负载均衡设备落到了服务器A，那么我的Session就创建在服务器A上了，如果我们不做处理，就不能保证接下来的请求每次都落在服务器A上了。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-f59ca53f434f3cc4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="应用服务器集群"></p>
+<hr>
+<h2 id="1-Session-Sticky"><a href="#1-Session-Sticky" class="headerlink" title="1. Session Sticky"></a>1. Session Sticky</h2><blockquote>
+<p>使负载均衡器能够根据每次请求的会话标识来进行请求转发。<br>需要在负载均衡服务器上保存会话到具体Web服务器的映射。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-d4c3271737ecd01b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Sticky"></p>
+<p>这种方法非常简单，但是有以下几个问题：</p>
+<blockquote>
+<p>1.如果有一台Web服务器宕机或者重启，那么这台机器上的会话数据会丢失。如果会话中有登陆状态信息，那么用户就要重新登录了。</p>
+<p>2.会话标识是应用程序的信息，负载均衡服务器要将同一个会话的请求都保存到一个Web服务器上的话需要进行应用层（<a href="https://zh.wikipedia.org/wiki/OSI%E6%A8%A1%E5%9E%8B" target="_blank" rel="noopener">OSI模型</a>第7层）的解析，这个开销比第4层（传输层）的交换大。</p>
+<p>3.负载均衡器变成了有状态的节点，要保存会话到Web服务器的映射，比无状态节点内存消耗更大，容灾会更麻烦。</p>
+</blockquote>
+<hr>
+<h2 id="2-Session-Replication"><a href="#2-Session-Replication" class="headerlink" title="2.Session Replication"></a>2.Session Replication</h2><blockquote>
+<p>Web服务器之间增加了会话数据的同步，应用服务器集群中的每一台服务器上都有一份会话数据。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-0ca08fd96965604c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session Replication"></p>
+<p>但是也带来了一些问题:</p>
+<blockquote>
+<p>1.同步Session数据造成了网络带宽的开销。只要Session数据有变化就需要同步，机器数越多，同步带来的网络带宽开销越大。</p>
+<p>2.每台Web服务器都保存所有额Session数据，在很多人同时访问网站的时候，每台机器用于保存Session数据的内容占用会很严重。</p>
+</blockquote>
+<hr>
+<h2 id="3-Session数据集中存储"><a href="#3-Session数据集中存储" class="headerlink" title="3.Session数据集中存储"></a>3.Session数据集中存储</h2><blockquote>
+<p>不同的服务器从同样的地方来获取Session。会话请求经过负载均衡服务器后，不会被固定在同样的Web服务器上，而是放在了一个集中存储的地方。Web服务器使用Session数据时，也是从这个集中存储Session数据的地方来读取。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-84c6cbc9a1eb9ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Session数据集中存储"></p>
+<p>这个方案解决了第一种方案的<code>内存</code>问题，也第二种方案占用<code>网络带宽</code>的情况要好。但是依然存在一些问题：</p>
+<blockquote>
+<p>1.读写Session数据引入了网络操作，相对于本机的数据读取来说，问题在于存在时延和不稳定性。<br>2.如果集中存储Session的机器或者集群有问题，就会影响我们的应用。</p>
+</blockquote>
+<hr>
+<h2 id="4-Cookie-Based"><a href="#4-Cookie-Based" class="headerlink" title="4.Cookie Based"></a>4.Cookie Based</h2><blockquote>
+<p>把Session数据放在Cookie中，在Web服务器上从Cookie中生成对应的Session数据。</p>
+</blockquote>
+<p><img data-src="http://upload-images.jianshu.io/upload_images/1000637-4ad47d4bdd89a7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cookie Based"><br>这个方案不会依赖外部存储系统，也就不存在从外部系统获取、写入数据的网络时延和不稳定性了。<br>不过依然存在不足：</p>
+<blockquote>
+<p>1.<strong>Cookie长度的限制。</strong>Cookie长度会限制Session数据的长度。<br>2.<strong>安全性。</strong>Session数据是服务端数据， 这个方案让服务端数据到了外部网络和服务端。<br>3.<strong>带宽消耗。</strong>数据中心整体外部带宽的消耗。<br>4.<strong>性能影响。</strong>每次HTTP请求和响应都带有Session数据。</p>
+</blockquote>
+<hr>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这4种方案都是可用的方案，不过对于大型网站来说，Session Sticky和Session数据集中存储是比较好的方案，而这两个方案又各有优势，需要在具体的场景中做出选择和权衡。</p>
+<blockquote>
+<p>以上内容来自《大型网站系统与Java中间件实践》</p>
+</blockquote>
+<h2 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h2><p>也可以通过数据库中存储token的方法，来判断用户的有效性。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/21/字符串转换为整型数/" rel="prev" title="字符串转换为整型数">
+      <i class="fa fa-chevron-left"></i> 字符串转换为整型数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/21/二进制中有多少个1/" rel="next" title="二进制中有多少个1">
+      二进制中有多少个1 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+
+<script>
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -18,4 +409,69 @@
       localStorage.setItem('comments_active', commentClass);
     });
   }
-</script></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; <span itemprop="copyrightYear">2020</span><span class="with-love"><i class="fa fa-heart"></i></span> <span class="author" itemprop="copyrightHolder">Monster</span></div></div></footer></div><script src="/lib/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script></body></html>
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Monster</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
