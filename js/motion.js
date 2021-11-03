@@ -1,1 +1,161 @@
-"use strict";window.$&&window.$.Velocity&&(window.Velocity=window.$.Velocity),NexT.motion={},NexT.motion.integrator={queue:[],cursor:-1,init:function(){return this.queue=[],this.cursor=-1,this},add:function(e){return this.queue.push(e),this},next:function(){this.cursor++;var e=this.queue[this.cursor];"function"==typeof e&&e(NexT.motion.integrator)},bootstrap:function(){this.next()}},NexT.motion.middleWares={logo:function(e){function t(e){Velocity.hook(e,"scaleX",0),n.push({e:e,p:{scaleX:1},o:{duration:500,sequenceQueue:!1}})}function o(e){n.push({e:e,p:{opacity:1,top:0},o:{duration:200}})}var n=[],i=document.querySelector(".header-inner"),c=document.querySelector(".custom-logo-image"),r=document.querySelector(".site-title"),s=document.querySelector(".site-subtitle"),u=document.querySelectorAll(".site-brand-container .toggle"),l=document.querySelectorAll(".logo-line");i&&o(i),"Mist"===CONFIG.scheme&&l.length&&t(l),"Muse"===CONFIG.scheme&&c&&o(c),r&&o(r),s&&o(s),u.length&&o(u),("Pisces"===CONFIG.scheme||"Gemini"===CONFIG.scheme)&&c&&o(c),n.length>0?(n[n.length-1].o.complete=function(){e.next()},Velocity.RunSequence(n)):e.next(),CONFIG.motion.async&&e.next()},menu:function(e){Velocity(document.querySelectorAll(".menu-item"),"transition.slideDownIn",{display:null,duration:200,complete:function(){e.next()}}),!CONFIG.motion.async&&document.querySelectorAll(".menu-item").length||e.next()},subMenu:function(e){var t=document.querySelectorAll(".sub-menu .menu-item");t.length>0&&t.forEach(function(e){e.style.opacity=1}),e.next()},postList:function(e){var t=document.querySelectorAll(".post-block, .pagination, .comments"),o=CONFIG.motion.transition.post_block,n=document.querySelectorAll(".post-header"),i=CONFIG.motion.transition.post_header,c=document.querySelectorAll(".post-body"),r=CONFIG.motion.transition.post_body,s=document.querySelectorAll(".collection-header"),u=CONFIG.motion.transition.coll_header;if(t.length>0){var l=window.postMotionOptions||{stagger:100,drag:!0,complete:function(){e.next()}};CONFIG.motion.transition.post_block&&Velocity(t,"transition."+o,l),CONFIG.motion.transition.post_header&&Velocity(n,"transition."+i,l),CONFIG.motion.transition.post_body&&Velocity(c,"transition."+r,l),CONFIG.motion.transition.coll_header&&Velocity(s,"transition."+u,l)}"Pisces"!==CONFIG.scheme&&"Gemini"!==CONFIG.scheme||e.next()},sidebar:function(e){var t=document.querySelector(".sidebar-inner"),o=CONFIG.motion.transition.sidebar;!o||"Pisces"!==CONFIG.scheme&&"Gemini"!==CONFIG.scheme||Velocity(t,"transition."+o,{display:null,duration:200}),e.next()}};
+/* global NexT, CONFIG, Velocity */
+
+if (window.$ && window.$.Velocity) window.Velocity = window.$.Velocity;
+
+NexT.motion = {};
+
+NexT.motion.integrator = {
+  queue : [],
+  cursor: -1,
+  init  : function() {
+    this.queue = [];
+    this.cursor = -1;
+    return this;
+  },
+  add: function(fn) {
+    this.queue.push(fn);
+    return this;
+  },
+  next: function() {
+    this.cursor++;
+    const fn = this.queue[this.cursor];
+    typeof fn === 'function' && fn(NexT.motion.integrator);
+  },
+  bootstrap: function() {
+    this.next();
+  }
+};
+
+NexT.motion.middleWares = {
+  logo: function(integrator) {
+    const sequence = [];
+    const header = document.querySelector('.header-inner');
+    const image = document.querySelector('.custom-logo-image');
+    const title = document.querySelector('.site-title');
+    const subtitle = document.querySelector('.site-subtitle');
+    const toggle = document.querySelectorAll('.site-brand-container .toggle');
+    const logoLine = document.querySelectorAll('.logo-line');
+
+    function getMistLineSettings(element) {
+      Velocity.hook(element, 'scaleX', 0);
+      sequence.push({
+        e: element,
+        p: {
+          scaleX: 1
+        },
+        o: {
+          duration     : 500,
+          sequenceQueue: false
+        }
+      });
+    }
+
+    function pushToSequence(element) {
+      sequence.push({
+        e: element,
+        p: {
+          opacity: 1,
+          top    : 0
+        },
+        o: {
+          duration: 200
+        }
+      });
+    }
+
+    header && pushToSequence(header);
+    CONFIG.scheme === 'Mist' && logoLine.length && getMistLineSettings(logoLine);
+    CONFIG.scheme === 'Muse' && image && pushToSequence(image);
+    title && pushToSequence(title);
+    subtitle && pushToSequence(subtitle);
+    toggle.length && pushToSequence(toggle);
+    (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') && image && pushToSequence(image);
+
+    if (sequence.length > 0) {
+      sequence[sequence.length - 1].o.complete = function() {
+        integrator.next();
+      };
+      Velocity.RunSequence(sequence);
+    } else {
+      integrator.next();
+    }
+
+    if (CONFIG.motion.async) {
+      integrator.next();
+    }
+  },
+
+  menu: function(integrator) {
+    Velocity(document.querySelectorAll('.menu-item'), 'transition.slideDownIn', {
+      display : null,
+      duration: 200,
+      complete: function() {
+        integrator.next();
+      }
+    });
+
+    if (CONFIG.motion.async || !document.querySelectorAll('.menu-item').length) {
+      integrator.next();
+    }
+  },
+
+  subMenu: function(integrator) {
+    const subMenuItem = document.querySelectorAll('.sub-menu .menu-item');
+    if (subMenuItem.length > 0) {
+      subMenuItem.forEach(element => {
+        element.style.opacity = 1;
+      });
+    }
+    integrator.next();
+  },
+
+  postList: function(integrator) {
+    const postBlock = document.querySelectorAll('.post-block, .pagination, .comments');
+    const postBlockTransition = CONFIG.motion.transition.post_block;
+    const postHeader = document.querySelectorAll('.post-header');
+    const postHeaderTransition = CONFIG.motion.transition.post_header;
+    const postBody = document.querySelectorAll('.post-body');
+    const postBodyTransition = CONFIG.motion.transition.post_body;
+    const collHeader = document.querySelectorAll('.collection-header');
+    const collHeaderTransition = CONFIG.motion.transition.coll_header;
+
+    if (postBlock.length > 0) {
+      const postMotionOptions = window.postMotionOptions || {
+        stagger : 100,
+        drag    : true,
+        complete: function() {
+          integrator.next();
+        }
+      };
+
+      if (CONFIG.motion.transition.post_block) {
+        Velocity(postBlock, 'transition.' + postBlockTransition, postMotionOptions);
+      }
+      if (CONFIG.motion.transition.post_header) {
+        Velocity(postHeader, 'transition.' + postHeaderTransition, postMotionOptions);
+      }
+      if (CONFIG.motion.transition.post_body) {
+        Velocity(postBody, 'transition.' + postBodyTransition, postMotionOptions);
+      }
+      if (CONFIG.motion.transition.coll_header) {
+        Velocity(collHeader, 'transition.' + collHeaderTransition, postMotionOptions);
+      }
+    }
+    if (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') {
+      integrator.next();
+    }
+  },
+
+  sidebar: function(integrator) {
+    const sidebarAffix = document.querySelector('.sidebar-inner');
+    const sidebarAffixTransition = CONFIG.motion.transition.sidebar;
+    // Only for Pisces | Gemini.
+    if (sidebarAffixTransition && (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini')) {
+      Velocity(sidebarAffix, 'transition.' + sidebarAffixTransition, {
+        display : null,
+        duration: 200
+      });
+    }
+    integrator.next();
+  }
+};

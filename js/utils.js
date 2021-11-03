@@ -1,1 +1,347 @@
-"use strict";function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}HTMLElement.prototype.wrap=function(e){this.parentNode.insertBefore(e,this),this.parentNode.removeChild(this),e.appendChild(this)},NexT.utils={wrapImageWithFancyBox:function(){document.querySelectorAll(".post-body :not(a) > img, .post-body > img").forEach(function(e){var t=$(e),n=t.attr("data-src")||t.attr("src"),a=t.wrap('<a class="fancybox fancybox.image" href="'+n+'" itemscope itemtype="http://schema.org/ImageObject" itemprop="url"></a>').parent("a");t.is(".post-gallery img")?a.attr("data-fancybox","gallery").attr("rel","gallery"):t.is(".group-picture img")?a.attr("data-fancybox","group").attr("rel","group"):a.attr("data-fancybox","default").attr("rel","default");var o=t.attr("title")||t.attr("alt");o&&(a.append('<p class="image-caption">'+o+"</p>"),a.attr("title",o).attr("data-caption",o))}),$.fancybox.defaults.hash=!1,$(".fancybox").fancybox({loop:!0,helpers:{overlay:{locked:!1}}})},registerExtURL:function(){document.querySelectorAll("span.exturl").forEach(function(e){var t=document.createElement("a");t.href=decodeURIComponent(atob(e.dataset.url).split("").map(function(e){return"%"+("00"+e.charCodeAt(0).toString(16)).slice(-2)}).join("")),t.rel="noopener external nofollow noreferrer",t.target="_blank",t.className=e.className,t.title=e.title,t.innerHTML=e.innerHTML,e.parentNode.replaceChild(t,e)})},registerCopyCode:function(){document.querySelectorAll("figure.highlight").forEach(function(e){if(e.querySelectorAll(".code .line span").forEach(function(e){e.classList.forEach(function(t){e.classList.remove(t),e.classList.add("hljs-"+t)})}),CONFIG.copycode){e.insertAdjacentHTML("beforeend",'<div class="copy-btn"><i class="fa fa-clipboard fa-fw"></i></div>');var t=e.querySelector(".copy-btn");t.addEventListener("click",function(e){var t=e.currentTarget,n=[].concat(_toConsumableArray(t.parentNode.querySelectorAll(".code .line"))).map(function(e){return e.innerText}).join("\n"),a=document.createElement("textarea");a.style.top=window.scrollY+"px",a.style.position="absolute",a.style.opacity="0",a.readOnly=!0,a.value=n,document.body.append(a),a.select(),a.setSelectionRange(0,n.length),a.readOnly=!1;var o=document.execCommand("copy");t.querySelector("i").className=o?"fa fa-check-circle fa-fw":"fa fa-times-circle fa-fw",a.blur(),t.blur(),document.body.removeChild(a)}),e.addEventListener("mouseleave",function(){setTimeout(function(){t.querySelector("i").className="fa fa-clipboard fa-fw"},300)})}})},wrapTableWithBox:function(){document.querySelectorAll("table").forEach(function(e){var t=document.createElement("div");t.className="table-container",e.wrap(t)})},registerVideoIframe:function(){document.querySelectorAll("iframe").forEach(function(e){var t=["www.youtube.com","player.vimeo.com","player.youku.com","player.bilibili.com","www.tudou.com"].some(function(t){return e.src.includes(t)});if(t&&!e.parentNode.matches(".video-container")){var n=document.createElement("div");n.className="video-container",e.wrap(n);var a=Number(e.width),o=Number(e.height);a&&o&&(n.style.paddingTop=o/a*100+"%")}})},registerScrollPercent:function(){var e=this,t=document.querySelector(".back-to-top"),n=document.querySelector(".reading-progress-bar");window.addEventListener("scroll",function(){if(t||n){var a=document.querySelector(".container").offsetHeight,o=window.innerHeight,r=a>o?a-o:document.body.scrollHeight-o,i=Math.min(100*window.scrollY/r,100);t&&(t.classList.toggle("back-to-top-on",Math.round(i)>=5),t.querySelector("span").innerText=Math.round(i)+"%"),n&&(n.style.width=i.toFixed(2)+"%")}if(Array.isArray(NexT.utils.sections)){var c=NexT.utils.sections.findIndex(function(e){return e&&e.getBoundingClientRect().top>0});c===-1?c=NexT.utils.sections.length-1:c>0&&c--,e.activateNavByIndex(c)}}),t&&t.addEventListener("click",function(){window.anime({targets:document.scrollingElement,duration:500,easing:"linear",scrollTop:0})})},registerTabsTag:function(){document.querySelectorAll(".tabs ul.nav-tabs .tab").forEach(function(e){e.addEventListener("click",function(e){e.preventDefault();var t=e.currentTarget;if(!t.classList.contains("active")){[].concat(_toConsumableArray(t.parentNode.children)).forEach(function(e){e.classList.toggle("active",e===t)});var n=document.getElementById(t.querySelector("a").getAttribute("href").replace("#",""));[].concat(_toConsumableArray(n.parentNode.children)).forEach(function(e){e.classList.toggle("active",e===n)}),n.dispatchEvent(new Event("tabs:click",{bubbles:!0}))}})}),window.dispatchEvent(new Event("tabs:register"))},registerCanIUseTag:function(){window.addEventListener("message",function(e){var t=e.data;if("string"==typeof t&&t.includes("ciu_embed")){var n=t.split(":")[1],a=t.split(":")[2];document.querySelector("iframe[data-feature="+n+"]").style.height=parseInt(a,10)+5+"px"}},!1)},registerActiveMenuItem:function(){document.querySelectorAll(".menu-item a[href]").forEach(function(e){var t=e.pathname===location.pathname||e.pathname===location.pathname.replace("index.html",""),n=!CONFIG.root.startsWith(e.pathname)&&location.pathname.startsWith(e.pathname);e.classList.toggle("menu-item-active",e.hostname===location.hostname&&(t||n))})},registerLangSelect:function(){var e=document.querySelector(".lang-select");e&&(e.value=CONFIG.page.lang,e.addEventListener("change",function(){var t=e.options[e.selectedIndex];document.querySelector(".lang-select-label span").innerText=t.text;var n=t.dataset.href;window.pjax?window.pjax.loadUrl(n):window.location.href=n}))},registerSidebarTOC:function(){this.sections=[].concat(_toConsumableArray(document.querySelectorAll(".post-toc li a.nav-link"))).map(function(e){var t=document.getElementById(decodeURI(e.getAttribute("href")).replace("#",""));return e.addEventListener("click",function(e){e.preventDefault();var n=t.getBoundingClientRect().top+window.scrollY;window.anime({targets:document.scrollingElement,duration:500,easing:"linear",scrollTop:n+10})}),t})},activateNavByIndex:function(e){var t=document.querySelectorAll(".post-toc li a.nav-link")[e];if(t&&!t.classList.contains("active-current")){document.querySelectorAll(".post-toc .active").forEach(function(e){e.classList.remove("active","active-current")}),t.classList.add("active","active-current");for(var n=t.parentNode;!n.matches(".post-toc");)n.matches("li")&&n.classList.add("active"),n=n.parentNode;var a=document.querySelector(".post-toc-wrap");window.anime({targets:a,duration:200,easing:"linear",scrollTop:a.scrollTop-a.offsetHeight/2+t.getBoundingClientRect().top-a.getBoundingClientRect().top})}},supportsPDFs:function(){var e=navigator.userAgent,t=e.includes("irefox")&&parseInt(e.split("rv:")[1].split(".")[0],10)>18,n="undefined"!=typeof navigator.mimeTypes["application/pdf"],a=/iphone|ipad|ipod/i.test(e.toLowerCase());return t||n&&!a},initSidebarDimension:function(){var e=document.querySelector(".sidebar-nav"),t=document.querySelector(".sidebar-inner .back-to-top"),n=t?t.offsetHeight:0,a=CONFIG.sidebar.offset||12,o=2*CONFIG.sidebar.padding+e.offsetHeight+n;"Pisces"!==CONFIG.scheme&&"Gemini"!==CONFIG.scheme||(o+=2*a);var r=document.body.offsetHeight-o+"px";document.documentElement.style.setProperty("--sidebar-wrapper-height",r)},updateSidebarPosition:function(){if(NexT.utils.initSidebarDimension(),!(window.screen.width<992||"Pisces"===CONFIG.scheme||"Gemini"===CONFIG.scheme)){var e=document.querySelector(".post-toc"),t=CONFIG.page.sidebar;"boolean"!=typeof t&&(t="always"===CONFIG.sidebar.display||"post"===CONFIG.sidebar.display&&e),t&&window.dispatchEvent(new Event("sidebar:show"))}},getScript:function(e,t,n){if(n)t();else{var a=document.createElement("script");a.onload=a.onreadystatechange=function(e,n){(n||!a.readyState||/loaded|complete/.test(a.readyState))&&(a.onload=a.onreadystatechange=null,a=void 0,!n&&t&&setTimeout(t,0))},a.src=e,document.head.appendChild(a)}},loadComments:function(e,t){if(!CONFIG.comments.lazyload||!e)return void t();var n=new IntersectionObserver(function(e,n){var a=e[0];a.isIntersecting&&(t(),n.disconnect())});return n.observe(e),n}};
+/* global NexT, CONFIG */
+
+HTMLElement.prototype.wrap = function(wrapper) {
+  this.parentNode.insertBefore(wrapper, this);
+  this.parentNode.removeChild(this);
+  wrapper.appendChild(this);
+};
+
+NexT.utils = {
+
+  /**
+   * Wrap images with fancybox.
+   */
+  wrapImageWithFancyBox: function() {
+    document.querySelectorAll('.post-body :not(a) > img, .post-body > img').forEach(element => {
+      const $image = $(element);
+      const imageLink = $image.attr('data-src') || $image.attr('src');
+      const $imageWrapLink = $image.wrap(`<a class="fancybox fancybox.image" href="${imageLink}" itemscope itemtype="http://schema.org/ImageObject" itemprop="url"></a>`).parent('a');
+      if ($image.is('.post-gallery img')) {
+        $imageWrapLink.attr('data-fancybox', 'gallery').attr('rel', 'gallery');
+      } else if ($image.is('.group-picture img')) {
+        $imageWrapLink.attr('data-fancybox', 'group').attr('rel', 'group');
+      } else {
+        $imageWrapLink.attr('data-fancybox', 'default').attr('rel', 'default');
+      }
+
+      const imageTitle = $image.attr('title') || $image.attr('alt');
+      if (imageTitle) {
+        $imageWrapLink.append(`<p class="image-caption">${imageTitle}</p>`);
+        // Make sure img title tag will show correctly in fancybox
+        $imageWrapLink.attr('title', imageTitle).attr('data-caption', imageTitle);
+      }
+    });
+
+    $.fancybox.defaults.hash = false;
+    $('.fancybox').fancybox({
+      loop   : true,
+      helpers: {
+        overlay: {
+          locked: false
+        }
+      }
+    });
+  },
+
+  registerExtURL: function() {
+    document.querySelectorAll('span.exturl').forEach(element => {
+      let link = document.createElement('a');
+      // https://stackoverflow.com/questions/30106476/using-javascripts-atob-to-decode-base64-doesnt-properly-decode-utf-8-strings
+      link.href = decodeURIComponent(atob(element.dataset.url).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      link.rel = 'noopener external nofollow noreferrer';
+      link.target = '_blank';
+      link.className = element.className;
+      link.title = element.title;
+      link.innerHTML = element.innerHTML;
+      element.parentNode.replaceChild(link, element);
+    });
+  },
+
+  /**
+   * One-click copy code support.
+   */
+  registerCopyCode: function() {
+    document.querySelectorAll('figure.highlight').forEach(element => {
+      element.querySelectorAll('.code .line span').forEach(span => {
+        span.classList.forEach(name => {
+          span.classList.remove(name);
+          span.classList.add(`hljs-${name}`);
+        });
+      });
+      if (!CONFIG.copycode) return;
+      element.insertAdjacentHTML('beforeend', '<div class="copy-btn"><i class="fa fa-clipboard fa-fw"></i></div>');
+      const button = element.querySelector('.copy-btn');
+      button.addEventListener('click', event => {
+        const target = event.currentTarget;
+        const code = [...target.parentNode.querySelectorAll('.code .line')].map(line => line.innerText).join('\n');
+        const ta = document.createElement('textarea');
+        ta.style.top = window.scrollY + 'px'; // Prevent page scrolling
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.readOnly = true;
+        ta.value = code;
+        document.body.append(ta);
+        ta.select();
+        ta.setSelectionRange(0, code.length);
+        ta.readOnly = false;
+        const result = document.execCommand('copy');
+        target.querySelector('i').className = result ? 'fa fa-check-circle fa-fw' : 'fa fa-times-circle fa-fw';
+        ta.blur(); // For iOS
+        target.blur();
+        document.body.removeChild(ta);
+      });
+      element.addEventListener('mouseleave', () => {
+        setTimeout(() => {
+          button.querySelector('i').className = 'fa fa-clipboard fa-fw';
+        }, 300);
+      });
+    });
+  },
+
+  wrapTableWithBox: function() {
+    document.querySelectorAll('table').forEach(element => {
+      const box = document.createElement('div');
+      box.className = 'table-container';
+      element.wrap(box);
+    });
+  },
+
+  registerVideoIframe: function() {
+    document.querySelectorAll('iframe').forEach(element => {
+      const supported = [
+        'www.youtube.com',
+        'player.vimeo.com',
+        'player.youku.com',
+        'player.bilibili.com',
+        'www.tudou.com'
+      ].some(host => element.src.includes(host));
+      if (supported && !element.parentNode.matches('.video-container')) {
+        const box = document.createElement('div');
+        box.className = 'video-container';
+        element.wrap(box);
+        let width = Number(element.width);
+        let height = Number(element.height);
+        if (width && height) {
+          box.style.paddingTop = (height / width * 100) + '%';
+        }
+      }
+    });
+  },
+
+  registerScrollPercent: function() {
+    const backToTop = document.querySelector('.back-to-top');
+    const readingProgressBar = document.querySelector('.reading-progress-bar');
+    // For init back to top in sidebar if page was scrolled after page refresh.
+    window.addEventListener('scroll', () => {
+      if (backToTop || readingProgressBar) {
+        const docHeight = document.querySelector('.container').offsetHeight;
+        const winHeight = window.innerHeight;
+        const contentVisibilityHeight = docHeight > winHeight ? docHeight - winHeight : document.body.scrollHeight - winHeight;
+        const scrollPercent = Math.min(100 * window.scrollY / contentVisibilityHeight, 100);
+        if (backToTop) {
+          backToTop.classList.toggle('back-to-top-on', Math.round(scrollPercent) >= 5);
+          backToTop.querySelector('span').innerText = Math.round(scrollPercent) + '%';
+        }
+        if (readingProgressBar) {
+          readingProgressBar.style.width = scrollPercent.toFixed(2) + '%';
+        }
+      }
+      if (!Array.isArray(NexT.utils.sections)) return;
+      let index = NexT.utils.sections.findIndex(element => {
+        return element && element.getBoundingClientRect().top > 0;
+      });
+      if (index === -1) {
+        index = NexT.utils.sections.length - 1;
+      } else if (index > 0) {
+        index--;
+      }
+      this.activateNavByIndex(index);
+    });
+
+    backToTop && backToTop.addEventListener('click', () => {
+      window.anime({
+        targets  : document.scrollingElement,
+        duration : 500,
+        easing   : 'linear',
+        scrollTop: 0
+      });
+    });
+  },
+
+  /**
+   * Tabs tag listener (without twitter bootstrap).
+   */
+  registerTabsTag: function() {
+    // Binding `nav-tabs` & `tab-content` by real time permalink changing.
+    document.querySelectorAll('.tabs ul.nav-tabs .tab').forEach(element => {
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        const target = event.currentTarget;
+        // Prevent selected tab to select again.
+        if (!target.classList.contains('active')) {
+          // Add & Remove active class on `nav-tabs` & `tab-content`.
+          [...target.parentNode.children].forEach(element => {
+            element.classList.toggle('active', element === target);
+          });
+          // https://stackoverflow.com/questions/20306204/using-queryselector-with-ids-that-are-numbers
+          const tActive = document.getElementById(target.querySelector('a').getAttribute('href').replace('#', ''));
+          [...tActive.parentNode.children].forEach(element => {
+            element.classList.toggle('active', element === tActive);
+          });
+          // Trigger event
+          tActive.dispatchEvent(new Event('tabs:click', {
+            bubbles: true
+          }));
+        }
+      });
+    });
+
+    window.dispatchEvent(new Event('tabs:register'));
+  },
+
+  registerCanIUseTag: function() {
+    // Get responsive height passed from iframe.
+    window.addEventListener('message', ({ data }) => {
+      if (typeof data === 'string' && data.includes('ciu_embed')) {
+        const featureID = data.split(':')[1];
+        const height = data.split(':')[2];
+        document.querySelector(`iframe[data-feature=${featureID}]`).style.height = parseInt(height, 10) + 5 + 'px';
+      }
+    }, false);
+  },
+
+  registerActiveMenuItem: function() {
+    document.querySelectorAll('.menu-item a[href]').forEach(target => {
+      const isSamePath = target.pathname === location.pathname || target.pathname === location.pathname.replace('index.html', '');
+      const isSubPath = !CONFIG.root.startsWith(target.pathname) && location.pathname.startsWith(target.pathname);
+      target.classList.toggle('menu-item-active', target.hostname === location.hostname && (isSamePath || isSubPath));
+    });
+  },
+
+  registerLangSelect: function() {
+    let sel = document.querySelector('.lang-select');
+    if (!sel) return;
+    sel.value = CONFIG.page.lang;
+    sel.addEventListener('change', () => {
+      let target = sel.options[sel.selectedIndex];
+      document.querySelector('.lang-select-label span').innerText = target.text;
+      let url = target.dataset.href;
+      window.pjax ? window.pjax.loadUrl(url) : window.location.href = url;
+    });
+  },
+
+  registerSidebarTOC: function() {
+    this.sections = [...document.querySelectorAll('.post-toc li a.nav-link')].map(element => {
+      const target = document.getElementById(decodeURI(element.getAttribute('href')).replace('#', ''));
+      // TOC item animation navigate.
+      element.addEventListener('click', event => {
+        event.preventDefault();
+        const offset = target.getBoundingClientRect().top + window.scrollY;
+        window.anime({
+          targets  : document.scrollingElement,
+          duration : 500,
+          easing   : 'linear',
+          scrollTop: offset + 10
+        });
+      });
+      return target;
+    });
+  },
+
+  activateNavByIndex: function(index) {
+    const target = document.querySelectorAll('.post-toc li a.nav-link')[index];
+    if (!target || target.classList.contains('active-current')) return;
+
+    document.querySelectorAll('.post-toc .active').forEach(element => {
+      element.classList.remove('active', 'active-current');
+    });
+    target.classList.add('active', 'active-current');
+    let parent = target.parentNode;
+    while (!parent.matches('.post-toc')) {
+      if (parent.matches('li')) parent.classList.add('active');
+      parent = parent.parentNode;
+    }
+    // Scrolling to center active TOC element if TOC content is taller then viewport.
+    const tocElement = document.querySelector('.post-toc-wrap');
+    window.anime({
+      targets  : tocElement,
+      duration : 200,
+      easing   : 'linear',
+      scrollTop: tocElement.scrollTop - (tocElement.offsetHeight / 2) + target.getBoundingClientRect().top - tocElement.getBoundingClientRect().top
+    });
+  },
+
+  supportsPDFs: function() {
+    let ua = navigator.userAgent;
+    let isFirefoxWithPDFJS = ua.includes('irefox') && parseInt(ua.split('rv:')[1].split('.')[0], 10) > 18;
+    let supportsPdfMimeType = typeof navigator.mimeTypes['application/pdf'] !== 'undefined';
+    let isIOS = /iphone|ipad|ipod/i.test(ua.toLowerCase());
+    return isFirefoxWithPDFJS || (supportsPdfMimeType && !isIOS);
+  },
+
+  /**
+   * Init Sidebar & TOC inner dimensions on all pages and for all schemes.
+   * Need for Sidebar/TOC inner scrolling if content taller then viewport.
+   */
+  initSidebarDimension: function() {
+    const sidebarNav = document.querySelector('.sidebar-nav');
+    const sidebarb2t = document.querySelector('.sidebar-inner .back-to-top');
+    const sidebarb2tHeight = sidebarb2t ? sidebarb2t.offsetHeight : 0;
+    const sidebarOffset = CONFIG.sidebar.offset || 12;
+    let sidebarSchemePadding = (CONFIG.sidebar.padding * 2) + sidebarNav.offsetHeight + sidebarb2tHeight;
+    if (CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') sidebarSchemePadding += sidebarOffset * 2;
+    // Initialize Sidebar & TOC Height.
+    const sidebarWrapperHeight = document.body.offsetHeight - sidebarSchemePadding + 'px';
+    document.documentElement.style.setProperty('--sidebar-wrapper-height', sidebarWrapperHeight);
+  },
+
+  updateSidebarPosition: function() {
+    NexT.utils.initSidebarDimension();
+    if (window.screen.width < 992 || CONFIG.scheme === 'Pisces' || CONFIG.scheme === 'Gemini') return;
+    // Expand sidebar on post detail page by default, when post has a toc.
+    const hasTOC = document.querySelector('.post-toc');
+    let display = CONFIG.page.sidebar;
+    if (typeof display !== 'boolean') {
+      // There's no definition sidebar in the page front-matter.
+      display = CONFIG.sidebar.display === 'always' || (CONFIG.sidebar.display === 'post' && hasTOC);
+    }
+    if (display) {
+      window.dispatchEvent(new Event('sidebar:show'));
+    }
+  },
+
+  getScript: function(url, callback, condition) {
+    if (condition) {
+      callback();
+    } else {
+      let script = document.createElement('script');
+      script.onload = script.onreadystatechange = function(_, isAbort) {
+        if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
+          script.onload = script.onreadystatechange = null;
+          script = undefined;
+          if (!isAbort && callback) setTimeout(callback, 0);
+        }
+      };
+      script.src = url;
+      document.head.appendChild(script);
+    }
+  },
+
+  loadComments: function(element, callback) {
+    if (!CONFIG.comments.lazyload || !element) {
+      callback();
+      return;
+    }
+    let intersectionObserver = new IntersectionObserver((entries, observer) => {
+      let entry = entries[0];
+      if (entry.isIntersecting) {
+        callback();
+        observer.disconnect();
+      }
+    });
+    intersectionObserver.observe(element);
+    return intersectionObserver;
+  }
+};
