@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"8.0.0-rc.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。  看完以后，不难想出最简单的方法是【暴力法】   遍历所有可能的p，将小于p的数置0 求出变化后的数组的非零段数 然后取max   但是这样的算法只能得70分。 那么考虑下如何优化，不妨考虑一下该问题的子问题：给定p，求将数组A中所有小于p的数变为0后的非零段数  数组：[ 5, 1, 20, 10, 10, 10, 15, 10, 20, 1, 5">
+  <meta name="description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。 题目描述A1,A2,…,An是一个由 n 个自然数（非负整数）组成的数组。我们称其中 Ai,…,Aj 是一个非零段，当且仅当以下条件同时满足：·1≤i≤j≤n；·对于任意的整数 k，若 i≤k≤j，则 Ak＞0；·i=1 或 Ai-1=0；·j=n 或 Aj+1=0。下面展示了几个简单的例子：·A = [3, 1, 2, 0, 0, 2, 0, 4,">
 <meta name="keywords" content="算法,差分数组,CCF">
 <meta property="og:type" content="article">
 <meta property="og:title" content="差分数组和非零段划分">
 <meta property="og:url" content="http://yoursite.com/2021/11/03/差分数组和非零段划分/index.html">
 <meta property="og:site_name" content="不忘初心">
-<meta property="og:description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。  看完以后，不难想出最简单的方法是【暴力法】   遍历所有可能的p，将小于p的数置0 求出变化后的数组的非零段数 然后取max   但是这样的算法只能得70分。 那么考虑下如何优化，不妨考虑一下该问题的子问题：给定p，求将数组A中所有小于p的数变为0后的非零段数  数组：[ 5, 1, 20, 10, 10, 10, 15, 10, 20, 1, 5">
+<meta property="og:description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。 题目描述A1,A2,…,An是一个由 n 个自然数（非负整数）组成的数组。我们称其中 Ai,…,Aj 是一个非零段，当且仅当以下条件同时满足：·1≤i≤j≤n；·对于任意的整数 k，若 i≤k≤j，则 Ak＞0；·i=1 或 Ai-1=0；·j=n 或 Aj+1=0。下面展示了几个简单的例子：·A = [3, 1, 2, 0, 0, 2, 0, 4,">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-11-03T15:27:07.810Z">
+<meta property="og:updated_time" content="2021-11-03T15:52:23.323Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="差分数组和非零段划分">
-<meta name="twitter:description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。  看完以后，不难想出最简单的方法是【暴力法】   遍历所有可能的p，将小于p的数置0 求出变化后的数组的非零段数 然后取max   但是这样的算法只能得70分。 那么考虑下如何优化，不妨考虑一下该问题的子问题：给定p，求将数组A中所有小于p的数变为0后的非零段数  数组：[ 5, 1, 20, 10, 10, 10, 15, 10, 20, 1, 5">
+<meta name="twitter:description" content="抛砖引玉之非零段划分这里先来看一道CCF的题。 题目描述A1,A2,…,An是一个由 n 个自然数（非负整数）组成的数组。我们称其中 Ai,…,Aj 是一个非零段，当且仅当以下条件同时满足：·1≤i≤j≤n；·对于任意的整数 k，若 i≤k≤j，则 Ak＞0；·i=1 或 Ai-1=0；·j=n 或 Aj+1=0。下面展示了几个简单的例子：·A = [3, 1, 2, 0, 0, 2, 0, 4,">
 
 <link rel="canonical" href="http://yoursite.com/2021/11/03/差分数组和非零段划分/">
 
@@ -181,7 +181,7 @@
 
       <!--noindex-->
       <section class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抛砖引玉之非零段划分"><span class="nav-number">1.</span> <span class="nav-text">抛砖引玉之非零段划分</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#差分数组"><span class="nav-number">2.</span> <span class="nav-text">差分数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#差分数组的特性"><span class="nav-number">2.2.</span> <span class="nav-text">差分数组的特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#再回首"><span class="nav-number">3.</span> <span class="nav-text">再回首</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#抛砖引玉之非零段划分"><span class="nav-number">1.</span> <span class="nav-text">抛砖引玉之非零段划分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述"><span class="nav-number">1.1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#样例"><span class="nav-number">1.2.</span> <span class="nav-text">样例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子任务"><span class="nav-number">1.3.</span> <span class="nav-text">子任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解"><span class="nav-number">1.4.</span> <span class="nav-text">求解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#差分数组"><span class="nav-number">2.</span> <span class="nav-text">差分数组</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">2.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#差分数组的特性"><span class="nav-number">2.2.</span> <span class="nav-text">差分数组的特性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#再回首"><span class="nav-number">3.</span> <span class="nav-text">再回首</span></a></li></ol></div>
       </section>
       <!--/noindex-->
 
@@ -284,7 +284,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-11-03 23:22:46 / 修改时间：23:27:07" itemprop="dateCreated datePublished" datetime="2021-11-03T23:22:46+08:00">2021-11-03</time>
+              <time title="创建时间：2021-11-03 23:22:46 / 修改时间：23:52:23" itemprop="dateCreated datePublished" datetime="2021-11-03T23:22:46+08:00">2021-11-03</time>
             </span>
 
           
@@ -299,8 +299,20 @@
 
       
         <h1 id="抛砖引玉之非零段划分"><a href="#抛砖引玉之非零段划分" class="headerlink" title="抛砖引玉之非零段划分"></a>抛砖引玉之非零段划分</h1><p>这里先来看一道CCF的题。</p>
-<p><img data-src="https://img2020.cnblogs.com/blog/2545058/202110/2545058-20211015201238291-2129312433.png" alt="img"></p>
-<p>看完以后，不难想出最简单的方法是【暴力法】</p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>A1,A2,…,An是一个由 n 个自然数（非负整数）组成的数组。我们称其中 Ai,…,Aj 是一个非零段，当且仅当以下条件同时满足：<br>·1≤i≤j≤n；<br>·对于任意的整数 k，若 i≤k≤j，则 Ak＞0；<br>·i=1 或 Ai-1=0；<br>·j=n 或 Aj+1=0。<br>下面展示了几个简单的例子：<br>·A = [3, 1, 2, 0, 0, 2, 0, 4, 5, 0, 2] 中的 4 个非零段依次为 [3, 1, 2]、[2]、[4, 5] 和 [2]；<br>·A = [2, 3, 1, 4, 5] 仅有 1 个非零段；<br>·A = [0, 0, 0] 则不含非零段（即非零段个数为 0）。<br>现在我们可以对数组 A 进行如下操作：任选一个正整数 p，然后将 A 中所有小于 p 的数都变为 0。试选取一个合适的 p，使得数组 A 中的非零段个数达到最大。若输入的 A 所含非零段数已达最大值，可取 p = 1，即不对 A 做任何修改。</p>
+<a id="more"></a>
+<p><strong>输入格式</strong><br>从标准输入读入数据。</p>
+<p>输入的第一行包含一个正整数 n。</p>
+<p>输入的第二行包含 n 个用空格分隔的自然数 A1, A2, … , An。</p>
+<p><strong>输出格式</strong><br>输出到标准输出。</p>
+<p>仅输出一个整数，表示对数组 A 进行操作后，其非零段个数能达到的最大值。</p>
+<h2 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h2><p><strong>样例1输入</strong><br>11<br>3 1 2 0 0 2 0 4 5 0 2<br><strong>样例1输出</strong><br>5<br><strong>样例1解释</strong><br>p = 2 时，A = [3, 0, 2, 0, 0, 2, 0, 4, 5, 0, 2]，5 个非零段依次为 [3]、[2]、[2]、[4, 5] 和 [2]；此时非零段个数达到最大。</p>
+<p><strong>样例2输入</strong><br>14<br>5 1 20 10 10 10 10 15 10 20 1 5 10 15<br><strong>样例2输出</strong><br>4<br><strong>样例2解释</strong><br>p = 12 时，A = [0, 0, 20, 0, 0, 0, 0, 15, 0, 20, 0, 0, 0, 15]，4 个非零段依次为 [20]、[15]、[20] 和 [15]；此时非零段个数达到最大。</p>
+<p><strong>样例3输入</strong><br>3<br>1 0 0<br><strong>样例3输出</strong><br>1<br><strong>样例3解释</strong><br>p = 1 时，A = [1, 0, 0]，此时仅有 1 个非零段 [1]，非零段个数达到最大。</p>
+<p><strong>样例4输入</strong><br>3<br>0 0 0<br><strong>样例4输出</strong><br>0<br><strong>样例4解释</strong><br>无论 p 取何值，A 都不含有非零段，故非零段个数至多为 0。</p>
+<h2 id="子任务"><a href="#子任务" class="headerlink" title="子任务"></a>子任务</h2><p><strong>子任务</strong><br>70% 的测试数据满足 n ≤ 1000；</p>
+<p>全部的测试数据满足 n≤5×105，且数组 A 中的每一个数均不超过 104。</p>
+<h2 id="求解"><a href="#求解" class="headerlink" title="求解"></a>求解</h2><p>看完以后，不难想出最简单的方法是【暴力法】</p>
 <blockquote>
 <ol>
 <li>遍历所有可能的p，将小于p的数置0</li>
@@ -316,7 +328,7 @@
 <p>显然，可以找到20,15,20,15这4个非零段，仔细想想我们找的过程是什么呢？</p>
 <p>如果第一个数大于12，非零段+1，后续我们关注的其实只是{A[i], A[i+1]|A[i]&lt;A[i+1]}这样的数值对，比如（1,20）、（10,15）、（10,20）、（1,5）、（5,10）、（10,15）</p>
 <p>12在键值对区间中，那么就有产生一个非零段。</p>
-<p>即遍历后续数组，只要遇到A[i]&lt;A[i]+1且A[i]&lt;12&lt;A[i+1]，那么就会A[i]的右边就一定会产生一个非零段。</p>
+<p>即遍历后续数组，只要遇到A[i]&lt;A[i+1]且A[i]&lt;12&lt;A[i+1]，那么就会A[i]的右边就一定会产生一个非零段。</p>
 </blockquote>
 <p>考虑求解的过程，是否发现能同时求多个p的非零段数？</p>
 <blockquote>
